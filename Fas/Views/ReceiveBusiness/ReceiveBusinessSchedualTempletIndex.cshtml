@@ -1,0 +1,120 @@
+﻿@model List<ProjectManagment.Models.ReceiveBusinessSchedualTemplet>
+@{
+
+    string controller = this.ViewContext.RouteData.Values["controller"].ToString();
+    string modelName = "ReceiveBusinessSchedualTemplet";
+    ViewData["Title"] = "نماذج طلبات استلام الأعمال";
+    string period = this.Context.Request.Query["period"].ToString();
+    if (String.IsNullOrEmpty(period))
+    {
+        period = DateTime.Now.ToString("yyyy-MM");
+    }
+}
+
+<!-- [ Main Content ] start -->
+<section class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+
+                <div class="page-header">
+                    <div class="page-block">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a href="/@controller/Index?period=@period" class="btn drp-icon btn-rounded btn-primary dropdown-toggle">
+                                    <i class="feather icon-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <div class="page-header-title">
+                                    <h3 class="m-b-10">طلبات استلام الأعمال | نماذج طلبات استلام الأعمال </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ Main Content ] start -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                @await Html.PartialAsync(PartialView.StatusMessage, TempData[StaticString.StatusMessage])
+                            </div>
+
+                            <div class="col-sm-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>قائمة نماذج طلبات استلام الأعمال</h5>
+                                        <div class="card-header-left">
+                                            <div class="btn-group card-option">
+                                                <form action="/@controller/@(modelName)Form">
+                                                    <button class="btn drp-icon btn-rounded btn-primary" type="submit">
+                                                        <i class="feather icon-plus"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-block">
+                                        <div class="table-responsive">
+                                            <table id="responsive-table-model" class="display table nowrap table-striped table-hover" style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th width="5%"></th>
+                                                        <th width="5%"></th>
+                                                        <th width="30%">النموذج</th>
+                                                        <th width="60%">أخر تعديل</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var item in Model)
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                <a href="/@controller/@(modelName)Form/@item.ReceiveBusinessSchedualTempletId"><i class="feather icon-edit"></i></a>
+                                                            </td>
+                                                            <td>
+                                                                <a href="/@controller/@(modelName)Delete/@item.ReceiveBusinessSchedualTempletId"><i class="feather icon-trash"></i></a>
+                                                            </td>
+                                                            <td>
+                                                                @item.ReceiveBusinessSchedualTempletName
+                                                            </td>
+                                                            <td>
+                                                                @item.UpdatedAtUtc
+                                                            </td>
+
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- [ Main Content ] end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- [ Main Content ] end -->
+@section Styles{
+
+}
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+        });
+    </script>
+    <partial name="_ValidationScriptsPartial" />
+}
+
+
+

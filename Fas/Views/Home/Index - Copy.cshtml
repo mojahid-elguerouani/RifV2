@@ -1,0 +1,95 @@
+﻿ 
+@{
+    ViewData["Title"] = "Index";
+    var userName = User.Identity.Name;
+}
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+<h1>Index</h1>
+<section class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <!-- [ chat message ] start
+                    <section class="header-chat">-->
+                <div class="h-list-header">
+                    <h6>@userName</h6>
+                    <a href="#!" class="h-back-user-list"><i class="feather icon-chevron-left"></i></a>
+                </div>
+                <div class="h-list-body">
+                    <div class="main-chat-cont scroll-div">
+                        <div class="main-friend-chat" id="chat">
+                            @if (Model != null)
+                            {
+                                @*@foreach (var message in Model.OrderBy(a => a.When))
+                                {
+                                    if (userName == message.UserName)
+                                    {
+                                        <div class="media chat-messages">
+                                            <a class="media-left photo-table" href="#!"><img class="media-object img-radius img-radius m-t-5" src="~/assets/images/user/avatar-2.jpg" alt="Generic placeholder image"></a>
+                                            <div class="media-body chat-menu-content">
+                                                <div class="">
+                                                    <p class="chat-cont">@message.Text</p>
+                                                </div>
+                                                <p class="chat-time">@message.When.ToString()</p>
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="media chat-messages">
+                                            <div class="media-body chat-menu-reply">
+                                                <div class="">
+                                                    <p class="chat-cont">Ohh! very nice</p>
+                                                </div>
+                                                <p class="chat-time"><div id="when"></div></p>
+                                            </div>
+                                        </div>
+                                    }
+
+                                }*@
+
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="h-list-footer">
+                    <form asp-action="Create"
+                          data-ajax-begin="clearInputField" data-ajax-complete=""
+                          data-ajax-failure="alert('Fail')" data-ajax-success="sendMessage"
+                          data-ajax="true" data-ajax-method="Post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="input-group">
+                            <input type="file" class="chat-attach" style="display:none">
+                            <a href="#!" class="input-group-prepend btn btn-success btn-attach">
+                                <i class="feather icon-paperclip"></i>
+                            </a>
+                            <input id="messageText" type="text" id="Text" name="Text" class="form-control h-send-chat" placeholder="Write hear . . ">
+                            <button id="submitButton" type="submit" class="input-group-append btn-send btn btn-primary">
+                                <i class="feather icon-message-circle"></i>
+                            </button> 
+                            <input type="hidden" id="when" name="when" value="" />
+                            <input type="hidden" name="username" value="@userName" />
+                        </div>
+                    </form>
+                </div>
+                <!--</section>
+                [ chat message ] end -->
+            </div>
+        </div>
+    </div>
+</section>
+@if (User.Identity.IsAuthenticated)
+{
+    <script>
+        const userName = "@ViewBag.CurrentUserName";
+    </script>
+}
+
+@section scripts{
+    <script src="~/lib/signalr/signalr.min.js"></script>
+    <script src="~/lib/jquery-ajax-unobtrusive/dist/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/js/chat.js"></script>
+    <script src="~/js/signalrReqHandler.js"></script> 
+
+}

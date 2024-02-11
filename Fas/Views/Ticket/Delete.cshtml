@@ -1,0 +1,131 @@
+﻿@model Ticket
+@{
+    ViewData["Title"] = "Ticket";
+    string period = this.Context.Request.Query["period"].ToString();
+    if (String.IsNullOrEmpty(period))
+    {
+        period = DateTime.Now.ToString("yyyy-MM");
+    }
+}
+
+<!-- [ Main Content ] start -->
+<section class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <!-- [ breadcrumb ] start -->
+                <div class="page-header">
+                    <div class="page-block">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a href="/Ticket/Index?period=@period" class="btn drp-icon btn-rounded btn-primary dropdown-toggle">
+                                    <i class="feather icon-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <div class="page-header-title">
+                                    <h3 class="m-b-10">@ViewData["Title"]</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- [ breadcrumb ] end -->
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ Main Content ] start -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                @await Html.PartialAsync(PartialView.StatusMessage, TempData[StaticString.StatusMessage])
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <form asp-controller="Ticket" asp-action="SubmitDelete" method="post">
+                                    <article class="card mb-4">
+                                        <div class="card-header">
+                                            <h4 class="card-title mb-0">Delete Ticket item؟ هذه العملية لا رجوع فيها </h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <input type="hidden" asp-for="TicketId" />
+                                            <div class="form-group">
+                                                <label asp-for="TicketName"></label>
+                                                <input disabled asp-for="TicketName" class="form-control" />
+                                                <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
+                                                <span asp-validation-for="TicketName" class="text-danger"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label asp-for="Description"></label>
+                                                <input disabled asp-for="Description" class="form-control" />
+                                                <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
+                                                <span asp-validation-for="Description" class="text-danger"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label asp-for="TicketTypeId"></label>
+                                                <select disabled asp-for="TicketTypeId" class="select2 form-control" asp-items="ViewBag.TicketType"></select>
+                                                <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
+                                                <span asp-validation-for="TicketTypeId" class="text-danger"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label asp-for="SubmitDate"></label>
+                                                <input disabled type="text" id="SubmitDate" name="SubmitDate" value="@Model.SubmitDate.ToString("yyyy-MM-dd")" class="datepicker form-control" data-val="true" data-val-required="The SubmitDate field is required.">
+                                                <span asp-validation-for="SubmitDate" class="text-danger"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label asp-for="OnBehalfId"></label>
+                                                <select disabled asp-for="OnBehalfId" class="select2 form-control" asp-items="ViewBag.OnBehalf"></select>
+                                                <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
+                                                <span asp-validation-for="OnBehalfId" class="text-danger"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label asp-for="AgentId"></label>
+                                                <select disabled asp-for="AgentId" class="select2 form-control" asp-items="ViewBag.Agent"></select>
+                                                <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
+                                                <span asp-validation-for="AgentId" class="text-danger"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label asp-for="ParentTicketThreadId"></label>
+                                                <select disabled asp-for="ParentTicketThreadId" class="select2 form-control" asp-items="ViewBag.ParentTicketThread"></select>
+                                                <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
+                                                <span asp-validation-for="ParentTicketThreadId" class="text-danger"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Is Solve</label>
+                                                <div class="switch d-inline m-r-10">
+                                                    <input disabled asp-for="IsSolve" class="form-control">
+                                                    <label for="IsSolve" class="cr"></label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label asp-for="SolutionNote"></label>
+                                                <input disabled asp-for="SolutionNote" class="form-control" />
+                                                <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
+                                                <span asp-validation-for="SolutionNote" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer">
+                                            <button type="submit" class="btn btn-danger">حذف</button>
+                                        </div>
+                                    </article>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- [ Main Content ] end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- [ Main Content ] end -->
+
+
+@section Styles{
+
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

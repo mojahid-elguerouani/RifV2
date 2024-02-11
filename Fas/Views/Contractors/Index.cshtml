@@ -1,0 +1,149 @@
+﻿@model List<ProjectManagment.Models.Contractor>
+@{
+
+    string controller = this.ViewContext.RouteData.Values["controller"].ToString();
+    string modelName = "Customer";
+    ViewData["Title"] = " العملاء ";
+    string period = this.Context.Request.Query["period"].ToString();
+    if (String.IsNullOrEmpty(period))
+    {
+        period = DateTime.Now.ToString("yyyy-MM");
+    }
+}
+
+<!-- [ Main Content ] start -->
+<section class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+
+                <div class="page-header">
+                    <div class="page-block">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a href="/@controller/Index?period=@period" class="btn drp-icon btn-rounded btn-primary dropdown-toggle">
+                                    <i class="feather icon-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <div class="page-header-title">
+                                    <h3 class="m-b-10">المشاريع | بيانات المقاولون </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ Main Content ] start -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                @await Html.PartialAsync(PartialView.StatusMessage, TempData[StaticString.StatusMessage])
+                            </div>
+
+                            <div class="col-sm-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>قائمة العملاء</h5>
+                                        <div class="card-header-left">
+                                            <div class="btn-group card-option">
+                                                <form action="/@controller/Form">
+                                                    <button class="btn drp-icon btn-rounded btn-primary" type="submit">
+                                                        <i class="feather icon-plus"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-block">
+                                        <div class="table-responsive">
+                                            <table id="responsive-table-model" class="display table nowrap table-striped table-hover" style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th width="5%"></th>
+                                                        <th width="5%"></th>
+                                                        <th width="30%">اسم العميل</th>
+                                                        <th width="20%">رقم الجوال</th>
+                                                        <th width="30%">البريد الاكتروني</th>
+                                                        @*<th width="10%">متابعة العميل</th>*@
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var item in Model)
+                                                    {
+                                                    <tr>
+                                                        <td>
+                                                            <a href="/@controller/Form/@item.ContractorId"><i class="feather icon-edit"></i></a>
+                                                        </td>
+                                                        <td>
+                                                            <a href="/@controller/Delete/@item.ContractorId"><i class="feather icon-trash"></i></a>
+                                                        </td>
+                                                        <td>
+                                                            @item.ContractorName
+                                                        </td>
+                                                        <td>
+                                                            @item.PhoneNumber
+                                                        </td>
+                                                        <td>
+                                                            @item.Email
+                                                        </td>
+                                                @*        <td>
+                                                             <a href="/@controller/ProjectIndex/@item.ContractorId"><i class="feather icon-alert-circle"></i></a>
+                                                        </td>*@
+
+                                                    </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @*<div class="col-sm-12">
+                                <div class="card">
+                                    <div class="card-block">
+                                        <h4 class="card-title mb-4"><i class="feather icon-book md-18 mr-2 btn-outline-primary"></i> Quick Guide</h4>
+                                        <blockquote class="blockquote">
+                                            <p class="mb-3">
+                                                Customer is larger divison from an organization
+                                            </p>
+                                        </blockquote>
+
+                                    </div>
+                                </div>
+                            </div>*@
+
+
+                        </div>
+                        <!-- [ Main Content ] end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- [ Main Content ] end -->
+
+
+@section Styles{
+
+}
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+        });
+    </script>
+
+    <!-- datatable Js -->
+    <script src="~/assets/plugins/data-tables/js/datatables.min.js"></script>
+    <script src="~/assets/js/pages/tbl-datatable-custom.js"></script>
+}
+
+
+

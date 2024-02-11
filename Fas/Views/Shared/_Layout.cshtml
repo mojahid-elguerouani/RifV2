@@ -1,0 +1,439 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+@inject FasDemo.Services.App.ICommon _app;
+@{
+    var a = User.Identities.ToArray();
+    var b = a[0].Claims.ToArray();
+    var userID = b[0].Value;
+        string userIamge = _app.userImage(userID);
+}
+<head>
+    <title>فاس للتصميم - @ViewData["Title"]</title>
+    <!-- HTML5 Shim and Respond.js IE11 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 11]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+   
+    <!-- Favicon icon -->
+    <link rel="icon" href="~/assets/images/favicon.ico" type="image/x-icon">
+    <!-- fontawesome icon -->
+    <link rel="stylesheet" href="~/assets/fonts/fontawesome/css/fontawesome-all.min.css">
+    <!-- animation css -->
+    <link rel="stylesheet" href="~/assets/plugins/animation/css/animate.min.css">
+    <!-- notification css -->
+    <link rel="stylesheet" href="~/assets/plugins/notification/css/notification.min.css">
+    <!-- vendor css -->
+    <link rel="stylesheet" href="~/assets/css/style.css">
+    <!-- data tables css -->
+    <link rel="stylesheet" href="~/assets/plugins/data-tables/css/datatables.min.css">
+    <!-- select2 css -->
+    <link rel="stylesheet" href="~/assets/plugins/select2/css/select2.min.css">
+    <!-- Bootstrap datetimepicker css -->
+    <link rel="stylesheet" href="~/assets/plugins/bootstrap-datetimepicker/css/bootstrap-datepicker.min.css">
+    <link href="~/assets/css/layouts/rtl.css" rel="stylesheet" />
+
+
+
+
+    @RenderSection("Styles", false)
+
+</head>
+
+<body>
+    @*<partial name="_BusyIndicatorPartial" />*@
+    @await Html.PartialAsync("_BusyIndicatoPartial")
+    <!-- [ Pre-loader ] start -->
+
+    @await Html.PartialAsync("_Preloader")
+    <!-- [ Pre-loader ] End -->
+    <!-- [ navigation menu ] start -->
+    <nav class="pcoded-navbar">
+        @await Html.PartialAsync("_Navigation")
+    </nav>
+    <!-- [ navigation menu ] end -->
+    <!-- [ Header ] start -->
+    <header class="navbar pcoded-header navbar-expand-lg navbar-light">
+        @await Html.PartialAsync("_Header")
+    </header>
+    <!-- [ Header ] end -->
+
+    @await Html.PartialAsync("_Chat")
+
+    <!-- [ Main Content ] start -->
+    @RenderBody()
+    <!-- [ Main Content ] end -->
+    <!-- Required Js -->
+    <script src="~/assets/js/vendor-all.min.js"></script>
+    <script src="~/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/assets/js/pcoded.min.js"></script>
+    <!-- datatable Js -->
+    <script src="~/assets/plugins/data-tables/js/datatables.min.js"></script>
+    <script src="~/assets/plugins/notification/js/bootstrap-growl.min.js"></script>
+    <!-- select2 Js -->
+    <script src="~/assets/plugins/select2/js/select2.full.min.js"></script>
+    <!-- chartjs js -->
+    <script src="~/assets/plugins/chart-chartjs/js/Chart.min.js"></script>
+    <!-- datepicker js -->
+    <script src="~/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datepicker.min.js"></script>
+
+
+
+
+    <script type="text/javascript">
+
+        function notify(message, type) {
+            $.growl({
+                message: message
+            }, {
+                type: type,
+                allow_dismiss: false,
+                label: 'Cancel',
+                className: 'btn-xs btn-inverse',
+                placement: {
+                    from: 'bottom',
+                    align: 'right'
+                },
+                delay: 5000,
+                animate: {
+                    enter: 'animated fadeInRight',
+                    exit: 'animated fadeOutRight'
+                },
+                offset: {
+                    x: 30,
+                    y: 30
+                }
+            });
+        };
+
+        // Generate Chart
+        function chart(id, type, data, options) {
+            var canvas = document.getElementById(id);
+            var ctx = canvas.getContext('2d');
+            new Chart(ctx, {
+                type: type,
+                data: data,
+                options: options
+            });
+        }
+
+        $(document).ready(function () {
+
+            var mainTable;
+
+            mainTable = $('#grid').DataTable({
+                lengthChange: false,
+                info: false,
+                searching: true,
+                dom: 'lrtip',
+                scrollX: false,
+                pageLength: 5,
+            });
+
+            $('#m-search').keyup(function () {
+                mainTable.search($(this).val()).draw();
+                // Retrieve the input field text and reset the count to zero
+                var filter = $(this).val(), count = 0;
+
+                // Search text
+                var text = $(this).val();
+
+                // Hide all content class element
+                $('.search-area').hide();
+
+                // Search and show
+                $('.search-area:contains("' + text + '")').show();
+            })
+            $('#m-search1').keyup(function () {
+                mainTable.search($(this).val()).draw();
+                // Retrieve the input field text and reset the count to zero
+                var filter = $(this).val(), count = 0;
+
+                // Search text
+                var text = $(this).val();
+
+                // Hide all content class element
+                $('.search-area').hide();
+
+                // Search and show
+                $('.search-area:contains("' + text + '")').show();
+            })
+            //initiate all select2 class
+            $('.select2').select2({
+                allowClear: true,
+                placeholder: "أختــر"
+            });
+
+            //initiate all datepicker class
+            $('.datepicker').datepicker({
+                todayHighlight: true,
+                format: 'yyyy-mm-dd',
+                autoclose: true
+            });
+
+            //initiate all datepickeryearmonth class
+            $('.datepickeryearmonth').datepicker({
+                startView: "months",
+                format: "yyyy-mm",
+                minViewMode: "months",
+                autoclose: true
+            });
+
+
+            var message = $("#StatusMessage").text();
+            if (message) {
+                if (message.includes("Error")) {
+                    //error
+                    notify(message, 'danger');
+                } else {
+                    //success
+                    notify(message, 'success');
+                }
+            }
+
+            function displayBusyIndicator() {
+                $('.loading').show();
+            }
+            $(window).on('beforeunload', function () {
+                displayBusyIndicator();
+            });
+            $(document).on('submit', 'form', function () {
+                displayBusyIndicator();
+            });
+        });
+    </script>
+
+    <div class="new-notificaion-window">
+
+    </div>
+
+
+
+
+
+
+
+
+    <input type="hidden" id="hdfLoggedInUserID" value="@userID" />
+    <input type="hidden" id="hdfLoggedInUserName" value="@User.Identity.Name" />
+    <input type="hidden" id="hdfLoggedInUserProfilePicture" value="@userIamge" />
+    <input type="hidden" id="hdfWindowIsActiveOrNot" value="True" />
+    <input type="hidden" id="hdfPendingMessageID" />
+
+
+    <script src="~/lib/signalr/signalr.min.js"></script>
+    <script src="~/chat.js"></script>
+
+    <script src="~/js/arabic-timeago.js"></script>
+    @*   <script src="~/Scripts/jquery.timeago.js"></script>*@
+    <script>
+        $('.timeago').timeago();
+        // jQuery(document).ready(function () {
+        //     jQuery("time.timeago").timeago();
+        // });
+    </script>
+
+    <script type="text/javascript">
+        $('#btnSearch').click(function () {
+            searchFriends();
+        });
+        //$('.dropdown-menu').click(function () {
+        //    return false;
+        //});
+        $('.btn-show-notification').click(function () {
+            $('.div-notification-top').load('/Home/_UserNotifications', function () {
+
+            });
+        })
+        $(document).on("click", 'input[class$="btnCloseNotification"]', function () {
+            $(this).parent(".divNotification").animate({ "opacity": "hide", top: "100" }, 500);
+        });
+        $(document).on("click", 'input[class$="sendRequest"]', function () {
+            var userID = $(this).attr('data-user-id');
+            var loggedInUserID = $('#hdfLoggedInUserID').val();
+            sendFriendRequest(userID, loggedInUserID);
+            $(this).removeClass('sendRequest').addClass('disabled').val('Request Sent');
+        });
+        //// hosni added
+        $(document).on("click", 'input[class$="sendRequestByText"]', function () {
+            var userID = $('#hdfNotifiyUserID').val();
+            var loggedInUserID = $('#hdfLoggedInUserID').val();
+            var msgText = $('#txtmsg').val();
+
+            sendNotificationByuser(userID, loggedInUserID, msgText);
+            $(this).removeClass('sendRequest').addClass('disabled').val('تم الارسال الاشعار');
+        });
+        ///// end
+
+        $(document).on("click", 'input[class$="request-response"]', function () {
+            var userid = $(this).attr('data-user-id');
+            var requestResponse = $(this).attr('data-value');
+            sendResponseToRequest(userid, requestResponse, $('#hdfLoggedInUserID').val());
+            $(this).val(requestResponse);
+            $(this).addClass('disabled');
+            $(this).siblings().addClass('disabled');
+        });
+        $(document).on('click', '.divNotificationPopup', function () {
+            var status = $(this).attr('data-status');
+            if (status != "Read") {
+                $(this).attr('data-status', 'Read');
+                var notificationID = $(this).attr('data-notificationID');
+                changeUserNotificationStatus(notificationID);
+            }
+        });
+        $(document).on('click', '.btn-send-chat-message', function () {
+            sendChatMessage();
+        });
+        $(document).on('keypress', '.txt-chat-message', function (e) {
+            if (e.which == 13) {
+                sendChatMessage();
+            }
+            else {
+                sendUserTypingStatus();
+            }
+        });
+        $(document).on('click', '.chat-user', function () {
+            $(this).siblings('a').removeClass('active');
+            $(this).addClass('active');
+            var userID = $(this).attr('data-user-id');
+            initiateChat(userID);
+        });
+        function searchFriends() {
+            var searchText = $('#txtSearch').val();
+            if (searchText != null && searchText != '') {
+                $("#divBody").html('');
+                $("#divBody").load('/Home/_UserSearchResult?name=' + searchText + '', function () {
+
+                });
+                $("#divBody").animate({ "opacity": "show", top: "100" }, 500);
+            }
+            else {
+                $("#divBody").animate({ "opacity": "hide", top: "100" }, 500);
+            }
+        }
+    </script>
+
+
+    @section Styles{
+        <!-- Flag icon -->
+        <link rel="stylesheet" href="~/assets/fonts/flag/css/flag-icon.min.css">
+    }
+
+    @section Scripts{
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("#msg-friends").on("keyup", function () {
+                    var g = $(this).val().toLowerCase();
+                    $(".msg-user-list .userlist-box .media-body .chat-header").each(function () {
+                        var s = $(this).text().toLowerCase();
+                        $(this).closest('.userlist-box')[s.indexOf(g) !== -1 ? 'show' : 'hide']();
+                    });
+                });
+                $('#OpenImgUpload').click(function () {
+                    $('#imgupload').trigger('click');
+                });
+                $('.msg-send-chat').on('keyup', function (e) {
+                    msg_cfc(e);
+                });
+                $('.btn-msg-send').on('click', function (e) {
+                    msg_fc(e);
+                });
+
+                function msg_cfc(e) {
+                    if (e.which == 13) {
+                        msg_fc(e);
+                    }
+                };
+
+                function msg_fc(e) {
+                    $('.msg-block .main-friend-chat').append('' +
+                        '<div class="media chat-messages">' +
+                        '<div class="media-body chat-menu-reply">' +
+                        '<div class="">' +
+                        '<p class="chat-cont">' + $('.msg-send-chat').val() + '</p>' +
+                        '</div>' +
+                        '<p class="chat-time">now</p>' +
+                        '</div>' +
+                        '</div>' +
+                        '');
+                    msg_frc($('.msg-send-chat').val());
+                    msg_fsc();
+                    $('.msg-send-chat').val(null);
+                };
+
+                function msg_frc(wrmsg) {
+                    setTimeout(function () {
+                        $('.msg-block .main-friend-chat').append('' +
+                            '<div class="media chat-messages typing">' +
+                            '<a class="media-left photo-table" href="#!"><img class="media-object img-radius img-radius m-t-5" src="~/assets/images/user/avatar-2.jpg" alt="Generic placeholder image"></a>' +
+                            '<div class="media-body chat-menu-content">' +
+                            '<div class="rem-msg">' +
+                            '<p class="chat-cont">Typing . . .</p>' +
+                            '</div>' +
+                            '<p class="chat-time">now</p>' +
+                            '</div>' +
+                            '</div>' +
+                            '');
+                        msg_fsc();
+                    }, 1500);
+                    setTimeout(function () {
+                        document.getElementsByClassName("rem-msg")[0].innerHTML = "<p class='chat-cont'>hello superior personality you write '" + wrmsg + " '</p>";
+                        $('.rem-msg').removeClass("rem-msg");
+                        $('.typing').removeClass("typing");
+                        msg_fsc();
+                    }, 3000);
+                };
+
+                function msg_fsc() {
+                    var tmph = $('.header-chat .main-friend-chat');
+                    $('.msg-user-chat.scroll-div').scrollTop(tmph.outerHeight());
+                }
+                var ps = new PerfectScrollbar('.msg-user-list.scroll-div', {
+                    wheelSpeed: .5,
+                    swipeEasing: 0,
+                    suppressScrollX: !0,
+                    wheelPropagation: 1,
+                    minScrollbarLength: 40,
+                });
+                var ps = new PerfectScrollbar('.msg-user-chat.scroll-div', {
+                    wheelSpeed: .5,
+                    swipeEasing: 0,
+                    suppressScrollX: !0,
+                    wheelPropagation: 1,
+                    minScrollbarLength: 40,
+                });
+                $(".task-right-header-status").on('click', function () {
+                    $(".taskboard-right-progress").slideToggle();
+                });
+
+                $(".message-mobile .media").on('click', function () {
+                    var vw = $(window)[0].innerWidth;
+                    if (vw < 992) {
+                        $(".taskboard-right-progress").slideUp();
+                        $(".msg-block").addClass('dis-chat');
+                    }
+                });
+            });
+        </script>
+
+        <script src="~/js/arabic-timeago.js"></script>
+        @*   <script src="~/Scripts/jquery.timeago.js"></script>*@
+        <script>
+            $('.timeago').timeago();
+                                                           // jQuery(document).ready(function () {
+                                                           //     jQuery("time.timeago").timeago();
+                                                           // });
+        </script>
+
+    }
+
+    @RenderSection("Scripts", false)
+
+</body>
+
+</html>

@@ -1,0 +1,148 @@
+﻿
+@model List<FasDemo.Models.Employee>
+@inject FasDemo.Services.App.ICommon _app;
+@using FasDemo.ViewModels;
+@using Newtonsoft.Json;
+@using Microsoft.AspNetCore.Identity;
+@{
+
+    var a = User.Identities.ToArray();
+    var b = a[0].Claims.ToArray();
+    var userID = b[0].Value;
+
+    string controller = this.ViewContext.RouteData.Values["controller"].ToString();
+    string modelName = "ProjectTask";
+    ViewData["Title"] = "ProjectTask";
+
+    EmployeeSummary summary = _app.GetEmployeeSummary();
+    ChartDoughnut donutChart = _app.GetEmployeeDoughnut();
+
+    string action = this.ViewContext.RouteData.Values["action"].ToString();
+}
+
+
+@{
+    ViewData["Title"] = "Widget4";
+}
+
+<!-- [ Main Content ] end -->
+<!-- [ Main Content ] start -->
+<div class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <!-- [ breadcrumb ] start -->
+                <div class="page-header">
+                    <div class="page-block">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <ul class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="/Dashboard/1"><i class="feather icon-home"></i></a></li>
+                                    @*<li class="breadcrumb-item"><a href="#!">المهام</a></li>*@
+                                    <li class="breadcrumb-item"><a href="#!">مهام الموظفين</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a href="/@controller/Index" class="btn drp-icon btn-rounded btn-primary dropdown-toggle">
+                                    <i class="feather icon-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- [ breadcrumb ] end -->
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ Main Content ] start -->
+                        <div class="row">
+                            <div class="tab-content" id="pills-tabContent">
+                                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                                    <div class="row">
+                                        @foreach (var item in Model)
+                                        {
+                                            var dataemp = _app.GetEmployeeTaskList(item.SystemUserId);
+                                            var totaltask = dataemp.Count;
+                                            var totalCurrenttask = dataemp.Where(tmp => tmp.Compleation < 100).ToList().Count;
+                                            var latetask = dataemp.Where(tmp => tmp.Compleation < 100 && tmp.EndDateActual < DateTime.Now).ToList().Count;
+                                            var currenttask = dataemp.Where(tmp => tmp.Compleation < 100 && tmp.EndDateActual >= DateTime.Now).ToList().Count;
+
+                                        <div class="col-xl-3 col-md-6 search-area">
+                                            <div class="card theme-bg4 location-sale animated fadeIn ">
+                                                <div class="card-block">
+                                                    <i class="card-icon   text-c-purple f-14">
+                                                        <img class="img-fluid rounded-circle" src="/@(item.ProfilePicture== null ? "assets/images/user/avatar-2.jpg"  : item.ProfilePicture)" alt=" @item.FirstName  @item.LastName"> @*/assets/images/user/avatar-2.jpg*@
+                                                    </i>
+                                                    <h5 class="text-white mt-3">
+                                                        @item.FirstName  @item.LastName <span class="float-right">
+                                                            <a class="btn  btn-icon m-0" data-toggle="tooltip" data-placement="top" title="التفاصيل"
+                                                               href="/@controller/UsersTasks/@item.SystemUserId"><i class="feather icon-check-circle  f-50 text-dark"></i></a>
+                                                        </span>
+                                                    </h5>@*<i class="fas fa-arrow-down text-white"></i>*@
+
+
+                                                    <div class="card-block border-top">
+                                                        <div class="row">
+                                                            <div class="col text-center">
+                                                                <span class="bg-c-yellow d-block rounded-circle mx-auto mb-2" style="width:10px; height:10px;"></span>
+                                                                <h6 class="mb-2">@totaltask</h6>
+                                                                <h6 class="mt-2 mb-0">اجمالي التكليفات</h6>
+                                                            </div>
+                                                            <div class="col text-center">
+                                                                <span class="bg-c-green d-block rounded-circle mx-auto mb-2" style="width:10px; height:10px;"></span>
+                                                                <h6 class="mb-2">@totalCurrenttask</h6>
+                                                                <h6 class="mt-2 mb-0">اجمالية المهام</h6>
+                                                            </div>
+                                                            <div class="col text-center">
+                                                                <span class="bg-c-blue d-block rounded-circle mx-auto mb-2" style="width:10px; height:10px;"></span>
+                                                                <h6 class="mb-2">@currenttask</h6>
+                                                                <h6 class="mt-2 mb-0">مهام حالية</h6>
+                                                            </div>
+                                                            <div class="col text-center">
+                                                                <span class="bg-c-red d-block rounded-circle mx-auto mb-2" style="width:10px; height:10px;"></span>
+                                                                <h6 class="mb-2">@latetask</h6>
+                                                                <h6 class="mt-2 mb-0">مهام متأخرة</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    @*<h3 class="text-white d-flex align-items-center justify-content-between m-t-50 f-16">مهام متأخرة : @latetask <span class="float-right f-16">مهام حالية : @currenttask</span></h3>*@
+
+
+                                                    @*<div class="progress">
+                <div class="progress-bar progress-c-theme2" role="progressbar" style="width: @latetaskratio%; height:10px;" aria-valuenow="@latetaskratio" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar progress-c-theme" role="progressbar" style="width: @currenttaskratio%; height:10px;" aria-valuenow="@currenttaskratio" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>*@
+                                                </div>
+                                            </div>
+                                        </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- [ Main Content ] end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- [ Main Content ] end -->
+
+
+@section Styles{
+
+}
+
+@section Scripts{
+    <!-- Todo Js -->
+    @*<script src="~/assets/plugins/todo/js/todo.js"></script>*@
+
+
+
+}
+
+
+

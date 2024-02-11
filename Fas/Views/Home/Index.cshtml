@@ -1,0 +1,142 @@
+﻿@page
+
+@inject FasDemo.Services.App.ICommon _app;
+
+@{
+    var a = User.Identities.ToArray();
+    var b = a[0].Claims.ToArray();
+    var userID = b[0].Value;
+    string userIamge = _app.userImage(userID);
+}
+<script src="~/js/jquery-2.2.4.min.js"></script>
+<link href="~/css/common.css" rel="stylesheet" />
+@*<div class="container">
+        <div class="row">&nbsp;</div>
+        <div class="row">
+            <div class="col-6">&nbsp;</div>
+            <div class="col-6">
+                User..........<input type="text" id="userInput" />
+                <br />
+                Message...<input type="text" id="messageInput" />
+                <input type="button" id="sendButton" value="Send Message" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <hr />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">&nbsp;</div>
+            <div class="col-6">
+                <ul id="messagesList"></ul>
+            </div>
+        </div>
+    </div>*@
+
+<!-- [ Main Content ] start -->
+
+<div class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ Main Content ] start -->
+                        <div class="row">
+                            <!-- [ message ] start -->
+                            <div class="col-sm-12">
+                                <div class="card msg-card mb-0">
+                                    <div class="card-body msg-block">
+
+                                        <div class="row">
+
+                                            <div class="col-sm-3">
+                                                <div class="panel panel-info">
+                                                    <div class="panel-heading">
+                                                        <h3 class="panel-title">محادثات حديثة</h3>
+                                                    </div>
+                                                    <div class="panel-body left-chat-panel">
+                                                        <div class="list-group recent-chats">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="message-mobile">
+                                                    <div class="task-right-header-status">
+                                                        <span class="f-w-400" data-toggle="collapse">Friend Online List</span>
+                                                        <i class="fas fa-times float-right m-t-10"></i>
+                                                    </div>
+
+                                                    <div class="list-group online-friends">
+
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+                                            <div class="col-lg-9 col-md-12">
+                                                <div class="ch-block">
+                                                    <div class="h-list-body">
+                                                        <div class="msg-user-chat scroll-div">
+                                                            <div class="main-friend-chat">
+                                                                <div id="divBody">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                    <div class="chat-user-status"></div>
+                                                    <div>
+                                                            <div class="input-group">
+                                                                <input class="form-control txt-chat-message" type="text">
+                                                                <span class="input-group-btn">
+                                                                    <button class="btn btn-primary btn-send-chat-message" type="button">Send</button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    @*<div class="msg-form">
+                                                        <div class="input-group mb-0">
+                                                            <input type="text" class="form-control txt-chat-message" placeholder="Text . . .">
+                                                            <div class="input-group-append">
+                                                                <input type="file" id="imgupload" style="display:none" />
+                                                                <button id="OpenImgUpload" class="btn btn-secondary btn-icon btn-send-chat-message" type="button" data-toggle="tooltip" title="file attachment"><i class="feather icon-paperclip"></i></button>
+                                                            </div>
+                                                            <div class="input-group-append">
+                                                                <button class="btn btn-theme btn-icon btn-msg-send" type="button"><i class="feather icon-play"></i></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>*@
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- [ message ] end -->
+                        </div>
+                        <!-- [ Main Content ] end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- [ Main Content ] end -->
+
+
+
+
+
+
+
+
+
+
+
+

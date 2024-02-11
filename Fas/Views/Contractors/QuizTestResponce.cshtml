@@ -1,0 +1,183 @@
+﻿@model List<FasDemo.SurveyModel.ViewModel.QuestionVM>
+
+
+
+<h1>QuizTestResponce</h1>
+
+
+@{ string controller = this.ViewContext.RouteData.Values["controller"].ToString();
+    string action = this.ViewContext.RouteData.Values["action"].ToString();
+    string modelName = "TempRequest";
+    ViewData["Title"] = modelName + " Form";
+    int count = 1;
+}
+
+<style>
+    input[type=checkbox], input[type=radio] {
+        width: 22.5px;
+        height: 22.5px;
+        display: inline-block;
+        margin-right: 10px;
+        border: 2px solid #e9eaec;
+        border-radius: 2px;
+        vertical-align: bottom;
+        text-align: center;
+        background: transparent;
+        cursor: pointer;
+        -webkit-transition: all 0.2s ease-in-out;
+        transition: all 0.2s ease-in-out;
+        top: 8.5px;
+    }
+</style>
+<!-- [ Main Content ] start -->
+<section class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <!-- [ breadcrumb ] start -->
+                <div class="page-header">
+                    <div class="page-block">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a href="/@controller/Index" class="btn drp-icon btn-rounded btn-primary dropdown-toggle">
+                                    <i class="feather icon-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <div class="page-header-title">
+                                    <h3 class="m-b-10">الاستبيان | العملاء الجديده</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- [ breadcrumb ] end -->
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ Main Content ] start -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                @await Html.PartialAsync(PartialView.StatusMessage, TempData[StaticString.StatusMessage])
+                            </div>
+                        </div>
+
+
+                        <article class="card">
+                            <div class="card-header">
+                                <h5>بيانات الاستبيان</h5>
+                                <div class="card-header-left">
+                                    <div class="btn-group card-option">
+                                        <form action="/Project/Form">
+                                            <button class="btn drp-icon btn-rounded btn-primary" type="submit">
+                                                <i class="feather icon-plus"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <article class="card-block" id="printTable">
+                                @if (Model != null)
+                                {
+                                    foreach (var question in Model)
+                                    {
+                                        int countR = 0;
+                                        <article class="card mb-4">
+                                            <div class="card-header">
+                                                <span id="@string.Format("{0}{1}", "ID_Q", count)" style="display:none;">@question.QuestionId</span>
+                                                <h4 class="card-title mb-0" id="@string.Format("{0}{1}", "Q", count)">@question.QuestionText</h4>
+                                            </div>
+                                            <div class="card-title card-header mb-0">
+                                                @if (question.QuestionType == "text")
+                                                {
+                                                    <label class="radio-inline">
+                                                        <h4 class="card-title mb-0"> <span> @question.Choices.FirstOrDefault().ChoiceText </span></h4>
+                                                    </label>
+                                                   
+
+
+                                                }
+                                                @if (question.QuestionType == "Multi")
+                                                {
+                                                    <div class="row">
+                                                        @foreach (var choice in question.Choices)
+                                                        {
+                                                            countR++;
+                                                            <div class="form-group col-md-3">
+                                                                <label class="radio-inline">
+                                                                    <h4 class="card-title mb-0"><span>@countR : </span> @choice.ChoiceText</h4>
+                                                                </label>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                }
+                                                @if (question.QuestionType == "single")
+                                                {
+                                                    foreach (var choice in question.Choices)
+                                                    {
+                                                        <label class="radio-inline">
+                                                            <input type="radio" name="@string.Format("{0}{1}", "inlineRadioOptions",count)" id="@string.Format("{0}{1}{2}", "inlineRadio",count, countR)" value="@choice.ChoiceText"> @choice.ChoiceText
+                                                        </label><br />countR++;
+                                                    }
+                                                }
+                                                <span id="countAnswer" style="display:none;">@countR</span>
+                                                <span id="@string.Format("{0}{1}", "questionType", count)" style="display:none;">@question.QuestionType</span>
+                                            </div> <!--END Choices-->
+
+                                        </article> <!-- END BlockQ --> count++;
+                                    }
+                                    <span id="countQuections" style="display:none;">@count</span>
+
+
+                                }
+                            </article> <!-- END QUIZ -->
+                        </article>
+                        <!-- [ Main Content ] end -->
+                        <div class="col-sm-12 invoice-btn-group text-center">
+                            <button type="button" class="btn btn-primary btn-print-invoice m-b-10">Print</button>
+                            <button type="button" class="btn btn-secondary m-b-10 ">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- [ Main Content ] end -->
+
+
+@section Styles{
+
+}
+
+
+
+@section Scripts
+{
+
+    <script>
+        // print button
+        function printData() {
+            var divToPrint = document.getElementById("printTable");
+            newWin = window.open("");
+            newWin.document.write(divToPrint.outerHTML);
+            newWin.print();
+            newWin.close();
+        }
+
+        $('.btn-print-invoice').on('click', function () {
+            printData();
+        })
+
+    </script>
+
+    <partial name="_ValidationScriptsPartial" />
+}
+
+
+
+
+
+

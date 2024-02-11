@@ -1,0 +1,89 @@
+﻿
+@model List<ChatApp.Domain.Entity.DTO.UserNotificationDTO>
+@{
+
+    string controller = this.ViewContext.RouteData.Values["controller"].ToString();
+    string modelName = "Home";
+    ViewData["Title"] = "UserNotification";
+}
+
+
+@{
+    ViewData["Title"] = "UserNotification";
+}
+
+<!-- [ Main Content ] start -->
+<div class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <!-- [ breadcrumb ] start -->
+                <div class="page-header">
+                    <div class="page-block">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <ul class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="/Dashboard/1"><i class="feather icon-home"></i></a></li>
+                                    <li class="breadcrumb-item"><a href="#!">الاشعارات</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- [ breadcrumb ] end -->
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ Main Content ] start -->
+                        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                            <div class="row">
+                                <div class="table-responsive">
+                                    <table id="responsive-table-model" class="display table nowrap table-striped table-hover" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>من</th>
+                                                <th>المرسل</th>
+                                                <th>الاشعار</th>
+                                                <th>التاريخ </th>
+                                                <th>الحالة</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model)
+                                            {
+                                                <tr class="unread">
+                                                    <td><img class="rounded-circle" style="width:40px;" src="@item.FromUserImage" alt=""></td>
+                                                    <td>@item.FromUser</td>
+                                                    <td>@item.NotificationType</td>
+                                                    <td>@item.CreatedOn</td>
+                                                    <td>@item.Status</td>
+                                                </tr>
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- [ Main Content ] end -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- [ Main Content ] end -->
+
+
+@section Styles{ <!-- data tables css -->
+    <link rel="stylesheet" href="~/assets/plugins/data-tables/css/datatables.min.css">
+
+}
+
+@section Scripts {
+    <!-- datatable Js -->
+    <script src="~/assets/plugins/data-tables/js/datatables.min.js"></script>
+    <script src="~/assets/js/pages/tbl-datatable-custom.js"></script>
+}
+
+
+

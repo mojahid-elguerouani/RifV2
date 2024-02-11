@@ -1,0 +1,211 @@
+﻿@model ProjectManagment.Models.ReceiveBusinessSchedualTemplet
+@inject FasDemo.Services.App.ICommon _app;
+@{
+    string controller = this.ViewContext.RouteData.Values["controller"].ToString();
+    string id = this.ViewContext.RouteData.Values["id"]?.ToString();
+    string action = this.ViewContext.RouteData.Values["action"].ToString();
+    string modelName = "ReceiveBusinessSchedualTemplet";
+    string modelNameSub = "ProjectSchedual";
+    ViewData["Title"] = modelName + " Form";
+}
+
+<!-- [ Main Content ] start -->
+<section class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <!-- [ breadcrumb ] start -->
+                <div class="page-header">
+                    <div class="page-block">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a href="/@controller/@(modelName)Index" class="btn drp-icon btn-rounded btn-primary dropdown-toggle">
+                                    <i class="feather icon-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <div class="page-header-title">
+                                    <h3 class="m-b-10">طلبات استلام الأعمال | نماذج طلبات استلام الأعمال </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- [ breadcrumb ] end -->
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ Main Content ] start -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                @await Html.PartialAsync(PartialView.StatusMessage, TempData[StaticString.StatusMessage])
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <form asp-controller="@controller" asp-action="Submit@(action)" method="post">
+                                    <article class="card mb-4">
+                                        <div class="card-header">
+                                            <h4 class="card-title mb-0">اضافة أو تعديل  نماذج طلبات استلام الأعمال</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <input type="hidden" asp-for="ReceiveBusinessSchedualTempletId" />
+                                            <div class="form-group">
+                                                <label asp-for="ReceiveBusinessSchedualTempletName">اسم النموذج</label>
+                                                <input asp-for="ReceiveBusinessSchedualTempletName" class="form-control" />
+                                                <span asp-validation-for="ReceiveBusinessSchedualTempletName" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer">
+                                            <button type="submit" class="btn btn-primary">حفظ</button>
+                                        </div>
+                                    </article>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- [ Main Content ] end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @if (Model.ReceiveBusinessSchedualTempletId != null)
+        {
+            if (Model.ReceiveBusinessScheduals.Count == 0)
+            {
+                <div class="pcoded-content">
+                    <div class="pcoded-inner-content">
+                        <div class="main-body">
+                            <div class="page-wrapper">
+                                <!-- [ Main Content ] start -->
+                                <div class="row">
+                                    <!-- [ Form Validation ] start -->
+                                    <div class="col-sm-12">
+                                        <div class="card">
+                                            <form asp-controller="@controller" asp-action="CopyProjectSchedualTemplet" method="post">
+
+                                                <div class="card-header">
+                                                    <h5>نسخ من نموذج سابق</h5>
+                                                </div>
+                                                <div class="card-body">
+                                                    <input type="hidden" name="ProjectSchedualTempletIdTo" id="ProjectSchedualTempletIdTo" value="@id" />
+                                                    <div class="form-group">
+                                                        <label asp-for="ReceiveBusinessSchedualTempletId"></label>
+                                                        <select asp-for="ReceiveBusinessSchedualTempletId" class="select2 form-control" asp-items="ViewBag.ProjectSchedualTemplet"></select>
+                                                        <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
+                                                        <span asp-validation-for="ReceiveBusinessSchedualTempletId" class="text-danger"></span>
+                                                    </div>
+
+                                                </div>
+                                                <div class="card-footer">
+                                                    <button type="submit" class="btn btn-primary">نسخ</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <!-- [ Form Validation ] end -->
+                                </div>
+                                <!-- [ Main Content ] end -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="pcoded-content">
+                <div class="pcoded-inner-content">
+                    <div class="main-body">
+                        <div class="page-wrapper">
+                            <!-- [ Main Content ] start -->
+                            <div class="row">
+                                <!-- [ Form Validation ] start -->
+                                <div class="col-sm-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5>عناصر المشروع</h5>
+                                            <div class="card-header-left">
+                                                <div class="btn-group card-option">
+                                                    <a href="/@controller/@(modelNameSub)Form?header=@Model.ReceiveBusinessSchedualTempletId" class="btn drp-icon btn-rounded btn-primary">
+                                                        <i class="feather icon-plus"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-block">
+                                            <div class="table-responsive">
+                                                <table id="responsive-table-model" class="display table nowrap table-striped table-hover" style="width:100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th width="5%"></th>
+                                                            <th width="5%"></th>
+                                                            <th width="20%">المهمة</th>
+                                                            <th width="5%">الترتيب</th>
+                                                            <th width="20%">مسندة الى</th>
+                                                            <th width="5%">تعتمد على</th>
+                                                            <th width="10%">البريد المستقبل</th>
+                                                            <th width="20%">تعتمد من</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (var item in Model.ReceiveBusinessScheduals)
+                                                        {
+                                                            <tr>
+                                                                <td>
+                                                                    <a href="/@controller/@(modelNameSub)Form/@item.ReceiveBusinessSchedualId?header=@item.ReceiveBusinessSchedualTempletId"><i class="feather icon-edit"></i></a>
+                                                                </td>
+                                                                <td>
+                                                                    <a href="/@controller/@(modelNameSub)Delete/@item.ReceiveBusinessSchedualId?header=@item.ReceiveBusinessSchedualTempletId"><i class="feather icon-trash"></i></a>
+                                                                </td>
+                                                                <td>
+                                                                    @item.TaskName
+                                                                </td>
+
+                                                                <td>
+                                                                    <span>@item.TaskOrder</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>@_app.userFirstName(item.ReceiveBusinessAssignToId)</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>
+                                                                        @(!String.IsNullOrEmpty(item.ReceiveBusinessSchedualParentId.ToString()) ? item.ReceiveBusinessSchedualParent.TaskName : "")
+                                                                    </span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>@item.toEmail </span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>@item.ReceiveBusinessApprovedBy?.NormalizedUserName </span>
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- [ Form Validation ] end -->
+                            </div>
+                            <!-- [ Main Content ] end -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+
+    </div>
+</section>
+<!-- [ Main Content ] end -->
+@section Styles{
+
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+
+
+

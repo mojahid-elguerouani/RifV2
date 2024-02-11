@@ -1,0 +1,283 @@
+﻿@model List<Employee>
+@inject FasDemo.Services.App.ICommon _app;
+@using FasDemo.ViewModels;
+@using Newtonsoft.Json;
+@{
+
+    string controller = this.ViewContext.RouteData.Values["controller"].ToString();
+    string modelName = "الموظفين";
+    ViewData["Title"] = "الموظفين";
+
+    EmployeeSummary summary = _app.GetEmployeeSummary();
+    ChartDoughnut donutChart = _app.GetEmployeeDoughnut();
+}
+
+<!-- [ Main Content ] start -->
+<section class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <div class="accordion" id="accordionMain">
+                            <div class="card">
+                                <div class="card-header" id="headingOne">
+                                    <h5 class="mb-0">
+                                        <a href="#!" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            التحليل
+                                        </a>
+                                    </h5>
+                                </div>
+                                <div id="collapseOne" class=" card-body collapse show" aria-labelledby="headingOne" data-parent="#accordionMain">
+                                    <div class="row">
+                                        <div class="col-md-5 mb-4">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h4 class="card-title mb-4">الموظف حسب الادارة</h4>
+                                                    <div class="chart-container doughnut">
+                                                        <canvas id="doughnutChart" height="250" width="250"></canvas>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7 mb-4">
+                                            <div class="row">
+                                                <div class="col-md-6 col-xl-6 mb-3">
+                                                    <div class="card">
+                                                        <div class="card-block ticket-visitor">
+                                                            <h3 class="mb-2">@summary.Male</h3>
+                                                            <h5 class="text-muted f-w-300 mb-4">ذكر</h5>
+                                                            <div class="progress">
+                                                                <div class="progress-bar progress-c-theme2" role="progressbar" style="width: @summary.MalePercentage%;height:13px;" aria-valuenow="@summary.MalePercentage" aria-valuemin="0" aria-valuemax="100">@summary.MalePercentage%</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-xl-6 mb-3">
+                                                    <div class="card">
+                                                        <div class="card-block ticket-visitor">
+                                                            <h3 class="mb-2">@summary.Female</h3>
+                                                            <h5 class="text-muted f-w-300 mb-4">أنثى</h5>
+                                                            <div class="progress">
+                                                                <div class="progress-bar progress-c-theme2" role="progressbar" style="width: @summary.FemalePercentage%;height:13px;" aria-valuenow="@summary.FemalePercentage" aria-valuemin="0" aria-valuemax="100">@summary.FemalePercentage%</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-xl-6">
+                                                    <div class="card">
+                                                        <div class="card-block ticket-visitor">
+                                                            <h3 class="mb-2">@summary.MosLess</h3>
+                                                            <h5 class="text-muted f-w-300 mb-4">سنوات الخبرة (< 6)</h5>
+                                                            <div class="progress">
+                                                                <div class="progress-bar progress-c-theme2" role="progressbar" style="width: @summary.MosLessPercentage%;height:13px;" aria-valuenow="@summary.MosLessPercentage" aria-valuemin="0" aria-valuemax="100">@summary.MosLessPercentage%</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-xl-6">
+                                                    <div class="card">
+                                                        <div class="card-block ticket-visitor">
+                                                            <h3 class="mb-2">@summary.MosMore</h3>
+                                                            <h5 class="text-muted f-w-300 mb-4">سنوات الخبرة (>= 6)</h5>
+                                                            <div class="progress">
+                                                                <div class="progress-bar progress-c-theme2" role="progressbar" style="width: @summary.MosMorePercentage%;height:13px;" aria-valuenow="@summary.MosMorePercentage" aria-valuemin="0" aria-valuemax="100">@summary.MosMorePercentage%</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+
+                <div class="page-header">
+                    <div class="page-block">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="dropdown d-inline">
+                                    <button class="btn drp-icon btn-rounded btn-primary dropdown-toggle" type="button"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="feather icon-grid"></i>
+                                    </button>
+                                    <div class="dropdown-menu" style="position: absolute;will-change: transform;top: -2px;right: 5px;transform: translate3d(10px, 31px, 0px);">
+                                        <h6 class="dropdown-header">الاعدادات</h6>
+                                        <a class="dropdown-item" href="~/@controller/DepartmentIndex">الادارات</a>
+                                        <a class="dropdown-item" href="~/@controller/DesignationIndex">الوظائف</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <div class="page-header-title">
+                                    <h3 class="m-b-10">@ViewData["Title"]</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ Main Content ] start -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                @await Html.PartialAsync(PartialView.StatusMessage, TempData[StaticString.StatusMessage])
+                            </div>
+
+                            <div class="col-sm-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>قائمة الموظفين</h5>
+                                        <div class="card-header-left">
+                                            <div class="btn-group card-option">
+                                                <form action="/employee/Form">
+                                                    <button class="btn drp-icon btn-rounded btn-primary" type="submit">
+                                                        <i class="feather icon-plus"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-block">
+                                        <div class="table-responsive">
+                                            <table id="responsive-table-model" class="display table nowrap table-striped table-hover" style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th width="5%"></th>
+                                                        <th width="5%"></th>
+                                                        <th width="10%"></th>
+                                                        <th width="20%">الاسم</th>
+                                                        <th width="30%">الوظيفة</th>
+                                                        <th width="20%">رقم الموظف</th>
+                                                        <th width="10%">على رأس العمل</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var item in Model)
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                <a href="/@controller/Form/@item.EmployeeId"><i class="feather icon-edit"></i></a>
+                                                            </td>
+                                                            <td>
+                                                                <a href="/@controller/Delete/@item.EmployeeId"><i class="feather icon-trash"></i></a>
+                                                            </td>
+                                                            <td>
+                                                                <a href="/@controller/LoginOnBehalf/@item.EmployeeId" class="btn btn-primary">الدخول نيابة</a>
+                                                            </td>
+                                                            <td>
+                                                                @(item.FirstName + " " + item.LastName)
+                                                            </td>
+                                                            <td>
+                                                                @item.Designation.Name
+                                                            </td>
+                                                            <td>
+                                                                @item.EmployeeIDNumber
+                                                            </td>
+                                                            <td>
+                                                                <div class="switch d-inline m-r-10">
+                                                                    <input type="checkbox" @(!String.IsNullOrEmpty(item.SystemUserId) ? "checked" : "")>
+                                                                    <label class="cr"></label>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @*<div class="col-sm-12">
+                                    <div class="card">
+                                        <div class="card-block">
+                                            <h4 class="card-title mb-4"><i class="feather icon-book md-18 mr-2 btn-outline-primary"></i> Quick Guide</h4>
+                                            <blockquote class="blockquote">
+                                                <p class="mb-3">
+                                                    Employee module will provide tools to manage employee data. Register new employee and configure their basic info is one of the module capabilities.
+                                                </p>
+                                                <h5 class="card-title mb-4">Employee Module Features:</h5>
+                                                <ul class="list list-unstyled mb-3">
+                                                    <li><i class="feather icon-check-circle btn-outline-primary"></i> Register New Employee</li>
+                                                    <li><i class="feather icon-check-circle btn-outline-primary"></i> Setup Employee Basic Info</li>
+                                                    <li><i class="feather icon-check-circle btn-outline-primary"></i> Setup Employee Staff Info</li>
+                                                    <li><i class="feather icon-check-circle btn-outline-primary"></i> Setup Employee Salary Info</li>
+                                                    <li><i class="feather icon-check-circle btn-outline-primary"></i> Setup Employee Bank Account Info</li>
+                                                    <li><i class="feather icon-check-circle btn-outline-primary"></i> Setup Employee System User Account</li>
+                                                    <li><i class="feather icon-check-circle btn-outline-primary"></i> Manage Department Data Master</li>
+                                                    <li><i class="feather icon-check-circle btn-outline-primary"></i> Manage Designation Data Master</li>
+                                                </ul>
+                                                <h5><i class="feather icon-zap btn-outline-warning"></i> Tips</h5>
+                                                <p>
+                                                    Click "الدخول نيابة" to enter the system as targeted employee. (impersonation)
+                                                </p>
+                                            </blockquote>
+
+                                        </div>
+                                    </div>
+                                </div>*@
+
+
+                        </div>
+                        <!-- [ Main Content ] end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- [ Main Content ] end -->
+
+
+@section Styles{
+
+}
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+        });
+
+        //Doughnut Chart
+        $(function () {
+            var doughnutChart = {
+                data: {
+                    labels: @Html.Raw(JsonConvert.SerializeObject(donutChart.Labels)),
+                    datasets: [{
+                        label: 'Doughnut chart',
+                        data: @Html.Raw(JsonConvert.SerializeObject(donutChart.Data)),
+                        backgroundColor: @Html.Raw(JsonConvert.SerializeObject(donutChart.Colors)),
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    legend: {
+                        position: "top"
+                    },
+                    cutoutPercentage: 50
+                }
+            }
+            chart("doughnutChart", "doughnut", doughnutChart.data, doughnutChart.options);
+        });
+
+    </script>
+
+    <partial name="_ValidationScriptsPartial" />
+}
+
+
+

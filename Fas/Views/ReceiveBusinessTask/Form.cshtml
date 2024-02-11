@@ -1,0 +1,314 @@
+﻿@model ProjectManagment.Models.ReceiveBusinessTask
+@inject FasDemo.Services.App.ICommon _app;
+@{
+    string controller = this.ViewContext.RouteData.Values["controller"].ToString();
+    string action = this.ViewContext.RouteData.Values["action"].ToString();
+    string modelName = "مهام طلبات استلام الأعمال";
+    ViewData["Title"] = modelName + " تعديل";
+}
+
+<!-- [ Main Content ] start -->
+<section class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <!-- [ breadcrumb ] start -->
+                <div class="page-header">
+                    <div class="page-block">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a href="/@controller/Index" class="btn drp-icon btn-rounded btn-primary dropdown-toggle">
+                                    <i class="feather icon-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <div class="page-header-title">
+                                    <h3 class="m-b-10">@ViewData["Title"]</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- [ breadcrumb ] end -->
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ Main Content ] start -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                @await Html.PartialAsync(PartialView.StatusMessage, TempData[StaticString.StatusMessage])
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <form asp-controller="@controller" asp-action="Submit@(action)" method="post" enctype="multipart/form-data">
+
+                                    <div class="radio-list" style="text-align: center;">
+                                        <label class="radio-inline" style="font-size: 20px;">
+                                            <span class=""><input type="radio" name="service_type" id="service_type" value="blue"></span> تحديث الحالة
+                                        </label>
+                                        <label class="radio-inline" style="font-size: 20px;">
+                                            <span class="checked"><input type="radio" name="service_type" id="service_type" value="red"></span>  اسناد المهمة ل
+                                        </label>
+                                        <label class="radio-inline" style="font-size: 20px;">
+                                            <span class="checked"><input type="radio" name="service_type" id="service_type" value="green"></span>  طلب تعديل
+                                        </label>
+                                    </div>
+                                    <article class="card mb-4">
+                                        <div class="card-header">
+                                            <h5 class="card-title mb-0">  تحديث بيانات مشروع :    @ViewBag.ProjectName /   مهمة : @ViewBag.ProjectTaskName  </h5>
+                                        </div>
+                                    </article>
+                                    <article class="card mb-4" id="divAssignTo" style="display:none">
+                                        <div class="card-header">
+                                            <h4 class="card-title mb-0">بيانات المهمة</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <input type="hidden" asp-for="ReceiveBusinessTaskId" />
+                                            <div class="row ">
+                                                <div class="col-4 blue box">
+                                                    <div class="form-group">
+                                                        <label asp-for="Compleation"></label>
+                                                        <input asp-for="Compleation" class="form-control" />
+                                                        <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
+                                                        <span asp-validation-for="Compleation" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4 red green box">
+                                                    <div class="form-group">
+                                                        <label asp-for="ReceiveBusinessAssignToId  "></label>
+                                                        <select asp-for="ReceiveBusinessAssignToId" class="select2 form-control" asp-items="ViewBag.EmployeeUser"></select>
+                                                        <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
+                                                        <span asp-validation-for="ReceiveBusinessAssignToId" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+@*                                                <div class="col-4  green box">
+                                                    <div class="form-group">
+                                                        <label asp-for="StarDate"></label>
+
+                                                        <input type="text" id="StarDate" name="StarDate" value="@Model.StarDate" class="datepicker form-control" data-val="true" data-val-required="The DateOfBirth field is required.">
+                                                        <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
+                                                        <span asp-validation-for="StarDate" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4  green box">
+                                                    <div class="form-group">
+                                                        <label asp-for="Duration"></label>
+                                                        <input asp-for="Duration" class="form-control" />
+                                                        <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
+                                                        <span asp-validation-for="Duration" class="text-danger"></span>
+                                                    </div>
+                                                </div>*@
+
+                                            </div>
+                                        </div>
+
+                                    </article>
+                                    <article class="card mb-4">
+                                        <div class="card-header">
+                                            <h4 class="card-title mb-0">بيانات اضافية</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="form-group">
+                                                <label for="ProjectTaskComment">ملاحظات</label>
+                                                <textarea class="form-control" id="ProjectTaskComment" name="ProjectTaskComment" rows="3"></textarea>
+                                            </div>
+
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">اضافة ملفات </span>
+                                                </div>
+                                                <div class="custom-file">
+                                                    <input type="file" class="custom-file-input" id="files" name="files" multiple="">
+                                                    <input type="file" class="custom-file-input" name="files" multiple="">
+                                                    <label class="custom-file-label" for="inputGroupFile01">أختر الملف</label>
+                                                </div>
+                                            </div>
+
+
+
+
+                                            <br />
+                                            <span style="color:green">@Html.Raw(ViewBag.Message)</span>
+                                        </div>
+                                        <div class="card-header">
+                                            <button type="submit" class="btn btn-primary" style="float:left;">حفظ</button>
+                                        </div>
+                                    </article>
+
+                                    <article class="card mb-4">
+                                        @if (Model.ReceiveBusinessTaskLogs.Count != 0)
+                                        {
+                                            <ul class="task-list">
+                                                @foreach (var pitem in Model.ReceiveBusinessTaskLogs.OrderBy(log => log.ReceiveBusinessTaskId).ToList())
+                                                {
+                                                    <li>
+                                                        <!-- timeline item -->
+                                                        <div class="row">
+                                                            <i class="task-icon bg-c-green"></i>
+                                                            <div class="col-md-4">
+                                                                <h6>
+                                                                    <span class="time"><i class="far fa-clock"></i> @pitem.CreatedOn</span>
+                                                                    <span class="float-right text-muted"> @_app.userFirstName(@pitem.ReceiveBusinessUserId)  </span>
+                                                                </h6>
+                                                                <p class="text-muted" style="white-space: break-spaces;"> @pitem.ReceiveBusinessTaskComment</p>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                @if (pitem.ReceiveBusinessTaskLogImages != null && pitem.ReceiveBusinessTaskLogImages.Count != 0)
+                                                                {
+                                                                    <div class="timeline-body">
+                                                                        <table class="table table-bordered table-primary" width="100%" name="example1" cellspacing="0">
+                                                                            <tr>
+                                                                                <th>
+                                                                                    اسم الملف
+                                                                                </th>
+                                                                                <th>
+                                                                                    تحميل الملف
+                                                                                </th>
+                                                                                <th>
+                                                                                    تحميل
+                                                                                </th>
+                                                                            </tr>
+                                                                            @foreach (var imageitem in pitem.ReceiveBusinessTaskLogImages.OrderBy(img => img.ReceiveBusinessTaskLogImageId).ToList())
+                                                                            {
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        @Html.DisplayFor(modelItem => imageitem.FileName)
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <a href="@imageitem.ReceiveBusinessTaskLogImageUrl" target="_blank">تحميل الملف</a>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        @Html.ActionLink("Download File", "Download", controller, new { imagename = imageitem.FileName, Url = imageitem.ReceiveBusinessTaskLogImageUrl, contenttype = imageitem.ImageType }, null)
+                                                                                    </td>
+                                                                                </tr>
+                                                                            }
+                                                                        </table>
+                                                                    </div>
+                                                                    <div class="timeline-body">
+                                                                        @foreach (var imageitem in pitem.ReceiveBusinessTaskLogImages.Where(Im => Im.ImageType.Contains("image")).ToList())
+                                                                        {
+                                                                            <img height="96" src="@imageitem.ReceiveBusinessTaskLogImageUrl" alt="...">
+                                                                        }
+                                                                    </div>
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    </li>
+
+                                                }
+
+                                            </ul>
+
+                                        }
+                                    </article>
+
+                                </form>
+
+                            </div>
+                        </div>
+                        <!-- [ Main Content ] end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- [ Main Content ] end -->
+@section Styles{
+    <!-- ================== BEGIN PAGE LEVEL CSS START ================== -->
+    <link rel="stylesheet" href="~/assets/vendor/dropzone/css/dropzone.css" />
+    <!-- ================== BEGIN PAGE LEVEL END ================== -->
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <!-- ================== BEGIN PAGE LEVEL JS ================== -->
+    <script src="~/assets/vendor/dropzone/js/dropzone.js"></script>
+    <script src="~/assets/vendor/flowjs/js/flow.min.js"></script>
+    @*<script src="~/assets/js/demo/file-upload-demo.js"></script>*@
+    @*<script src="~/assets/js/file-upload-demo.js"></script>*@
+    <!-- ================== END PAGE LEVEL JS ================== -->
+
+    <script>
+
+
+        function myParamName() {
+            return "files";
+        }
+
+        Dropzone.options.myAwesomeDropzone = {
+            paramName: myParamName, // The name that will be used to transfer the file
+            projectTaskId: document.getElementsByName("ProjectTaskId")[0].defaultValue,
+            maxFiles: 100,
+            maxFilesize: 1000000,
+            parallelUploads: 10,
+            filesizeBase: 10000000,
+            addRemoveLinks: true,
+            uploadMultiple: true,
+            accept: function (file, done) {
+                if (file.name === "justinbieber.jpg") {
+                    done("Naha, you don't.");
+                }
+                else { done(); }
+            },
+            init: function () {
+
+                this.on("sending", function (file, response, formData, projectTaskId) {
+                    formData["__RequestAntiForgeryToken"] = document.getElementsByName("__RequestVerificationToken").value;
+                    formData.append("projectTaskId", $("#ProjectTaskId").val());
+                });
+                this.on("sendingmultiple", function (file, response, formData) {
+                    formData["__RequestAntiForgeryToken"] = document.getElementsByName("__RequestVerificationToken").value;
+                });
+                this.on("processing", function () {
+                    this.options.autoProcessQueue = true;
+                });
+                this.on("success", function (file, response) {
+                    file.serverID = response.id;
+                });
+                this.on("error", function (file, response) {
+                    var r = response;
+                    console.log("Drop Err:");
+                    console.log(r);
+                });
+            }
+        };
+    </script>
+
+    @*<script>
+            $(function () {
+
+                $("input:radio[name='data[Customer][service_type]']").change(function () {
+                    var _val = $(this).val();
+                    switch (_val) {
+                        case 'new':
+                            break;
+                        case 'repair':
+                            break;
+                        case 'cancel':
+                            break;
+
+                        default:
+                    }
+                    console.log(_val);
+                    alert(_val);
+                });
+
+            });
+        </script>*@
+
+    <script>
+        $(document).ready(function () {
+            $('input[type="radio"]').click(function () {
+                var inputValue = $(this).attr("value");
+                var targetBox = $("." + inputValue);
+                $(".box").not(targetBox).hide();
+                $(targetBox).show();
+                $('#divAssignTo').show();
+            });
+        });
+    </script>
+}

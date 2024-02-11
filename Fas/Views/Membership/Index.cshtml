@@ -1,0 +1,150 @@
+﻿
+@model List<ApplicationUser>
+
+@{
+    ViewData["Title"] = "الأعضاء";
+}
+
+<!-- [ Main Content ] start -->
+<section class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+
+                <div class="page-header">
+                    <div class="page-block">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <div class="page-header-title">
+                                    <h3 class="m-b-10">@ViewData["Title"]</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ Main Content ] start -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                @await Html.PartialAsync(PartialView.StatusMessage, TempData[StaticString.StatusMessage])
+                            </div>
+
+                            <div class="col-sm-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>لائحة الأعضاء</h5>
+                                        <div class="card-header-left">
+                                            <div class="btn-group card-option">
+                                                <form action="/Membership/Register">
+                                                    <button class="btn drp-icon btn-rounded btn-primary" type="submit">
+                                                        <i class="feather icon-plus"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-block">
+                                        <div class="table-responsive">
+                                            @*<table id="responsive-table-model" class="display table nowrap table-striped table-hover" style="width:100%">*@
+                                            <table id="responsive-table-model" class="display table nowrap table-striped table-hover" style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th width="10%"></th>
+                                                        <th width="25%">البريد الالكتروني </th>
+                                                        <th width="25%">رقم الهاتف</th>
+                                                        <th width="10%">الحالة</th>
+                                                        <th width="20%">مسؤول مميز؟</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var item in Model)
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                <div class="dropdown d-inline">
+                                                                    <button class="btn drp-icon btn-rounded btn-primary dropdown-toggle" type="button"
+                                                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                        <i class="feather icon-grid"></i>
+                                                                    </button>
+                                                                    <div class="dropdown-menu" style="position: absolute;will-change: transform;top: -2px;right: 5px;transform: translate3d(10px, 31px, 0px);">
+                                                                        <a class="dropdown-item" href="/Membership/ChangeProfile/@item.Id">Change Profile</a>
+                                                                        <a class="dropdown-item" href="/Membership/ChangePassword/@item.Id">Reset Password</a>
+                                                                        <a class="dropdown-item" href="/Membership/ChangeRole/@item.Id">Change Role</a>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td>@item.Email</td>
+                                                            <td>@item.PhoneNumber</td>
+                                                            <td>
+                                                                <label href="#!" class="m-t-10 label theme-@(item.EmailConfirmed ? "bg" : "bg2") f-12 text-white" style="border-radius:15px">@(item.EmailConfirmed ? "Active" : "Pending")</label>
+                                                            </td>
+                                                            <td>
+                                                                <div class="switch d-inline m-r-10">
+                                                                    <input type="checkbox" @(item.isSuperAdmin ? "checked" : "")>
+                                                                    <label class="cr"></label>
+                                                                </div>
+                                                            </td>
+
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @*<div class="col-sm-12">
+                                <div class="card">
+                                    <div class="card-block">
+                                        <h4 class="card-title mb-4"><i class="feather icon-book md-18 mr-2 btn-outline-primary"></i> Quick Guide</h4>
+                                        <blockquote class="blockquote">
+                                            <p class="mb-3">
+                                                Membership module is the place for managing application users. Through this module you can do the user management activities such as: Adding new user, edit their profile, change their password, change their related role access and active / de-active specific user.
+                                            </p>
+                                            <h5 class="card-title mb-4">Membership Features:</h5>
+                                            <ul class="list list-unstyled mb-3">
+                                                <li><i class="feather icon-check-circle btn-outline-primary"></i> Create and Manage System User</li>
+                                                <li><i class="feather icon-check-circle btn-outline-primary"></i> Reset Password</li>
+                                                <li><i class="feather icon-check-circle btn-outline-primary"></i> Change Role</li>
+                                            </ul>
+                                            <h5><i class="feather icon-zap btn-outline-warning"></i> Tips</h5>
+                                            <p>
+                                                Connect system user with an employee from ملف تعريف الموظف page section [System User Account Info]
+                                            </p>
+                                        </blockquote>
+
+                                    </div>
+                                </div>
+                            </div>*@
+
+                        </div>
+                        <!-- [ Main Content ] end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- [ Main Content ] end -->
+
+
+@section Styles{
+
+}
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+        });
+    </script>
+
+    <script src="~/assets/plugins/data-tables/js/datatables.min.js"></script>
+    <script src="~/assets/js/pages/tbl-datatable-custom.js"></script>
+}
+
+
+

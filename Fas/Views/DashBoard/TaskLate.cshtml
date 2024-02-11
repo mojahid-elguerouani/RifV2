@@ -1,0 +1,207 @@
+﻿
+@model List<FasDemo.ProjectModel.ProjectTaskVM>
+@{
+    string controller = this.ViewContext.RouteData.Values["controller"].ToString();
+    string modelName = "ProjectTask";
+    ViewData["Title"] = "ProjectTask";
+    string action = this.ViewContext.RouteData.Values["action"].ToString();
+}
+@{
+    ViewData["Title"] = "Widget4";
+}
+
+<!-- [ Main Content ] end -->
+<!-- [ Main Content ] start -->
+<div class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <!-- [ breadcrumb ] start -->
+                <div class="page-header">
+                    <div class="page-block">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <ul class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="/Dashboard"><i class="feather icon-home"></i></a></li>
+                                    <li class="breadcrumb-item"><a href="#!">المهام المتأخرة</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a href="/@controller/Index" class="btn drp-icon btn-rounded btn-primary dropdown-toggle">
+                                <i class="feather icon-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- [ breadcrumb ] end -->
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ Main Content ] start -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">
+                                            مهام متأخرة
+                                            <span class="badge badge-light">
+                                                @Model.Where(x => x.Compleation < 100 && x.StatusId != 2).Count()
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">
+                                            مهام تعديل
+                                            <span class="badge badge-pill badge-warning">
+                                                @Model.Where(x => x.StatusId == 2 && x.Compleation < 100).Count()
+                                            </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="pills-tabContent">
+                                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                                        <div class="row">
+                                            @foreach (var item in Model.Where(x => x.Compleation < 100 && x.StatusId != 2).ToList())
+
+                                            {
+                                                <!-- [ visa section ] start -->
+                                                <div class="col-xl-3 col-md-6 search-area">
+                                                    <div class="card theme-bg3   animated fadeInRightBig ">
+                                                        <div class="  card-header borderless align-items-center justify-content-center">
+                                                            <img class="img-fluid rounded-circle" style="width:70px;" src="/@(item.ProfilePicture== null ? "assets/images/user/avatar-2.jpg"  : item.ProfilePicture)" alt="dashboard-user"> @*/assets/images/user/avatar-2.jpg*@
+                                                            <h5 class="text-dark">@item.ProjectName</h5>
+                                                            <span class="d-block text-dark mt-3 f-w-300">@item.TaskName</span>
+                                                            <span class="d-block text-dark mt-3 f-w-300">@item.TaskUserName</span>
+                                                        </div>
+                                                        <div class="card-block">
+
+                                                            <h6 class="text-dark">تاريخ البداية : @item.StartDateActual </h6>
+                                                            <h6 class="text-dark">تاريخ النهاية :@item.EndDateActual </h6>
+                                                            <h6 class="f-w-600 text-dark ">المدة : @item.Duration <span class="f-w-300 m-l-10">الوقت المتبقي :@item.Remaintime</span></h6>
+                                                            <h6 class="f-w-600 text-dark ">
+                                                                نسبة الانجاز : @item.Compleation
+                                                            </h6>
+                                                            <div class="progress">
+                                                                <div class="progress-bar progress-bar-striped bg-info progress-bar-animated" role="progressbar" style="width:  @item.Compleation%;" aria-valuenow="@item.Compleation" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            </div>
+
+                                                            @*<img class="img-fluid" src="~/assets/images/widget/master-background.png" alt="master-background">*@
+                                                            <div style="float: left !important;">
+                                                                <a class="btn btn-dark btn-icon m-0" data-toggle="tooltip" data-placement="top" title="تعديل المهمة"
+                                                                   href="/@controller/Form/@item.ProjectTaskId"><i class="feather icon-check-circle"></i></a>
+
+                                                                <a class="btn btn-dark btn-icon m-0" data-toggle="tooltip" data-placement="top" title="تفاصيل المشروع"
+                                                                   href="/@controller/ProjectTaskDetails/@item.ProjectId"><i class="feather icon-camera"></i></a>
+
+                                                                @*<input type="button" class="btn btn-info pull-right btn-sm sendRequest" data-user-id="@item.ProjectAssignToId" value="Request to be friends" />*@
+
+
+                                                                <a class="btn btn-dark btn-icon m-0 md-trigger open-AddBookDialog" data-modal="modal-1" data-id="@item.ProjectAssignToId" data-toggle="tooltip" data-placement="top" title="ارسال اشعار مهم"> <i class="feather icon-mail"></i></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- [ visa section ] end -->
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                                        <div class="row">
+                                            @foreach (var item in Model.Where(x => x.StatusId == 2 && x.Compleation < 100).ToList())
+                                            {
+                                                <!-- [ visa section ] start -->
+                                                <div class="col-xl-3 col-md-6 search-area">
+                                                    <div class="card theme-bg3   animated fadeInLeftBig">
+                                                        <div class="card-header borderless align-items-center justify-content-center">
+                                                            <img class="img-fluid rounded-circle" style="width:70px;" src="@(item.ProfilePicture== null ? "/assets/images/user/avatar-2.jpg"  : item.ProfilePicture)" alt="dashboard-user"> @*/assets/images/user/avatar-2.jpg*@
+                                                            <h5 class="text-dark">@item.ProjectName</h5>
+                                                            <span class="d-block text-dark mt-3 f-w-300">@item.TaskName</span>
+                                                            <span class="d-block text-dark mt-3 f-w-300">@item.TaskUserName</span>
+                                                        </div>
+                                                        <div class="card-block ">
+                                                            <h6 class="text-dark">تاريخ البداية : @item.StartDateActual </h6>
+                                                            <h6 class="text-dark">تاريخ النهاية :@item.EndDateActual </h6>
+                                                            <h6 class="f-w-600 text-dark ">المدة : @item.Duration <span class="f-w-300 m-l-10">الوقت المتبقي :@item.Remaintime</span></h6>
+                                                            <h6 class="f-w-600 text-dark ">نسبة الانجاز : @item.Compleation  </h6>
+                                                            <div class="progress">
+                                                                <div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" role="progressbar" style="width:  @item.Compleation%;" aria-valuenow="@item.Compleation" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            </div>
+                                                            @*<img class="img-fluid" src="~/assets/images/widget/master-background.png" alt="master-background">*@
+                                                            <div style="float: left !important;">
+                                                                <a class="btn btn-warning btn-icon m-0" data-toggle="tooltip" data-placement="top" title="تعديل المهمة"
+                                                                   href="/@controller/Form/@item.ProjectTaskId"><i class="feather icon-check-circle"></i></a>
+
+                                                                <a class="btn btn-warning btn-icon m-0" data-toggle="tooltip" data-placement="top" title="تفاصيل المشروع"
+                                                                   href="/@controller/ProjectTaskDetails/@item.ProjectId"><i class="feather icon-camera"></i></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- [ visa section ] end -->
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- [ Main Content ] end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- [ Main Content ] end -->
+
+<div class="md-modal md-effect-1" id="modal-1">
+    <div class="md-content">
+        <h3 class="theme-bg2">ملاحظات على المهمة</h3>
+        <div class="modal-body">
+            <input type="hidden" id="hdfNotifiyUserID" value="" />
+
+            <textarea class="form-control" rows="4" name="name" id="txtmsg" value=""></textarea>
+
+            <button class="btn btn-primary md-close">اغلاق ! </button>
+
+            <input type="button" class="btn btn-info pull-right btn-sm sendRequestByText" value="ارسل" />
+
+        </div>
+    </div>
+</div>
+<div class="md-overlay"></div>
+
+
+
+@section Styles{
+    <link rel="stylesheet" href="~/assets/plugins/modal-window-effects/css/md-modal.css">
+}
+
+@section Scripts{
+    <script>
+        $(document).on("click", ".open-AddBookDialog", function () {
+            var myBookId = $(this).data('id');
+            $(".modal-body #hdfNotifiyUserID").val(myBookId);
+            // As pointed out in comments,
+            // it is unnecessary to have to manually call the modal.
+            // $('#addBookDialog').modal('show');
+        });
+    </script>
+    @*<script>
+            function imgError(me) {
+                // place here the alternative image
+                var AlterNativeImg = "/assets/images/user/avatar-2.jpg";
+
+                // to avoid the case that even the alternative fails
+                if (AlterNativeImg != me.src)
+                    me.src = AlterNativeImg;
+            }
+        </script>*@
+    <!-- modal-window-effects Js -->
+    <script src="~/assets/plugins/modal-window-effects/js/classie.js"></script>
+    <script src="~/assets/plugins/modal-window-effects/js/modalEffects.js"></script>
+}
+
+
+

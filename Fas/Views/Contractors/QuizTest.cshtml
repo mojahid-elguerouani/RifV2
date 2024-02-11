@@ -1,0 +1,157 @@
+﻿@model List<FasDemo.SurveyModel.ViewModel.QuestionVM>
+
+@{ int count = 1; }
+
+
+<div class="container">
+
+    <!-- User Info -->
+    <div class="userConnected" style="border:2px dashed #cecaca; border-radius: 10px; margin-top: 3%;">
+
+        @*@{ Html.RenderPartial("_UserInfo");}*@
+
+    </div>
+
+    <div class="Quiz">
+
+        <h4 style="margin-top: 4%;"> <span class="label label-info">Questions :</span> </h4>
+
+        @if (Model != null)
+        {
+            foreach (var question in Model)
+            {
+                int countR = 0;
+<div class="BlockQ" style="border: 1px solid #bdbdbd; width: 75%; border-radius: 4px; margin-top: 40px; background-color: #f0ffff; padding: 8px;">
+    <div class="Question" style="padding: 2%;">
+        <span class="label label-warning"> @string.Format("{0}{1}.", "Q", count)</span>
+        <span id="@string.Format("{0}{1}", "ID_Q", count)" style="display:none;">@question.QuestionId</span>
+        <p style="display: inline; padding: 2%;" id="@string.Format("{0}{1}", "Q", count)">@question.QuestionText</p>
+    </div>
+    <div class="Choices" style="margin-left: 8%;">
+        @if (question.QuestionType == "text")
+        {
+<input class="span3" type="text" id="@string.Format("{0}{1}{2}", "text",count, countR)" placeholder="Enter a number..." />}
+        @if (question.QuestionType == "Multi")
+        {
+            foreach (var choice in question.Choices)
+            {
+<label class="radio-inline">
+    <input type="checkbox" name="@string.Format("{0}{1}", "inlineRadioOptions",count)" id="@string.Format("{0}{1}{2}", "inlineRadio",count, countR)" value="@choice.ChoiceText" style="margin-left: -16px;"> @choice.ChoiceText
+</label><br />countR++;
+}
+}
+        @if (question.QuestionType == "single")
+        {
+            foreach (var choice in question.Choices)
+            {
+<label class="radio-inline">
+    <input type="radio" name="@string.Format("{0}{1}", "inlineRadioOptions",count)" id="@string.Format("{0}{1}{2}", "inlineRadio",count, countR)" value="@choice.ChoiceText" style="margin-left: -16px;"> @choice.ChoiceText
+</label><br />countR++;
+}
+}
+        <span id="countAnswer" style="display:none;">@countR</span>
+        <span id="@string.Format("{0}{1}", "questionType", count)" style="display:none;">@question.QuestionType</span>
+    </div> <!--END Choices-->
+
+    <div id="@string.Format("{0}{1}{2}", "Ans","Q", count)">
+
+
+    </div>
+
+</div> <!-- END BlockQ --> count++;
+}
+<span id="countQuections" style="display:none;">@count</span>
+                <button type="button" id="SubmitQuiz" class="btn btn-default" style="margin-top: 10px;"><span class="glyphicon glyphicon-ok"></span>   Submit Quiz </button>}
+
+    </div> <!-- END QUIZ -->
+
+</div> <!-- END CONTAINER -->
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $('#SubmitQuiz').on('click', function ( ) {
+
+                //count Questions
+                var sel = $('#countQuections').text();
+
+                console.log(sel);
+
+                var resultQuiz = [], countQuestion = parseInt(sel), question = {}, j = 1;
+
+              for (var i = 1; i < countQuestion; i++) {
+                var sel1 = $('#countAnswer').text();
+                var countAnswer = parseInt(sel1), m = 1;
+                var qType = $('#questionType' + i).text();
+
+                switch (qType) {
+                  case "text":
+                    question = {
+                      QuestionId: $('#ID_Q' + i).text(),
+                      QuestionText: $('#Q' + i).text(),
+                      AnswerQ: $('#text' + i.toString() + '0'  ).val()
+                    };
+                    resultQuiz.push(question);
+                    break;
+                  case "Multi":
+                    for (var k = 0; k < countAnswer; k++) {
+
+                      if ($('input[id=inlineRadio' + i.toString() + k.toString()).is(':checked')) {
+                        question = {
+                          QuestionId: $('#ID_Q' + i).text(),
+                          QuestionText: $('#Q' + i).text(),
+                          AnswerQ: $('input[id=inlineRadio' + + i.toString() + k.toString() + ']:checked').val()
+                        }
+                        resultQuiz.push(question);
+                      }
+                    }; break;
+                  case "single":
+
+                        question = {
+                          QuestionId: $('#ID_Q' + i).text(),
+                          QuestionText: $('#Q' + i).text(),
+                          AnswerQ: $('input[name=inlineRadioOptions' + + i.toString()   + ']:checked').val()
+                        }
+                        resultQuiz.push(question);
+
+                     ; break;
+                  default:
+                }
+
+              }
+              var serJSON = JSON.stringify(resultQuiz)
+              var _url= "/Customers/QuizTest";
+               $.ajax({
+                type: 'POST',
+                url: _url,//'@Url.Action("QuizTest", "Customers")',
+                //data: resultQuiz,
+                data: { resultquiz :resultQuiz }  ,
+                success: function (result) {
+
+                  alert("success "  );
+                },
+                error: function (result) {
+                  alert("Failed");
+                }
+              });
+                //jQuery.ajaxSettings.traditional = true
+                //$.post('/Customers/QuizTest', { resultquiz: resultQuiz }, function (data)
+                //{
+                //    alert("success ");
+                //},
+                //);
+                console.log(resultQuiz);
+            });
+
+
+
+        });
+
+    </script>
+}
+
+
+

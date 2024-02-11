@@ -1,0 +1,48 @@
+﻿@model List<ChatApp.Models.UserModel>
+@{
+    Layout = null;
+}
+@if (Model != null)
+{
+    @if (Model.Count > 0)
+    {
+        <div class="taskboard-right-progress">
+            <div class="h-list-header">
+                <div class="input-group">
+                    <input type="text" id="msg-friends" class="form-control" placeholder="البحث ....">
+                    <div class="input-group-append">
+                        <span class="input-group-text"><i class='feather icon-search'></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="h-list-body">
+                <div class="msg-user-list scroll-div">
+                    <div class="main-friend-list">
+                        @foreach (var item in Model)
+                        {
+                            string name = item.Name.IndexOf(".") > 0 ? item.Name.Substring(0, item.Name.IndexOf(".")) : item.Name;
+                        <div class="media userlist-box " data-id="1" data-status="online" data-username=@name>
+                            @*<a class="media-left" data-user-id="@item.UserID" href="javascript:;">*@
+                            <a href="javascript:;" data-user-id="@item.UserID" class="media-left chat-user">
+                                <img class="media-object img-radius" src="@item.ProfilePicture" alt="Generic placeholder image ">
+                                @*<div class="live-status"></div>*@
+                            </a>
+                            <div class="media-body">
+                                <h6 class="chat-header">@name<small class="d-block text-c-green">  </small></h6>
+                            </div>
+                        </div>
+
+                            @*<a href="javascript:;" data-user-id="@item.UserID" class="list-group-item chat-user">
+                                <img src="@item.ProfilePicture" class="profilePictureCircle" />&nbsp;&nbsp;&nbsp;@name <i class="fa fa-circle pull-right online-circle"></i>
+                            </a>*@
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <span>No one online</span>
+    }
+}

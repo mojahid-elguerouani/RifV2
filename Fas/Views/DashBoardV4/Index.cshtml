@@ -1,0 +1,153 @@
+﻿@model IEnumerable<WeeklyRep>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>حالة المهام</h1>
+<link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/rowgroup/1.1.3/css/rowGroup.dataTables.min.css" rel="stylesheet" />
+<style>
+    tr.odd td:first-child,
+    tr.even td:first-child {
+        padding-right: 4em;
+    }
+
+    table.dataTable tr.dtrg-group td {
+        background-color: #3f4d67;
+        color: white;
+    }
+
+    table.dataTable tr.dtrg-group.dtrg-level-1 td, table.dataTable tr.dtrg-group.dtrg-level-2 td, table.dataTable tr.dtrg-group.dtrg-level-3 td, table.dataTable tr.dtrg-group.dtrg-level-4 td, table.dataTable tr.dtrg-group.dtrg-level-5 td {
+        background-color: #677da5;
+        padding-top: 0.25 em;
+        padding-bottom: 0.25 em;
+        padding-left: 2 em;
+        font-size: .9em;
+    }
+</style>
+
+<section class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ Main Content ] start -->
+                        <div class="row">
+
+                            <div class="col-12">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <h4 class="  mb-4">حالة المهام للاسبوع </h4>
+                                    </div>
+                                    <div class="card-body">
+
+                                        <div class="col-md-12">
+
+
+                                            <table id="example" class="display" style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>الأسم</th>
+                                                        <th>المشروع</th>
+                                                        <th>المهمة</th>
+                                                        <th>البداية</th>
+                                                        <th>النهاية</th>
+                                                        <th>نسبة الانجاز</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var item in Model)
+                                                    {
+                                                        <tr>
+                                                            <td>@item.Fullname </td>
+                                                            <td> @item.ProjectName </td>
+                                                            <td>@item.TaskName</td>
+                                                            <td> @item.StartDateActual</td>
+                                                            <td> @item.EndDateActual</td>
+                                                            <td> @item.Compleation</td>
+
+
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th>المعيار الرئيسي</th>
+                                                        <th>المعيار افرعي</th>
+                                                        <th>الفجوة</th>
+                                                        <th>الاسترشاد</th>
+                                                        <th>الاجراء/النشاط/المبادرة</th>
+                                                        <th>الاجراء/النشاط/المبادرة</th>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+
+
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- [ Main Content ] end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- [ Main Content ] end -->
+
+@section Scripts{
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/rowgroup/1.1.3/js/dataTables.rowGroup.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.print.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#example').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    /*'copy', 'csv', 'excel', 'pdf', 'print'*/
+                    {
+                        extend: 'excelHtml5',
+                        title: 'Excel MK',
+                        text: 'Export to Excel'
+                    },
+                    {
+                        extend: 'csvHtml5',
+                        title: 'CSV MK',
+                        text: 'Export to CSV'
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        title: 'PDF MK',
+                        className: 'btn_pdf',
+                        text: 'Export to PDF'
+                    }
+                ],
+                order: [[0, 'asc'], [1, 'asc']],
+                rowGroup: {
+                    dataSrc: [0, 1]
+                },
+                columnDefs: [{
+                    targets: [0, 1],
+                    visible: false
+                }],
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.11.3/i18n/ar.json'
+                }
+            });
+        });
+    </script>
+}

@@ -1,0 +1,195 @@
+﻿@model ProjectManagment.Models.ReceiveBusiness
+@using ProjectManagment.Models
+@{
+    /**/
+
+    List<ReceiveBusinessTask> _ReceiveBusinessTask = (List<ReceiveBusinessTask>)ViewBag.receivebusinesstasks;
+    string controller = this.ViewContext.RouteData.Values["controller"].ToString();
+    string action = this.ViewContext.RouteData.Values["action"].ToString();
+}
+
+
+<!-- [ Main Content ] start -->
+<section class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <div class="card card-default">
+                    <div class="card-header">
+                        @*@Html.ActionLink("اضافة مهمة", "CreateTask", new { id = Model.ProjectId }, new { @class = "lnkCreateTask btn btn-outline-primary fas fa-plus" })*@
+
+                        <h3 class="card-title">الجدول الزمني</h3>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-2">
+                            <a href="/@controller/Index" class="btn drp-icon btn-rounded btn-primary dropdown-toggle">
+                                <i class="feather icon-arrow-right"></i>
+                            </a>
+                        </div>
+                        <div class="col-md-10 blue box">
+                            <form asp-controller="@controller" asp-action="Reassign@(action)" method="post">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        نقل جميع المهام مسند من
+                                        <select name="ReceiveBusinessAssignfromId" class="select2 form-control" asp-items="ViewBag.users"></select>
+                                    </div>
+                                    <div class="col-md-5">
+                                        مسند الى
+                                        <select name="ReceiveBusinessAssignToId" class="select2 form-control" asp-items="ViewBag.users"></select>
+
+                                    </div>
+                                    <div class="col-md-2">
+
+                                        <input type="hidden" name="ReceiveBusinessId" value="@ViewBag.ReceiveBusinessId" />
+                                        <button type="submit" class="btn btn-primary">نقل</button>
+
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- [ breadcrumb ] start -->
+                        @using (Html.BeginForm("Index", "ReceiveBusiness", FormMethod.Post))
+                        {
+                            <div class="card-header">
+                                <input type="submit" value="حفظ كافة المهام" class="btn btn-outline-warning" />
+                            </div>
+
+                            <div class="card-body">
+
+                                <!-- [ Main Content ] start -->
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        @await Html.PartialAsync(PartialView.StatusMessage, TempData[StaticString.StatusMessage])
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="project-table">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered" id="example" width="100%" cellspacing="0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th width="5%">
+                                                                م
+                                                            </th>
+                                                            <th width="15%">
+                                                                أسم المهمة
+                                                            </th>
+                                                            <th width="5%">
+                                                                ترتيب
+                                                            </th>
+@*                                                            <th width="15%">
+                                                                البداية
+                                                            </th>
+                                                            <th width="15%">
+                                                                النهاية
+                                                            </th>
+                                                            <th width="7%">
+                                                                المدة
+                                                            </th>*@
+                                                            <th width="7%">
+                                                                الانجاز
+                                                            </th>
+                                                            <th width="15%">
+                                                                مسندة الى
+                                                            </th>
+                                                            <th width="15%">
+                                                                تابعة لمهمة
+                                                            </th>
+                                                            <th width="1%">
+                                                                حذف
+                                                            </th>
+                                                            <th width="1%">
+
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @for (int i = 0; i < _ReceiveBusinessTask.Count; i++)
+                                                        {
+                                                            var list = (ViewBag.users as SelectList).ToList();
+                                                            list.ForEach(a => a.Selected = false);
+                                                            list.First(a => a.Value == _ReceiveBusinessTask[i].ReceiveBusinessAssignToId).Selected = true;
+                                                            var listTaskParentId = (ViewBag.TaskParentId as SelectList).ToList();
+                                                            listTaskParentId.ForEach(a => a.Selected = false);
+                                                            listTaskParentId.First(a => a.Value == _ReceiveBusinessTask[i].TaskParentId.ToString()).Selected = true;
+
+                                                            <tr>
+                                                                <td>
+                                                                    @Html.TextBox("ReceiveBusinessTasks[" + @i + "].ReceiveBusinessTaskId", _ReceiveBusinessTask[i].ReceiveBusinessTaskId, new { @readonly = "readonly", @class = "form-control" })
+                                                                </td>
+                                                                <td>
+                                                                    @Html.TextBox("ReceiveBusinessTasks[" + @i + "].TaskName", _ReceiveBusinessTask[i].TaskName, new { @class = "form-control" })
+                                                                </td>
+                                                                <td>
+                                                                    @Html.TextBox("ReceiveBusinessTasks[" + @i + "].TaskOrder", _ReceiveBusinessTask[i].TaskOrder, new { @class = "form-control" })
+                                                                </td>
+@*                                                                <td>
+                                                                    @Html.TextBox("ReceiveBusinessTasks[" + @i + "].StarDate", _ReceiveBusinessTask[i].StarDate, "{0:MM/dd/yyyy}", new { @class = "form-control" })
+                                                                </td>
+                                                                <td>
+                                                                    @Html.TextBox("ReceiveBusinessTasks[" + @i + "].EndDate", _ReceiveBusinessTask[i].EndDate, "{0:MM/dd/yyyy}", new { @class = "form-control" })
+                                                                </td>
+                                                                <td>
+                                                                    @Html.TextBox("ReceiveBusinessTasks[" + @i + "].Duration", _ReceiveBusinessTask[i].Duration, new { @class = "form-control" })
+                                                                </td>*@
+                                                                <td>
+                                                                    @Html.TextBox("ReceiveBusinessTasks[" + @i + "].Compleation", _ReceiveBusinessTask[i].Compleation, new { @class = "form-control" })
+                                                                </td>
+                                                                <td>
+                                                                    @Html.DropDownList("ReceiveBusinessTasks[" + @i + "].ReceiveBusinessAssignToId", list, new { @class = "select2 form-control" })
+                                                                </td>
+                                                                <td>
+                                                                    @Html.DropDownList("ReceiveBusinessTasks[" + @i + "].TaskParentId", listTaskParentId, new { @class = "select2 form-control" })
+                                                                </td>
+                                                                <td>
+                                                                    @Html.ActionLink("", "DeleteTask", new { id = _ReceiveBusinessTask[i].ReceiveBusinessTaskId }, new { @class = "form-control  feather icon-trash" })
+                                                                </td>
+                                                                <td>
+                                                                    @Html.TextBox("ReceiveBusinessTasks[" + @i + "].ProjectId", _ReceiveBusinessTask[i].ReceiveBusinessId, new { @readonly = "readonly", @class = "form-control" })
+                                                                </td>
+                                                            </tr>
+                                                        }
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                            <!-- end of table responsive -->
+                                        </div>
+                                        <!-- end of project table -->
+                                    </div>
+                                    <!-- end of col-lg-12 -->
+                                </div>
+                            </div>
+                        }
+                        <!-- /.card-body -->
+                    </div>
+                </div>
+                <!-- /.card -->
+
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Styles{
+     <!-- data tables css -->
+    <link href="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker3.min.css" rel="stylesheet" />
+    @*<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />*@
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
+    @*<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>*@
+    <!--<script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>-->
+    <script>
+        $(function () { $("input[id*='_StarDate']").datepicker({ changeMonth: true, changeYear: true }); });
+        //$("input[id*='_StarDate']").datepicker("option", "dateFormat", "MM/dd/yyyy");
+
+        $(function () { $("input[id*='_EndDate']").datepicker({ changeMonth: true, changeYear: true }); });
+                                                                    //$("input[id*='_EndDate']").datepicker("option", "dateFormat", "0:yyyy/MM/dd");
+    </script>
+}

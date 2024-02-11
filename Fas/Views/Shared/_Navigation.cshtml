@@ -1,0 +1,239 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> _userManager
+@inject FasDemo.Services.App.ICommon _app;
+
+@{
+    var email = ""; var userid = ""; var userIamge = ""; var username = "";
+    var user = await _userManager.GetUserAsync(User);
+    if (user != null)
+    {
+        email = user.Email;
+        userIamge = _app.userImage(user.Id);
+        username = _app.userFirstName(user.Id);
+    }
+
+    var period = DateTime.Now.ToString("yyyy-MM");
+}
+<div class="navbar-wrapper">
+    <div class="navbar-brand header-logo">
+        <a href="/Identity/Account/Manage/Index" class="b-brand">
+            <div class="b-bg">
+                <img src="~/assets/images/logo.svg" alt=" " style="width: 80px" />
+                @*<i class="feather icon-radio"></i>*@
+            </div>
+            <span class="b-title">ريف السعودية</span>
+        </a>
+        <a class="mobile-menu" id="mobile-collapse" href="#!"><span></span></a>
+    </div>
+    <div class="navbar-content scroll-div">
+        <ul class="nav pcoded-inner-navbar">
+            <li class="nav-item pcoded-menu-caption">
+                <label>مرحباً :@username</label>
+            </li>
+            @if (User.IsInRole(Pages.DashBoard.RoleName))
+            {
+                <li class="nav-item pcoded-hasmenu @Html.IsSelected(controller: "Dashboard")">
+                    <a href="#!" class="nav-link"><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">لوحات التحكم</span></a>
+                    <ul class="pcoded-submenu">
+                        <!--self service-->
+                        @if (User.IsInRole(Pages.DashBoard.RoleName))
+                        {
+                            <li class="nav-item  @Html.IsSelected(controller: Pages.DashBoard.ControllerName)">
+                                <a href="@Pages.DashBoard.UrlDefault?period=@period" class="nav-link">
+                                    <span class="pcoded-micon">
+                                        <i class="feather icon-home"></i>
+                                    </span><span class="pcoded-mtext">@Pages.DashBoard.NavigationName</span>
+                                </a>
+                            </li>
+                        }
+                        @if (User.IsInRole(Pages.DashBoardV2.RoleName))
+                        {
+                            <li class="nav-item  @Html.IsSelected(controller: Pages.DashBoardV2.ControllerName)">
+                                <a href="@Pages.DashBoardV2.UrlDefault?period=@period" class="nav-link">
+                                    <span class="pcoded-micon">
+                                        <i class="feather icon-home"></i>
+                                    </span><span class="pcoded-mtext">@Pages.DashBoardV2.NavigationName</span>
+                                </a>
+                            </li>
+                        }
+                        @if (User.IsInRole(Pages.DashBoardV3.RoleName))
+                        {
+                            <li class="nav-item  @Html.IsSelected(controller: Pages.DashBoardV3.ControllerName)">
+                                <a href="@Pages.DashBoardV3.UrlDefault?period=@period" class="nav-link">
+                                    <span class="pcoded-micon">
+                                        <i class="feather icon-home"></i>
+                                    </span><span class="pcoded-mtext">@Pages.DashBoardV3.NavigationName</span>
+                                </a>
+                            </li>
+                        } 
+                        @if (User.IsInRole(Pages.DashBoardV4.RoleName))
+                        {
+                            <li class="nav-item  @Html.IsSelected(controller: Pages.DashBoardV4.ControllerName)">
+                                <a href="@Pages.DashBoardV4.UrlDefault" class="nav-link">
+                                    <span class="pcoded-micon">
+                                        <i class="feather icon-home"></i>
+                                    </span><span class="pcoded-mtext">@Pages.DashBoardV4.NavigationName</span>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </li>
+            }
+            <!--Chat-->
+            @if (User.IsInRole(Pages.Home.RoleName))
+            {
+                <li class="nav-item  @Html.IsSelected(controller: Pages.Home.ControllerName)">
+                    <a href="@Pages.Home.UrlDefault" class="nav-link">
+                        <span class="pcoded-micon">
+                            <i class="feather icon-phone-call"></i>
+                        </span><span class="pcoded-mtext">@Pages.Home.NavigationName</span>
+                        <span class="pcoded-badge label label-danger receved-chat-message-count">  </span>
+                    </a>
+                </li>
+            }
+
+
+            <!--Project Schedual Templets-->
+            @if (User.IsInRole(Pages.ReceiveBusinessTask.RoleName))
+            {
+                <li class="nav-item  @Html.IsSelected(controller: Pages.ReceiveBusinessTask.ControllerName)">
+                    <a href="@Pages.ReceiveBusinessTask.UrlDefault" class="nav-link">
+                        <span class="pcoded-micon">
+                            <i class="feather icon-layers"></i>
+                        </span><span class="pcoded-mtext">@Pages.ReceiveBusinessTask.NavigationName</span>
+                    </a>
+                </li>
+            }
+
+
+            <!--Licence -->
+            @if (User.IsInRole(Pages.Agenda.RoleName))
+            {
+                <li class="nav-item  @Html.IsSelected(controller: Pages.Agenda.ControllerName)">
+                    <a href="@Pages.Agenda.UrlDefault" class="nav-link">
+                        <span class="pcoded-micon">
+                            <i class="feather icon-tag"></i>
+                        </span><span class="pcoded-mtext">@Pages.Agenda.NavigationName</span>
+                    </a>
+                </li>
+            }
+
+            @if (User.IsInRole(Pages.Project.RoleName))
+            {
+                <li class="nav-item pcoded-hasmenu @Html.IsSelected(controller: "Dashboard")">
+                    <a href="#!" class="nav-link"><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">ادارة المشاريع</span></a>
+                    <ul class="pcoded-submenu">
+                        <!--Project-->
+                        @if (User.IsInRole(Pages.Project.RoleName))
+                        {
+                            <li class="nav-item  @Html.IsSelected(controller: Pages.Project.ControllerName)">
+                                <a href="@Pages.Project.UrlDefault" class="nav-link">
+                                    <span class="pcoded-micon">
+                                        <i class="feather icon-settings"></i>
+                                    </span><span class="pcoded-mtext">@Pages.Project.NavigationName</span>
+                                </a>
+                            </li>
+                        }
+                        <!--Contractors -->
+                        @if (User.IsInRole(Pages.Contractors.RoleName))
+                        {
+                            <li class="nav-item  @Html.IsSelected(controller: Pages.Contractors.ControllerName)">
+                                <a href="@Pages.Contractors.UrlDefault" class="nav-link">
+                                    <span class="pcoded-micon">
+                                        <i class="feather icon-user"></i>
+                                    </span><span class="pcoded-mtext">@Pages.Contractors.NavigationName</span>
+                                </a>
+                            </li>
+                        }
+                        <!--ReceiveBusiness -->
+                        @if (User.IsInRole(Pages.ReceiveBusiness.RoleName))
+                        {
+                            <li class="nav-item  @Html.IsSelected(controller: Pages.ReceiveBusiness.ControllerName)">
+                                <a href="@Pages.ReceiveBusiness.UrlDefault" class="nav-link">
+                                    <span class="pcoded-micon">
+                                        <i class="feather icon-user"></i>
+                                    </span><span class="pcoded-mtext">@Pages.ReceiveBusiness.NavigationName</span>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </li>
+            }
+            @if (User.IsInRole(Pages.Employee.RoleName)) 
+            { 
+                <li class="nav-item pcoded-hasmenu @Html.IsSelected(controller: "Employee")">
+                    <a href="#!" class="nav-link"><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">الموارد البشرية</span></a>
+                    <ul class="pcoded-submenu">
+
+                        <!--employee-->
+                        @if (User.IsInRole(Pages.Employee.RoleName))
+                        {
+                            <li class="nav-item  @Html.IsSelected(controller: Pages.Employee.ControllerName)">
+                                <a href="@Pages.Employee.UrlDefault?period=@period" class="nav-link">
+                                    <span class="pcoded-micon">
+                                        <i class="feather icon-user-check"></i>
+                                    </span><span class="pcoded-mtext">@Pages.Employee.NavigationName</span>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </li>
+            }
+            <!--Ticket-->
+            @if (User.IsInRole(Pages.Ticket.RoleName))
+            {
+                <li class="nav-item  @Html.IsSelected(controller: Pages.Ticket.ControllerName)">
+                    <a href="@Pages.Ticket.UrlDefault?period=@period" class="nav-link">
+                        <span class="pcoded-micon">
+                            <i class="feather icon-flag"></i>
+                        </span><span class="pcoded-mtext">@Pages.Ticket.NavigationName</span>
+                    </a>
+                </li>
+            }
+            <!--Todo-->
+            @if (User.IsInRole(Pages.Todo.RoleName))
+            {
+                <li class="nav-item  @Html.IsSelected(controller: Pages.Todo.ControllerName)">
+                    <a href="@Pages.Todo.UrlDefault?period=@period" class="nav-link">
+                        <span class="pcoded-micon">
+                            <i class="feather icon-calendar"></i>
+                        </span>
+                        <span class="pcoded-mtext">@Pages.Todo.NavigationName</span>
+                    </a>
+                </li>
+            }
+            <!--Todo: Settings for another version-->
+            @if (User.IsInRole(Pages.Settings.RoleName))
+            {
+                <li hidden class="nav-item  @Html.IsSelected(controller: Pages.Settings.ControllerName)">
+                    <a href="@Pages.Settings.UrlDefault?period=@period" class="nav-link">
+                        <span class="pcoded-micon"><i class="feather icon-file-plus"></i></span>
+                        <span class="pcoded-mtext">@Pages.Settings.NavigationName</span>
+                    </a>
+                </li>
+            }
+            <!--Membership-->
+            @if (User.IsInRole(Pages.Membership.RoleName))
+            {
+                <li class="nav-item  @Html.IsSelected(controller: Pages.Membership.ControllerName)">
+                    <a href="@Pages.Membership.UrlDefault" class="nav-link">
+                        <span class="pcoded-micon"><i class="feather icon-user-plus"></i></span>
+                        <span class="pcoded-mtext">@Pages.Membership.NavigationName</span>
+                    </a>
+                </li>
+            }
+            <!--Role-->
+            @if (User.IsInRole(Pages.Role.RoleName))
+            {
+                <li class="nav-item  @Html.IsSelected(controller: Pages.Role.ControllerName)">
+                    <a href="@Pages.Role.UrlDefault" class="nav-link">
+                        <span class="pcoded-micon">
+                            <i class="feather icon-unlock"></i>
+                        </span><span class="pcoded-mtext">@Pages.Role.NavigationName</span>
+                    </a>
+                </li>
+            }
+
+        </ul>
+    </div>
+</div>

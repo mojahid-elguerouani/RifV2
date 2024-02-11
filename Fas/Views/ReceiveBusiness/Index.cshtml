@@ -1,0 +1,518 @@
+﻿@model List<ProjectManagment.Models.ReceiveBusiness>
+@inject FasDemo.Services.App.ICommon _app;
+@using FasDemo.ViewModels;
+@using Newtonsoft.Json;
+@{
+
+    string controller = this.ViewContext.RouteData.Values["controller"].ToString();
+    string modelName = "ReceiveBusiness";
+    ViewData["Title"] = "طلبات استلام الأعمال";
+
+    //EmployeeSummary summary = _app.GetEmployeeSummary();
+    TaskSummary summary = ViewData["TaskSummary"] as TaskSummary;
+    ChartDoughnut donutChart = _app.GetProjectsDoughnut();
+}
+
+<!-- [ Main Content ] start -->
+<section class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <div class="accordion" id="accordionMain">
+                            <div class="card">
+                                <div class="card-header" id="headingOne">
+                                    <h5 class="mb-0">
+                                        <a href="#!" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            التحليل
+                                        </a>
+                                    </h5>
+                                </div>
+                                <div id="collapseOne" class=" card-body collapse show" aria-labelledby="headingOne" data-parent="#accordionMain">
+                                    <div class="row">
+                                        <div class="col-md-5 mb-4">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h4 class="card-title mb-4">الطلبات حسب الحالة</h4>
+                                                    <div class="chart-container doughnut">
+                                                        <canvas id="doughnutChart" height="250" width="250"></canvas>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7 mb-4">
+                                            <div class="row">
+                                                <div class="col-md-6 col-xl-6 mb-3">
+                                                    <div class="card">
+                                                        <div class="card-block ticket-visitor">
+                                                            <h3 class="mb-2">8</h3>
+                                                            <h5 class="text-muted f-w-300 mb-4">مهام متأخرة</h5>
+                                                            <a href="/Project/">
+                                                                <div class="progress">
+                                                                    <div class="progress-bar progress-c-theme2" role="progressbar" style="width: 8%;height:13px;" aria-valuenow="8" aria-valuemin="0" aria-valuemax="100">8%</div>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-xl-6 mb-3">
+                                                    <div class="card">
+                                                        <div class="card-block ticket-visitor">
+                                                            <h3 class="mb-2">60</h3>
+                                                            <h5 class="text-muted f-w-300 mb-4">مهام حالية</h5>
+                                                            <a href="/Project/">
+                                                                <div class="progress">
+                                                                    <div class="progress-bar progress-c-theme2" role="progressbar" style="width: 60%;height:13px;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">60%</div>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-xl-6">
+                                                    <div class="card">
+                                                        <div class="card-block ticket-visitor">
+                                                            <h3 class="mb-2">10</h3>
+                                                            <h5 class="text-muted f-w-300 mb-4">مهام المحاسب</h5>
+                                                            <a href="/Project/">
+                                                                <div class="progress">
+                                                                    <div class="progress-bar progress-c-theme2" role="progressbar" style="width: 10%;height:13px;" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">10%</div>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-xl-6">
+                                                    <div class="card">
+                                                        <div class="card-block ticket-visitor">
+                                                            <h3 class="mb-2">14</h3>
+                                                            <h5 class="text-muted f-w-300 mb-4">مهام منتهية</h5>
+                                                            <div class="progress">
+                                                                <div class="progress-bar progress-c-theme2" role="progressbar" style="width: 14%;height:13px;" aria-valuenow="14" aria-valuemin="0" aria-valuemax="100">14%</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <div class="page-header">
+                    <div class="page-block">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="dropdown d-inline">
+                                    <button class="btn drp-icon btn-rounded btn-primary dropdown-toggle" type="button"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="feather icon-grid"></i>
+                                    </button>
+                                    <div class="dropdown-menu" style="position: absolute;will-change: transform;top: -2px;right: 5px;transform: translate3d(10px, 31px, 0px);">
+                                        <h6 class="dropdown-header">الإعدادات</h6>
+                                        @*<a class="dropdown-item" href="~/@controller/CustomerIndex">العملاء</a>*@
+                                        <a class="dropdown-item" href="~/@controller/ReceiveBusinessSchedualTempletIndex">نماذج الجدوله</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <div class="page-header-title">
+                                    <h3 class="m-b-10">@ViewData["Title"]</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ Main Content ] start -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                @await Html.PartialAsync(PartialView.StatusMessage, TempData[StaticString.StatusMessage])
+                            </div>
+
+                            <div class="col-sm-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>قائمة المشاريع</h5>
+                                        <div class="card-header-left">
+                                            <div class="btn-group card-option">
+                                                <form action="/ReceiveBusiness/Form">
+                                                    <button class="btn drp-icon btn-rounded btn-primary" type="submit">
+                                                        <i class="feather icon-plus"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-block">
+                                        <div class="tab-content" id="pills-tabContent">
+                                            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                                                <li class="nav-item">
+                                                    <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">
+                                                        طلبات مقبولة
+                                                        <span class="badge badge-light">
+                                                            @Model.Where(x => x.StatusId == 1).Count()
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">
+                                                        طلبات مقبولة مع ملاحضات
+                                                        <span class="badge badge-success">
+                                                            @Model.Where(x => x.StatusId == 2).Count()
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">
+                                                        طلبات يعاد تقديمها
+                                                        <span class="badge badge-warning">
+                                                            @Model.Where(x => x.StatusId == 3).Count()
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" id="pills-Approval-tab" data-toggle="pill" href="#pills-Approval" role="tab" aria-controls="pills-Approval" aria-selected="false">
+                                                        طلبات مرفوضة
+                                                        <span class="badge badge-dark">
+                                                            @Model.Where(x => x.StatusId == 4).Count()
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+
+
+                                            <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                                                <div class="row">
+                                                    <div class="table-responsive">
+                                                        <table id="responsive-table-model" class="display table nowrap table-striped table-hover" style="width:100%">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th width="10%">اسم المشروع</th>
+                                                                    <th width="10%">ترقيم الطلب</th>
+                                                                    <th width="10%">المسؤول  </th>
+                                                                    <th width="20%">المهمة الحالية</th>
+                                                                    <th width="20%">المقاول</th>
+                                                                    <th width="45%">تاريخ الطلب</th>
+                                                                    <th width="5%">الاجراء</th>
+                                                                    <th width="5%">تعديل</th>
+                                                                    <th width="5%">حذف</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach (var item in Model.Where(a => a.StatusId == 1).ToList())
+                                                                {
+                                                                    var color = "red";
+                                                                    @if (@item?.ReceiveBusinessDate > DateTime.Now) { color = "green"; }
+                                                                    <tr>
+                                                                        <td>
+                                                                            @(item.Project.ProjectName)
+                                                                        </td>
+                                                                        <td>
+                                                                            @item.Project.ProjectCode-@item.Project.Contractor.ContractorCode-@item.TypeOfAccreditationRequest
+                                                                        </td>
+                                                                        <td>
+                                                                            <img class="rounded-circle" style="width:40px;" src=" @(_app.userImage(item.ReceiveBusinessTasks.Where(a=>a.Compleation<100).FirstOrDefault()?.ReceiveBusinessAssignToId))" alt="">
+                                                                        </td>
+                                                                        <td>
+                                                                            @item.ReceiveBusinessTasks.Where(a => a.Compleation < 100).FirstOrDefault()?.TaskName
+                                                                        </td>
+                                                                        <td>
+                                                                            @if (@item.Project.Contractor != null)
+                                                                            {
+                                                                                @item.Project.Contractor.ContractorName
+                                                                            }
+                                                                        </td>
+                                                                        <td>
+                                                                            @item?.ReceiveBusinessDate
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <div class="dropdown d-inline">
+                                                                                <button class="btn drp-icon btn-rounded btn-primary dropdown-toggle" type="button"
+                                                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                                    <i class="feather icon-grid"></i>
+                                                                                </button>
+                                                                                <div class="dropdown-menu" style="position: absolute;will-change: transform;top: -2px;right: 5px;transform: translate3d(10px, 31px, 0px);">
+                                                                                    <h6 class="dropdown-header">الإعدادات</h6>
+                                                                                    <a href="/ReceiveBusinessTask/ReceiveBusinessTaskDetails/@item.ReceiveBusinessId" class="dropdown-item">متابعة</a>
+                                                                                    <a href="/@controller/EditReceiveBusiness/@item.ReceiveBusinessId" class="dropdown-item">تحديث</a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <a href="/@controller/Form/@item.ReceiveBusinessId"><i class="feather icon-edit"></i></a>
+                                                                        </td>
+                                                                        <td>
+                                                                            <a href="/@controller/Delete/@item.ReceiveBusinessId"><i class="feather icon-trash"></i></a>
+                                                                        </td>
+                                                                    </tr>
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                                                <div class="row">
+                                                    <div class="table-responsive">
+                                                        <table id="responsive-table-model1" class="display table nowrap table-striped table-hover" style="width:100%">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th width="10%">اسم المشروع</th>
+                                                                    <th width="45%">ترقيم الطلب</th>
+                                                                    <th width="20%">المقاول</th>
+                                                                    <th width="5%">تاريخ الطلب</th>
+                                                                    <th width="5%">الاجراء</th>
+                                                                    <th width="5%">تعديل</th>
+                                                                    <th width="5%">حذف</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach (var item in Model.Where(a => a.StatusId == 2).ToList())
+                                                                {
+                                                                    var color = "red";
+                                                                    @if (@item.ReceiveBusinessDate > DateTime.Now) { color = "green"; }
+                                                                    <tr>
+                                                                        <td>
+                                                                            @(item.Project.ProjectName)
+                                                                        </td>
+                                                                        <td>
+                                                                            @item.Project.ProjectCode-@item.Project.Contractor.ContractorCode-@item.TypeOfAccreditationRequest
+                                                                        </td>
+                                                                        <td>
+                                                                            @if (@item.Project.Contractor != null)
+                                                                            {
+                                                                                @item.Project.Contractor.ContractorName
+                                                                            }
+                                                                        </td>
+
+                                                                        <td>
+                                                                            @item?.ReceiveBusinessDate
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <div class="dropdown d-inline">
+                                                                                <button class="btn drp-icon btn-rounded btn-primary dropdown-toggle" type="button"
+                                                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                                    <i class="feather icon-grid"></i>
+                                                                                </button>
+                                                                                <div class="dropdown-menu" style="position: absolute;will-change: transform;top: -2px;right: 5px;transform: translate3d(10px, 31px, 0px);">
+                                                                                    <h6 class="dropdown-header">الإعدادات</h6>
+                                                                                    <a href="/ReceiveBusinessTask/ReceiveBusinessTaskDetails/@item.ReceiveBusinessId" class="dropdown-item">متابعة</a>
+                                                                                    <a href="/@controller/EditReceiveBusiness/@item.ReceiveBusinessId" class="dropdown-item">تحديث</a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <a href="/@controller/Form/@item.ReceiveBusinessId"><i class="feather icon-edit"></i></a>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <a href="/@controller/Delete/@item.ReceiveBusinessId"><i class="feather icon-trash"></i></a>
+                                                                        </td>
+                                                                    </tr>
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+                                                <div class="row">
+                                                    <div class="table-responsive">
+                                                        <table id="responsive-table-model2" class="display table nowrap table-striped table-hover" style="width:100%">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th width="10%">اسم المشروع</th>
+                                                                    <th width="45%">ترقيم الطلب</th>
+                                                                    <th width="20%">المقاول</th> 
+                                                                    <th width="5%">تاريخ الطلب</th>
+                                                                    <th width="5%">الاجراء</th>
+                                                                    <th width="5%">تعديل</th>
+                                                                    <th width="5%">حذف</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach (var item in Model.Where(a => a.StatusId == 3).ToList())
+                                                                {
+                                                                    var color = "red";
+                                                                    @if (@item.ReceiveBusinessDate > DateTime.Now) { color = "green"; }
+                                                                    <tr>
+                                                                        <td>
+                                                                            @(item.Project.ProjectName)
+                                                                        </td>
+
+                                                                        <td>@item.Project.ProjectCode-@item.Project.Contractor.ContractorCode-@item.TypeOfAccreditationRequest</td>
+
+                                                                        <td>
+                                                                            @if (item.Project.Contractor != null)
+                                                                            {
+                                                                                @item.Project.Contractor.ContractorName
+                                                                            }
+                                                                        </td>
+
+                                                                        <td style="color:@color">
+                                                                            @item?.ReceiveBusinessDate.ToString("yyyy/MM/dd")
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="dropdown d-inline">
+                                                                                <button class="btn drp-icon btn-rounded btn-primary dropdown-toggle" type="button"
+                                                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                                    <i class="feather icon-grid"></i>
+                                                                                </button>
+                                                                                <div class="dropdown-menu" style="position: absolute;will-change: transform;top: -2px;right: 5px;transform: translate3d(10px, 31px, 0px);">
+                                                                                    <h6 class="dropdown-header">الإعدادات</h6>
+                                                                                    <a href="/ReceiveBusinessTask/ReceiveBusinessTaskDetails/@item.ReceiveBusinessId" class="dropdown-item">متابعة</a>
+                                                                                    <a href="/@controller/EditReceiveBusiness/@item.ReceiveBusinessId" class="dropdown-item">تحديث</a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <a href="/@controller/Form/@item.ReceiveBusinessId"><i class="feather icon-edit"></i></a>
+                                                                        </td>
+                                                                        <td>
+                                                                            <a href="/@controller/Delete/@item.ReceiveBusinessId"><i class="feather icon-trash"></i></a>
+                                                                        </td>
+                                                                    </tr>
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="pills-Approval" role="tabpanel" aria-labelledby="pills-Approval-tab">
+                                                <div class="row">
+                                                    <div class="table-responsive">
+                                                        <table id="responsive-table-model3" class="display table nowrap table-striped table-hover" style="width:100%">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th width="10%">اسم المشروع</th>
+                                                                    <th width="45%">ترقيم الطلب</th>
+                                                                    <th width="20%">المقاول</th>
+                                                                    <th width="5%">تاريخ النهاية</th>
+                                                                    <th width="5%">الاجراء</th>
+                                                                    <th width="5%">تعديل</th>
+                                                                    <th width="5%">حذف</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach (var item in Model.Where(a => a.StatusId == 4).ToList())
+                                                                {
+                                                                    var color = "red";
+                                                                    @if (@item.ReceiveBusinessDate > DateTime.Now) { color = "green"; }
+                                                                    <tr>
+
+                                                                        <td>
+                                                                            @(item.Project.ProjectName)
+                                                                        </td>
+
+                                                                        <td>@item.Project.ProjectCode-@item.Project.Contractor.ContractorCode-@item.TypeOfAccreditationRequest</td>
+
+                                                                        <td>
+                                                                            @if (@item.Project.Contractor != null)
+                                                                            {
+                                                                                @item.Project.Contractor.ContractorName
+                                                                            }
+                                                                        </td>
+                                                               
+                                                                        <td style="color:@color">
+                                                                            @item?.ReceiveBusinessDate.ToString("yyyy/MM/dd")
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <div class="dropdown d-inline">
+                                                                                <button class="btn drp-icon btn-rounded btn-primary dropdown-toggle" type="button"
+                                                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                                    <i class="feather icon-grid"></i>
+                                                                                </button>
+                                                                                <div class="dropdown-menu" style="position: absolute;will-change: transform;top: -2px;right: 5px;transform: translate3d(10px, 31px, 0px);">
+                                                                                    <h6 class="dropdown-header">الإعدادات</h6>
+                                                                                    <a href="/ReceiveBusinessTask/ReceiveBusinessTaskDetails/@item.ReceiveBusinessId" class="dropdown-item">متابعة</a>
+                                                                                    <a href="/@controller/EditReceiveBusiness/@item.ReceiveBusinessId" class="dropdown-item">تحديث</a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <a href="/@controller/Form/@item.ReceiveBusinessId"><i class="feather icon-edit"></i></a>
+                                                                        </td>
+                                                                        <td>
+                                                                            <a href="/@controller/Delete/@item.ReceiveBusinessId"><i class="feather icon-trash"></i></a>
+                                                                        </td>
+
+                                                                    </tr>
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- [ Main Content ] end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- [ Main Content ] end -->
+@section Styles{
+     <!-- data tables css -->
+    <link rel="stylesheet" href="~/assets/plugins/data-tables/css/datatables.min.css">
+
+}
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+        });
+
+        //Doughnut Chart
+        $(function () {
+            var doughnutChart = {
+                data: {
+                    labels: @Html.Raw(JsonConvert.SerializeObject(donutChart.Labels)),
+                    datasets: [{
+                        label: 'Doughnut chart',
+                        data: @Html.Raw(JsonConvert.SerializeObject(donutChart.Data)),
+                        backgroundColor: @Html.Raw(JsonConvert.SerializeObject(donutChart.Colors)),
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    legend: {
+                        position: "top"
+                    },
+                    cutoutPercentage: 50
+                }
+            }
+            chart("doughnutChart", "doughnut", doughnutChart.data, doughnutChart.options);
+        });
+
+    </script>
+
+    <!-- datatable Js -->
+    <script src="~/assets/plugins/data-tables/js/datatables.min.js"></script>
+    <script src="~/assets/js/pages/tbl-datatable-custom.js"></script>
+}
+
+

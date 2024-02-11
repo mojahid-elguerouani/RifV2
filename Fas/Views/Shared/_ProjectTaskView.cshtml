@@ -1,0 +1,93 @@
+﻿
+@model  FasDemo.ProjectModel.ProjectTaskVM 
+@inject FasDemo.Services.App.ICommon _app;
+@using FasDemo.ViewModels;
+@using Newtonsoft.Json;
+@using Microsoft.AspNetCore.Identity;
+@{
+
+    var a = User.Identities.ToArray();
+    var b = a[0].Claims.ToArray();
+    var userID = b[0].Value;
+
+    //string controller = this.ViewContext.RouteData.Values["controller"].ToString();
+    //string modelName = "ProjectTask";
+    //ViewData["Title"] = "ProjectTask";
+
+    //EmployeeSummary summary = _app.GetEmployeeSummary();
+    //ChartDoughnut donutChart = _app.GetEmployeeDoughnut();
+}
+
+
+
+
+<!-- [ Main Content ] start -->
+<div class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <!-- [ breadcrumb ] start -->
+                <div class="page-header">
+                    <div class="page-block">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <ul class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="/Dashboard/1"><i class="feather icon-home"></i></a></li>
+                                    @*<li class="breadcrumb-item"><a href="#!">المهام</a></li>*@
+                                    <li class="breadcrumb-item"><a href="#!">مهامي</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- [ breadcrumb ] end -->
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ Main Content ] start -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card theme-bg2">
+                                    <div class="  card-header borderless align-items-center justify-content-center">
+                                        <h5 class="text-white">@Model.ProjectName</h5>
+                                        <span class="d-block text-white mt-3 f-w-300">@Model.TaskName</span>
+                                        <span class="d-block text-white mt-3 f-w-300">@Model.TaskUserName</span>
+                                    </div>
+                                    <div class="card-block">
+
+                                        <h6 class="text-white">تاريخ البداية : @Model.StartDateActual </h6>
+                                        <h6 class="text-white">تاريخ النهاية :@Model.EndDateActual </h6>
+                                        <h6 class="f-w-600 text-white ">المدة : @Model.Duration <span class="f-w-300 m-l-10">الوقت المتبقي :@Model.Remaintime</span></h6>
+                                        <h6 class="f-w-600 text-white ">
+                                            نسبة الانجاز : @Model.Compleation
+                                        </h6>
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-striped bg-info progress-bar-animated" role="progressbar" style="width:  @Model.Compleation%;" aria-valuenow="@Model.Compleation" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div> 
+                                         <div style="float: left !important;">
+                                             
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- [ Main Content ] end -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
+<!-- [ Main Content ] end -->
+
+
+@section Styles{
+
+}
+
+@section Scripts{
+    <!-- Todo Js -->
+
+}
+
+
+

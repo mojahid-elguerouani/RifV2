@@ -1,0 +1,158 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> _userManager
+@using ChatApp.Domain.Entity.DTO;
+@inject FasDemo.Services.App.ICommon _app;
+@{
+    var email = ""; var userIamge = ""; var username = "";
+    var user = await _userManager.GetUserAsync(User);
+    if (user != null)
+    {
+        email = user.Email;
+        userIamge = _app.userImage(user.Id);
+        username = _app.userFirstName(user.Id);
+
+    }
+    List<UserNotificationDTO> userNotifications = _app.GetUserNotificationList(user.Id);
+
+}
+<div class="m-header">
+    <a class="mobile-menu" id="mobile-collapse1" href="#!"><span></span></a>
+    <a href="/Identity/Account/Manage/Index" class="b-brand">
+        <div class="b-bg">
+            <i class="feather icon-trending-up"></i>
+        </div>
+        <span class="b-title">فاس للتصميم</span>
+    </a>
+</div>
+<a class="mobile-menu" id="mobile-header" href="#!">
+    <i class="feather icon-more-horizontal"></i>
+</a>
+<div class="collapse navbar-collapse">
+    <ul class="navbar-nav mr-auto">
+        <li><a href="#!" class="full-screen" onclick="javascript:toggleFullScreen()"><i class="feather icon-maximize"></i></a></li>
+        <li class="nav-item">
+            <div class="main-search">
+                <div class="input-group">
+                    <input type="text" id="m-search" class="form-control" placeholder="كلمة البحث ....">
+                    <a href="#!" class="input-group-append search-close">
+                        <i class="feather icon-x input-group-text"></i>
+                    </a>
+                    <span class="input-group-append search-btn btn btn-primary" style="border-color:transparent !important">
+                        <i class="feather icon-search input-group-text"></i>
+                    </span>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <ul class="navbar-nav ml-auto">
+        <li>
+            <div class="dropdown">
+                <a class="dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false">
+                    @*<span class="pcoded-badge label label-danger">*@
+                    <span class="badge badge-important label label-danger user-notification-count"></span><i class="icon feather icon-bell"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right notification">
+                    <div class="noti-head">
+                        <h6 class="d-inline-block m-b-0">الأشعارات</h6>
+                        <div class="float-right">
+                            <a href="#!" class="m-r-10">ضع إشارة مقروء</a>
+                            <a href="#!">امسح الكل</a>
+                        </div>
+                    </div>
+                    <ul class="noti-body new-notificaion-window" style="height: 224px;overflow: auto;">
+                        <li class="n-title">
+                            <p class="m-b-0">جديد</p>
+                        </li>
+                        @foreach (var item in userNotifications)
+                        {
+                            <li class="notification">
+                                <div class="media">
+                                    <img class="img-radius" src="@item.FromUserImage" alt="Generic placeholder image">
+                                    <div class="media-body">
+                                        <p>
+                                            <strong>@item.FromUser</strong>
+                                            <span class="n-time text-muted">
+                                                <i class="icon feather icon-clock m-r-10"></i>
+                                                <time id="loaded" class="timeago" datetime=@item.CreatedOn></time>
+                                            </span>
+                                        </p>
+                                        <p>@item.NotificationType</p>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                        @*<li class="n-title">
+                                <p class="m-b-0">جديد</p>
+                            </li>
+                            <li class="notification">
+                                <div class="media">
+                                    <img class="img-radius" src="/assets/images/user/avatar-1.jpg" alt="Generic placeholder image">
+                                    <div class="media-body">
+                                        <p><strong>John Doe</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i>30 min</span></p>
+                                        <p>New ticket Added</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="n-title">
+                                <p class="m-b-0">EARLIER</p>
+                            </li>
+                            <li class="notification">
+                                <div class="media">
+                                    <img class="img-radius" src="/assets/images/user/avatar-2.jpg" alt="Generic placeholder image">
+                                    <div class="media-body">
+                                        <p><strong>Joseph William</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i>30 min</span></p>
+                                        <p>Prchace New Theme and make payment</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="notification">
+                                <div class="media">
+                                    <img class="img-radius" src="/assets/images/user/avatar-3.jpg" alt="Generic placeholder image">
+                                    <div class="media-body">
+                                        <p><strong>Sara Soudein</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i>30 min</span></p>
+                                        <p>currently login</p>
+                                    </div>
+                                </div>
+                            </li>*@
+                    </ul>
+                    <div class="noti-footer">
+                        <a href="/home/UserNotifications">عرض الكل</a>
+                    </div>
+                </div>
+            </div>
+        </li>
+
+
+        <li>
+            <div class="dropdown drp-user">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="icon feather icon-settings"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right profile-notification">
+                    <div class="pro-head">
+                        <img src="@userIamge" class="img-radius" alt="User-Profile-Image">
+                        <span>@username</span>
+                        <form id="formSignout2" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Todo")">
+                            <a href="javascript:void(0)" class="dud-logout" title="Logout" onclick="document.getElementById('formSignout2').submit();">
+                                <i class="feather icon-log-out"></i>
+                            </a>
+                        </form>
+
+                    </div>
+                    <ul class="pro-body">
+                        <li><a href="/Identity/Account/Manage/Index" class="dropdown-item"><i class="feather icon-user"></i> بياناتي</a></li>
+                        <li><a href="/Identity/Account/Manage/ChangePassword" class="dropdown-item"><i class="feather icon-settings"></i> تغيير كلمة المرور</a></li>
+                        <li>
+                            <form id="formSignout" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Todo")">
+                                <a href="javascript:void(0)" class="dropdown-item" onclick="document.getElementById('formSignout').submit();">
+                                    <i class="feather icon-lock"></i> تسجيل الخروج
+                                </a>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+

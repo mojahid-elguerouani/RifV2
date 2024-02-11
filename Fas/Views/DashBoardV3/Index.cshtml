@@ -1,0 +1,435 @@
+﻿@model List<FasDemo.ProjectVM.ProjectRatioVM>
+@inject FasDemo.Services.App.ICommon _app;
+@using Newtonsoft.Json;
+@{
+
+    string controller = this.ViewContext.RouteData.Values["controller"].ToString();
+    ViewData["Title"] = "لوحة التحكم";
+    string period = this.Context.Request.Query["period"].ToString();
+    if (String.IsNullOrEmpty(period))
+    {
+        period = DateTime.Now.ToString("yyyy-MM");
+    }
+    //AwardSummary summary = _app.GetAwardSummaryByPeriod(period);
+    ChartDoughnut donutChart = ViewData["ChartDoughnut"] as ChartDoughnut;
+
+    int i = 0;
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="~/CustomJs.js"></script>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<style>
+    #container {
+        height: 400px;
+    }
+
+    .highcharts-figure, .highcharts-data-table table {
+        min-width: 310px;
+        max-width: 500px;
+        margin: 1em auto;
+    }
+
+    .highcharts-data-table table {
+        font-family: Verdana, sans-serif;
+        border-collapse: collapse;
+        border: 1px solid #EBEBEB;
+        margin: 10px auto;
+        text-align: center;
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .highcharts-data-table caption {
+        padding: 1em 0;
+        font-size: 1.2em;
+        color: #555;
+    }
+
+    .highcharts-data-table th {
+        font-weight: 600;
+        padding: 0.5em;
+    }
+
+    .highcharts-data-table td, .highcharts-data-table th, .highcharts-data-table caption {
+        padding: 0.5em;
+    }
+
+    .highcharts-data-table thead tr, .highcharts-data-table tr:nth-child(even) {
+        background: #f8f8f8;
+    }
+
+    .highcharts-data-table tr:hover {
+        background: #f1f7ff;
+    }
+</style>
+
+
+<script>
+
+    function Chart(id, data, Title) {
+        if (data < 0) {
+            data = 0;
+        }
+        //var ctxbar =  "bar_chart_" + id.toString()  ;
+        // [ Bar Chart2 ] Start
+        Highcharts.chart("container_" + id.toString(), {
+
+            chart: {
+                type: 'gauge',
+                plotBackgroundColor: null,
+                plotBackgroundImage: null,
+                plotBorderWidth: 0,
+                plotShadow: false
+            },
+
+            title: {
+                text: Title
+            },
+
+            pane: {
+                startAngle: -150,
+                endAngle: 150,
+                background: [{
+                    backgroundColor: {
+                        linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                        stops: [
+                            [0, '#FFF'],
+                            [1, '#333']
+                        ]
+                    },
+                    borderWidth: 0,
+                    outerRadius: '109%'
+                }, {
+                    backgroundColor: {
+                        linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                        stops: [
+                            [0, '#333'],
+                            [1, '#FFF']
+                        ]
+                    },
+                    borderWidth: 1,
+                    outerRadius: '107%'
+                }, {
+                    // default background
+                }, {
+                    backgroundColor: '#DDD',
+                    borderWidth: 0,
+                    outerRadius: '105%',
+                    innerRadius: '103%'
+                }]
+            },
+
+            // the value axis
+            yAxis: {
+                min: 0,
+                max: 200,
+
+                minorTickInterval: 'auto',
+                minorTickWidth: 1,
+                minorTickLength: 10,
+                minorTickPosition: 'inside',
+                minorTickColor: '#666',
+
+                tickPixelInterval: 30,
+                tickWidth: 2,
+                tickPosition: 'inside',
+                tickLength: 10,
+                tickColor: '#666',
+                labels: {
+                    step: 2,
+                    rotation: 'auto'
+                },
+                title: {
+                    text: 'km/h'
+                },
+                plotBands: [{
+                    from: 0,
+                    to: 50,
+                    color: '#DF5353' // red
+                }, {
+                    from: 50,
+                    to: 100,
+                    color: '#DDDF0D' // yellow
+                }, {
+                    from: 100,
+                    to: 150,
+                    color: '#55BF3B' // green
+                }, {
+                    from: 150,
+                    to: 200,
+                    color: '#228c08' // green dark
+                }]
+            },
+
+            series: [{
+                name: 'Speed',
+                data: [data],
+                tooltip: {
+                    valueSuffix: ' km/h'
+                }
+            }]
+
+        });
+        // [ Bar Chart2 ] end
+    }
+
+
+</script>
+
+
+
+
+<!-- [ Main Content ] start -->
+<section class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <div class="accordion" id="accordionMain">
+                            <div class="card">
+                                <div class="card-header" id="headingOne">
+                                    <h5 class="mb-0">
+                                        <a href="#!" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            التحليل
+                                        </a>
+                                    </h5>
+                                </div>
+                                <div id="collapseOne" class=" card-body collapse show" aria-labelledby="headingOne" data-parent="#accordionMain">
+                                    <div class="row">
+                                        <div class="col-md-5 mb-4">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h4 class="card-title mb-4">المشاريع حسب الحالة</h4>
+                                                    <div class="chart-container doughnut">
+                                                        <canvas id="doughnutChart" height="250" width="250"></canvas>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7 mb-4">
+                                            <div class="row">
+                                                <div class="col-md-6 col-xl-6 mb-3">
+                                                    <div class="card">
+                                                        <div class="card-block ticket-visitor">
+                                                            @*<h3 class="mb-2">@summary.TaskLate</h3>*@
+                                                            <h5 class="text-muted f-w-300 mb-4">مهام متأخرة</h5>
+                                                            <a href="/dashboard/TaskLate">
+                                                                <div class="progress" style="height: 20px;">
+                                                                    @*<div class="progress-bar progress-c-theme2" role="progressbar" style="width: @summary.TaskLatePercentage%;height:13px;" aria-valuenow="@summary.TaskLatePercentage" aria-valuemin="0" aria-valuemax="100">@summary.TaskLatePercentage %</div>*@
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-xl-6 mb-3">
+                                                    <div class="card">
+                                                        <div class="card-block ticket-visitor">
+                                                            @*<h3 class="mb-2">@summary.TaskCurrent</h3>*@
+                                                            <h5 class="text-muted f-w-300 mb-4"> المهام الحالية</h5>
+                                                            <a href="/dashboard/TaskCurrent">
+                                                                <div class="progress" style="height: 20px;">
+                                                                    @*<div class="progress-bar progress-c-theme2" role="progressbar" style="width: @summary.TaskCurrentPercentage%;height:13px;" aria-valuenow="@summary.TaskCurrentPercentage" aria-valuemin="0" aria-valuemax="100">@summary.TaskCurrentPercentage %</div>*@
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-xl-6 mb-3">
+                                                    <div class="card">
+                                                        <div class="card-block ticket-visitor">
+                                                            @*<h3 class="mb-2">@summary.TasksCustomer</h3>*@
+                                                            <h5 class="text-muted f-w-300 mb-4">مهام العملاء</h5>
+                                                            <a href="/dashboard/CustomerTasks">
+                                                                <div class="progress" style="height: 20px;">
+                                                                    @*<div class="progress-bar progress-c-theme2" role="progressbar" style="width: @summary.TasksCustomerPercentage%;height:13px;" aria-valuenow="@summary.TasksCustomerPercentage" aria-valuemin="0" aria-valuemax="100">@summary.TasksCustomerPercentage %</div>*@
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-xl-6 mb-3">
+                                                    <div class="card">
+                                                        <div class="card-block ticket-visitor">
+                                                            @*<h3 class="mb-2">@summary.TaskAccountant</h3>*@
+                                                            <h5 class="text-muted f-w-300 mb-4">مهام المحاسب</h5>
+                                                            <a href="/dashboard/TaskAccountant">
+                                                                <div class="progress" style="height: 20px;">
+                                                                    @*<div class="progress-bar progress-c-theme2" role="progressbar" style="width: @summary.TaskAccountantPercentage%;height:13px;" aria-valuenow="@summary.TaskAccountantPercentage" aria-valuemin="0" aria-valuemax="100">@summary.TaskAccountantPercentage %</div>*@
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="page-header">
+                            <div class="page-block">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-sm-2 text-sm-right">حالة الانجاز</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" id="Period" name="Period" class="datepickeryearmonth form-control">
+                                            </div>
+                                            <div class="btn-group col-sm-4" role="group" aria-label="First group">
+                                                <a href="#" class="btn btn-primary" onclick="onRefresh()">
+                                                    <i class="mdi mdi-recycle"></i> تحديث
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="col-md-12">
+                                        <div class="page-header-title">
+                                            <h3 class="m-b-10">@ViewData["Title"] @(!String.IsNullOrEmpty(period) ? "  لفترة" + period : "")</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="zoom-filter">
+                            @*<a href="" id="now"><img src="/Content/img/c1.png">التصميم المعمارية</a>
+                            <a href="" id="late"><img src="/Content/img/c2.png">تصميم الواجهات </a>
+                            <a href="" id="ended"><img src="/Content/img/c3.png">المخططات التنفيذية </a>
+                            <a href="" id="wait"><img src="/Content/img/c4.png">تسليم المشروع </a>
+                            <a href="" id="all"><img src="/Content/img/c5.png">الجميع</a>*@
+
+                            <a href="" id="now"><img src="/Content/img/c1.png">أقل من 50%</a>
+                            <a href="" id="late"><img src="/Content/img/c2.png">أقل من 100%</a>
+                            <a href="" id="ended"><img src="/Content/img/c3.png">1أقل من 50%</a>
+                            <a href="" id="wait"><img src="/Content/img/c4.png">أكثر من 50%</a>
+                            <a href="" id="all"><img src="/Content/img/c5.png">الجميع</a>
+                        </div>
+                        <div class="row">
+                            <input type="text" id="m-search1" class="form-control" placeholder="كلمة البحث ....">
+                            <div class="row">
+                                @foreach (var item in Model)
+                                {
+                                    i = i + 1;
+                                    var _resp = "all"; var abc = 4; var progres = "info";
+                                    if (@item.Ratio <= 40)
+                                    {
+                                        abc = 1;
+                                    }
+                                    else if (@item.Ratio > 40 && @item.Ratio <= 100)
+                                    {
+                                        abc = 2;
+                                    }
+                                    else if (@item.Ratio >= 100 && @item.Ratio <= 150)
+                                    {
+                                        abc = 3;
+                                    }
+                                    else
+                                    {
+                                        abc = 4;
+                                    }
+                                    switch (abc)
+                                    {
+                                        case 1:
+                                            _resp = "now"; progres = "danger"; break;
+                                        case 2:
+                                            _resp = "late"; progres = "warning"; break;
+                                        case 3:
+                                            _resp = "ended"; progres = "info"; break;
+                                        case 4:
+                                            _resp = "wait"; progres = "success"; break;
+                                        default:
+                                            _resp = "all";
+                                            break;
+                                    }
+                                    <div class="col-xl-3 col-md-6 search-area all @_resp">
+                                        <div class="card theme-bg3   animated fadeInUpBig ">
+                                            <div class="card-header bg borderless align-items-center justify-content-center">
+                                                <a class="btn bg" data-toggle="tooltip" data-placement="top" title="تفاصيل المشروع"
+                                                   href="/@controller/ProjectTaskDetails/@item.ProjectId" target="_blank"> @item.ProjectName</a>
+                                                <div class="container_@i" id="container_@i"></div>
+                                                <script>Chart('@i.ToString()',@item.Ratio,'@item.GroupName');</script>
+                                            </div>
+                                            <div class="card-block">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <img class="img-fluid rounded-circle" style="width:70px;" src="@_app.userImage(item.ProjectAssignToId)" alt="dashboard-user"> @*/assets/images/user/avatar-2.jpg*@
+                                                    </div> <div class="col-md-8">
+                                                        <h6>المدة المستغرقة :  @item.TotalTime </h6>
+                                                        <h6>المدة المطلوبه :  @item.Duration</h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-footer">
+                                                <div class=" progress">
+                                                    <div class="progress-bar progress-bar-striped bg-@progres progress-bar-animated" role="progressbar" style="width:@item.Ratio%;" aria-valuenow="@item.Ratio" aria-valuemin="0" aria-valuemax="100">@item.Ratio</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- [ Main Content ] end -->
+
+
+
+
+
+
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+        });
+
+        //Doughnut Chart
+        $(function () {
+            var doughnutChart = {
+                data: {
+                    labels: @Html.Raw(JsonConvert.SerializeObject(donutChart.Labels)),
+                    datasets: [{
+                        label: 'Doughnut chart',
+                        data: @Html.Raw(JsonConvert.SerializeObject(donutChart.Data)),
+                        backgroundColor: @Html.Raw(JsonConvert.SerializeObject(donutChart.Colors)),
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    legend: {
+                        position: "top"
+                    },
+                    cutoutPercentage: 50
+                }
+            }
+            chart("doughnutChart", "doughnut", doughnutChart.data, doughnutChart.options);
+        });
+
+
+        function onRefresh() {
+            if ($('#Period').val() !== '') {
+                location.href = '/@controller/Index?period=' + $('#Period').val();
+            } else {
+                notify('Please select period first!', 'danger');
+            }
+
+        }
+
+    </script>
+}

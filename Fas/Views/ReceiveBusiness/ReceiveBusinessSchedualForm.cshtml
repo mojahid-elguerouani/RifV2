@@ -1,0 +1,113 @@
+﻿@model ProjectManagment.Models.ReceiveBusinessSchedual
+@{
+    string controller = this.ViewContext.RouteData.Values["controller"].ToString();
+    string action = this.ViewContext.RouteData.Values["action"].ToString();
+    string modelName = "ReceiveBusinessSchedual";
+    ViewData["Title"] = modelName + " Form";
+}
+
+<!-- [ Main Content ] start -->
+<section class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <!-- [ breadcrumb ] start -->
+                <div class="page-header">
+                    <div class="page-block">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a href="/@controller/ReceiveBusinessSchedualTempletForm/@Model.ReceiveBusinessSchedualTempletId" class="btn drp-icon btn-rounded btn-primary dropdown-toggle">
+                                    <i class="feather icon-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <div class="page-header-title">
+                                    <h3 class="m-b-10">@controller | نموذج جدولة طلب استلام أعمال| @modelName </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- [ breadcrumb ] end -->
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ Main Content ] start -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                @await Html.PartialAsync(PartialView.StatusMessage, TempData[StaticString.StatusMessage])
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <form asp-controller="@controller" asp-action="Submit@(action)" method="post">
+                                    <article class="card mb-4">
+                                        <div class="card-header">
+                                            <h4 class="card-title mb-0">اضافة أو تعديل  @modelName</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <input type="hidden" asp-for="ReceiveBusinessSchedualId" />
+                                            <input type="hidden" asp-for="ReceiveBusinessSchedualTempletId" />
+                                            <div class="form-group">
+                                                <label asp-for="TaskName"></label>
+                                                <input asp-for="TaskName" class="form-control" />
+                                                <span asp-validation-for="TaskName" class="text-danger"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label asp-for="TaskOrder"></label>
+                                                <input asp-for="TaskOrder" class="form-control" />
+                                                <span asp-validation-for="TaskOrder" class="text-danger"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label asp-for="ReceiveBusinessAssignToId"></label>
+                                                <select asp-for="ReceiveBusinessAssignToId" class="select2 form-control" asp-items="ViewBag.Employee"></select>
+                                                <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
+                                                <span asp-validation-for="ReceiveBusinessAssignToId" class="text-danger"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label asp-for="ReceiveBusinessSchedualParentId"></label>
+                                                <select asp-for="ReceiveBusinessSchedualParentId" class="select2 form-control" asp-items="ViewBag.ReceiveBusinessSchedualParent"></select>
+                                                <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
+                                                <span asp-validation-for="ReceiveBusinessSchedualParentId" class="text-danger"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label asp-for="ReceiveBusinessApprovedById"></label>
+                                                <select asp-for="ReceiveBusinessApprovedById" class="select2 form-control" asp-items="ViewBag.Employee"></select>
+                                                <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
+                                                <span asp-validation-for="ReceiveBusinessApprovedById" class="text-danger"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label asp-for="toEmail"></label>
+                                                <input asp-for="toEmail" class="form-control" autocomplete="off">
+                                                <span class="input-group-addon" aria-hidden="true">
+                                                    <span class="glyphicon glyphicon-ok text-success"></span>
+                                                </span>
+                                                <span asp-validation-for="toEmail" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer">
+                                            <button type="submit" class="btn btn-primary">حفظ</button>
+                                        </div>
+                                    </article>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- [ Main Content ] end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- [ Main Content ] end -->
+@section Styles{
+
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+
+
