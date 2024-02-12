@@ -2129,40 +2129,40 @@ margin-right: 5px;
             color: #3f4d67;
         }
 
-            .pcoded-header .input-group .input-group-text:hover,
-            .pcoded-header a:hover,
-            .pcoded-header dropdown-toggle:hover {
-                color: #04a9f5;
-            }
+.pcoded-header .input-group .input-group-text:hover,
+.pcoded-header a:hover,
+.pcoded-header dropdown-toggle:hover {
+    color: #0e6238
+}
 
-    .pcoded-header #mobile-header {
-        display: none;
-    }
+.pcoded-header #mobile-header {
+display: none;
+}
 
-    .pcoded-header .navbar-nav {
-        padding-left: 0;
-        list-style: none;
-        margin-bottom: 0;
-        display: inline-block;
-    }
+.pcoded-header .navbar-nav {
+padding-left: 0;
+list-style: none;
+margin-bottom: 0;
+display: inline-block;
+}
 
-        .pcoded-header .navbar-nav > li {
-            line-height: 70px;
-            display: inline-block;
-            padding: 0 12px;
-        }
+.pcoded-header .navbar-nav > li {
+    line-height: 70px;
+    display: inline-block;
+    padding: 0 12px;
+}
 
-            .pcoded-header .navbar-nav > li .nav-link {
-                padding: 0;
-            }
+.pcoded-header .navbar-nav > li .nav-link {
+padding: 0;
+}
 
-            .pcoded-header .navbar-nav > li:first-child {
-                padding-left: 25px;
-            }
+.pcoded-header .navbar-nav > li:first-child {
+padding-left: 25px;
+}
 
-            .pcoded-header .navbar-nav > li:last-child {
-                padding-right: 40px;
-            }
+.pcoded-header .navbar-nav > li:last-child {
+padding-right: 40px;
+}
 
     .pcoded-header .mr-auto .dropdown-menu {
         margin-left: -20px;
@@ -9095,8 +9095,8 @@ a.btn-theme {
 
     .btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show > .btn-primary.dropdown-toggle {
         color: #fff;
-        background-color: #0386c3;
-        border-color: #037eb6;
+        background-color: #0e6238;
+        border-color: #0e6238;
     }
 
 .btn-secondary {
@@ -12512,12 +12512,12 @@ div.code-toolbar {
 h5 a {
     color: #0e6238 !important;
 }
-button{
+/*button{
     display:flex !important;
     justify-content:center !important;
     align-items:center !important;
 }
-
+*/
 @-webkit-keyframes passing-through {
     0% {
         opacity: 0;
