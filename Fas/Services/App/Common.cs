@@ -234,43 +234,43 @@ namespace FasDemo.Services.App
             return new SelectList(list, "Value", "Text");
         }
 
-        public IEnumerable<SelectListItem> GetSupervisionConsultantSelectList()
-        {
-            List<SelectListItem> list = new List<SelectListItem>();
-            list = _context.SupervisionConsultants.AsNoTracking()
-                .OrderBy(x => x.CreatedAtUtc)
-                .Select(x => new SelectListItem
-                {
-                    Value = x.SupervisionConsultantId,
-                    Text = x.SupervisionConsultantName
-                }).ToList();
-            SelectListItem blankOption = new SelectListItem()
-            {
-                Value = "",
-                Text = ""
-            };
-            list.Insert(0, blankOption);
-            return new SelectList(list, "Value", "Text");
-        }
+        //public IEnumerable<SelectListItem> GetSupervisionConsultantSelectList()
+        //{
+        //    List<SelectListItem> list = new List<SelectListItem>();
+        //    list = _context.SupervisionConsultants.AsNoTracking()
+        //        .OrderBy(x => x.CreatedAtUtc)
+        //        .Select(x => new SelectListItem
+        //        {
+        //            Value = x.SupervisionConsultantId,
+        //            Text = x.SupervisionConsultantName
+        //        }).ToList();
+        //    SelectListItem blankOption = new SelectListItem()
+        //    {
+        //        Value = "",
+        //        Text = ""
+        //    };
+        //    list.Insert(0, blankOption);
+        //    return new SelectList(list, "Value", "Text");
+        //}
 
-        public IEnumerable<SelectListItem> GetProjectManagementConsultantSelectList()
-        {
-            List<SelectListItem> list = new List<SelectListItem>();
-            list = _context.ProjectManagementConsultants.AsNoTracking()
-                .OrderBy(x => x.CreatedAtUtc)
-                .Select(x => new SelectListItem
-                {
-                    Value = x.ProjectManagementConsultantId,
-                    Text = x.ProjectManagementConsultantName
-                }).ToList();
-            SelectListItem blankOption = new SelectListItem()
-            {
-                Value = "",
-                Text = ""
-            };
-            list.Insert(0, blankOption);
-            return new SelectList(list, "Value", "Text");
-        }
+        //public IEnumerable<SelectListItem> GetProjectManagementConsultantSelectList()
+        //{
+        //    List<SelectListItem> list = new List<SelectListItem>();
+        //    list = _context.ProjectManagementConsultants.AsNoTracking()
+        //        .OrderBy(x => x.CreatedAtUtc)
+        //        .Select(x => new SelectListItem
+        //        {
+        //            Value = x.ProjectManagementConsultantId,
+        //            Text = x.ProjectManagementConsultantName
+        //        }).ToList();
+        //    SelectListItem blankOption = new SelectListItem()
+        //    {
+        //        Value = "",
+        //        Text = ""
+        //    };
+        //    list.Insert(0, blankOption);
+        //    return new SelectList(list, "Value", "Text");
+        //}
 
         public IEnumerable<SelectListItem> GetTicketTypeSelectList()
         {

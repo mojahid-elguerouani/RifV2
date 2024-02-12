@@ -2,8 +2,8 @@
 @{
 
     string controller = this.ViewContext.RouteData.Values["controller"].ToString();
-    string modelName = "Customer";
-    ViewData["Title"] = " العملاء ";
+    string modelName = "Contractor";
+    ViewData["Title"] = " المقاولون ";
     string period = this.Context.Request.Query["period"].ToString();
     if (String.IsNullOrEmpty(period))
     {

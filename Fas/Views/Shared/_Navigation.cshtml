@@ -46,7 +46,7 @@
                                 </a>
                             </li>
                         }
-                        @if (User.IsInRole(Pages.DashBoardV2.RoleName))
+@*                        @if (User.IsInRole(Pages.DashBoardV2.RoleName))
                         {
                             <li class="nav-item  @Html.IsSelected(controller: Pages.DashBoardV2.ControllerName)">
                                 <a href="@Pages.DashBoardV2.UrlDefault?period=@period" class="nav-link">
@@ -75,7 +75,7 @@
                                     </span><span class="pcoded-mtext">@Pages.DashBoardV4.NavigationName</span>
                                 </a>
                             </li>
-                        }
+                        }*@
                     </ul>
                 </li>
             }
@@ -92,7 +92,6 @@
                 </li>
             }
 
-
             <!--Project Schedual Templets-->
             @if (User.IsInRole(Pages.ReceiveBusinessTask.RoleName))
             {
@@ -105,8 +104,7 @@
                 </li>
             }
 
-
-            <!--Licence -->
+            <!--Agenda -->
             @if (User.IsInRole(Pages.Agenda.RoleName))
             {
                 <li class="nav-item  @Html.IsSelected(controller: Pages.Agenda.ControllerName)">
@@ -121,7 +119,7 @@
             @if (User.IsInRole(Pages.Project.RoleName))
             {
                 <li class="nav-item pcoded-hasmenu @Html.IsSelected(controller: "Dashboard")">
-                    <a href="#!" class="nav-link"><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">ادارة المشاريع</span></a>
+                    <a href="#!" class="nav-link"><span class="pcoded-micon"><i class="feather icon-briefcase"></i></span><span class="pcoded-mtext">ادارة المشاريع</span></a>
                     <ul class="pcoded-submenu">
                         <!--Project-->
                         @if (User.IsInRole(Pages.Project.RoleName))
@@ -145,13 +143,22 @@
                                 </a>
                             </li>
                         }
+                    </ul>
+                </li>
+            }
+
+            @if (User.IsInRole(Pages.ReceiveBusiness.RoleName))
+            {
+                <li class="nav-item pcoded-hasmenu @Html.IsSelected(controller: "ReceiveBusiness")">
+                    <a href="#!" class="nav-link"><span class="pcoded-micon"><i class="feather icon-message-circle"></i></span><span class="pcoded-mtext">ادارة الطلبات</span></a>
+                    <ul class="pcoded-submenu">
                         <!--ReceiveBusiness -->
                         @if (User.IsInRole(Pages.ReceiveBusiness.RoleName))
                         {
                             <li class="nav-item  @Html.IsSelected(controller: Pages.ReceiveBusiness.ControllerName)">
                                 <a href="@Pages.ReceiveBusiness.UrlDefault" class="nav-link">
                                     <span class="pcoded-micon">
-                                        <i class="feather icon-user"></i>
+                                        <i class="feather icon-file-text"></i>
                                     </span><span class="pcoded-mtext">@Pages.ReceiveBusiness.NavigationName</span>
                                 </a>
                             </li>
@@ -159,10 +166,12 @@
                     </ul>
                 </li>
             }
+
+
             @if (User.IsInRole(Pages.Employee.RoleName)) 
             { 
                 <li class="nav-item pcoded-hasmenu @Html.IsSelected(controller: "Employee")">
-                    <a href="#!" class="nav-link"><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">الموارد البشرية</span></a>
+                    <a href="#!" class="nav-link"><span class="pcoded-micon"><i class="feather icon-users"></i></span><span class="pcoded-mtext">الموارد البشرية</span></a>
                     <ul class="pcoded-submenu">
 
                         <!--employee-->

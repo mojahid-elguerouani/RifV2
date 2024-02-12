@@ -60,7 +60,7 @@ namespace FasDemo.Controllers
             ViewData["Employee"] = _app.GetEmployeeSelectList();
             ViewData["Status"] = _app.GetProjectStatusTypeSelectList();
         }
-        #region Customer
+        #region Constractor
         public IActionResult Index()
         {
             var objs = _context.Contractors.OrderByDescending(x => x.CreatedAtUtc).ToList();

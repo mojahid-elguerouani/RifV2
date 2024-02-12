@@ -48,8 +48,9 @@ namespace FasDemo.Services.App
         IEnumerable<SelectListItem> GetReceiveBusinessSchedualParentSelectList(string _ReceiveBusinessSchedualTempletId);
         IEnumerable<SelectListItem> GetReceiveBusinessSpecializationSelectList();
         IEnumerable<SelectListItem> GetProgramSelectList();
-        IEnumerable<SelectListItem> GetSupervisionConsultantSelectList();
-        IEnumerable<SelectListItem> GetProjectManagementConsultantSelectList();
+
+        //IEnumerable<SelectListItem> GetSupervisionConsultantSelectList();
+        //IEnumerable<SelectListItem> GetProjectManagementConsultantSelectList();
 
 
 

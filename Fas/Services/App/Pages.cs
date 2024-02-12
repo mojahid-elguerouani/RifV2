@@ -128,7 +128,7 @@ namespace FasDemo.Services.App
             public const string ControllerName = "ReceiveBusiness";
             public const string RoleName = "ReceiveBusiness";
             public const string UrlDefault = "/ReceiveBusiness/Index";
-            public const string NavigationName = "استلام الأعمال";
+            public const string NavigationName = "طلب استلام أعمال";
         }
 
         public static class ReceiveBusinessSchedualTemplet

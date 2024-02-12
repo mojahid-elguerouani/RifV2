@@ -52,9 +52,8 @@ namespace FasDemo.Controllers
             ViewData["Employee"] = _app.GetEmployeeUserSelectList();
             ViewData["Status"] = _app.GetProjectStatusTypeSelectList();
             ViewData["Program"] = _app.GetProgramSelectList();
-            ViewData["SupervisionConsultant"] = _app.GetSupervisionConsultantSelectList();
-            ViewData["ProjectManagementConsultant"] = _app.GetProjectManagementConsultantSelectList();
-
+            ViewData["SupervisionConsultant"] = _app.GetEmployeeUserSelectList();
+            ViewData["ProjectManagementConsultant"] = _app.GetEmployeeUserSelectList();
         }
         public IActionResult Index()
         {
