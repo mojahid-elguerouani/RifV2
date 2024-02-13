@@ -31,11 +31,19 @@
         [Display(Name = "تارخ النهاية")]
         public DateTime? EndDate { get; set; }
 
-        [Display(Name = "الميزانية التقريبية")]
+        [Display(Name = "الميزانية التقديرية")]
         public int? EstimatedBudget { get; set; }
 
-        [Display(Name = "اجمالي المصروفات")]
-        public int? TotalAmountSpent { get; set; }
+        [Display(Name = "الميزانية التعاقدية")]
+        public int? ContractualBudget { get; set; }
+
+        [Required]
+        [Display(Name = "القطاع")]
+        public int Sector { get; set; }
+
+        [Required]
+        [Display(Name = "المنطقة")]
+        public int Region { get; set; }
 
         [Required]
         [Display(Name = "المقاول")]
@@ -43,19 +51,14 @@
         public virtual Contractor Contractor { get; set; }
 
         [Required]
-        [Display(Name = "البرنامج")]
-        public string ProjectProgramId { get; set; }
-        public virtual ProjectProgram ProjectProgram { get; set; }
-
-        [Required]
         [Display(Name = "استشاري الإشراف")]
         public string SupervisionConsultantId { get; set; }
-        public virtual SupervisionConsultant SupervisionConsultant { get; set; }
+        public virtual Employee SupervisionConsultant { get; set; }
 
         [Required]
         [Display(Name = "استشاري إدارة المشاريع")]
         public string ProjectManagementConsultantId { get; set; }
-        public virtual ProjectManagementConsultant ProjectManagementConsultant { get; set; }
+        public virtual Employee ProjectManagementConsultant { get; set; }
 
         [Display(Name = "حالةالمشروع")]
         public int? StatusId { get; set; }

@@ -84,12 +84,20 @@
                                             </div>
 
                                             <div class="row">
-                                                <div class="col-4">
+                                                <div class="col-2">
                                                     <div class="form-group">
-                                                        <label asp-for="ProjectProgramId"></label>
-                                                        <select asp-for="ProjectProgramId" class="select2 form-control" asp-items="ViewBag.Program" data-val-required="فضلا اختر البرنامج"></select>
+                                                        <label asp-for="Sector"></label>
+                                                        <select asp-for="Sector" class="select2 form-control" asp-items="ViewBag.Sector" data-val-required="فضلا اختر البرنامج"></select>
                                                         <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
-                                                        <span asp-validation-for="ProjectProgramId" class="text-danger"></span>
+                                                        <span asp-validation-for="Sector" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-2">
+                                                    <div class="form-group">
+                                                        <label asp-for="Region"></label>
+                                                        <select asp-for="Region" class="select2 form-control" asp-items="ViewBag.Region" data-val-required="فضلا اختر البرنامج"></select>
+                                                        <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
+                                                        <span asp-validation-for="Region" class="text-danger"></span>
                                                     </div>
                                                 </div>
                                                 <div class="col-4">
@@ -154,10 +162,10 @@
                                                 </div>
                                                 <div class="col-6">
                                                     <div class="form-group">
-                                                        <label asp-for="TotalAmountSpent"></label>
-                                                        <input asp-for="TotalAmountSpent" class="form-control" />
+                                                        <label asp-for="ContractualBudget"></label>
+                                                        <input asp-for="ContractualBudget" class="form-control" />
                                                         <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
-                                                        <span asp-validation-for="TotalAmountSpent" class="text-danger"></span>
+                                                        <span asp-validation-for="ContractualBudget" class="text-danger"></span>
                                                     </div>
                                                 </div>
 

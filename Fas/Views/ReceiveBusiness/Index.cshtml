@@ -117,7 +117,6 @@
                                     </button>
                                     <div class="dropdown-menu" style="position: absolute;will-change: transform;top: -2px;right: 5px;transform: translate3d(10px, 31px, 0px);">
                                         <h6 class="dropdown-header">الإعدادات</h6>
-                                        @*<a class="dropdown-item" href="~/@controller/CustomerIndex">العملاء</a>*@
                                         <a class="dropdown-item" href="~/@controller/ReceiveBusinessSchedualTempletIndex">نماذج الجدوله</a>
                                     </div>
                                 </div>
@@ -199,7 +198,7 @@
                                                             <thead>
                                                                 <tr>
                                                                     <th width="10%">اسم المشروع</th>
-                                                                    <th width="10%">ترقيم الطلب</th>
+                                                                    @*<th width="10%">ترقيم الطلب</th>*@
                                                                     <th width="10%">المسؤول  </th>
                                                                     <th width="20%">المهمة الحالية</th>
                                                                     <th width="20%">المقاول</th>
@@ -218,9 +217,9 @@
                                                                         <td>
                                                                             @(item.Project.ProjectName)
                                                                         </td>
-                                                                        <td>
+                                                                    @*    <td>
                                                                             @item.Project.ProjectCode-@item.Project.Contractor.ContractorCode-@item.TypeOfAccreditationRequest
-                                                                        </td>
+                                                                        </td>*@
                                                                         <td>
                                                                             <img class="rounded-circle" style="width:40px;" src=" @(_app.userImage(item.ReceiveBusinessTasks.Where(a=>a.Compleation<100).FirstOrDefault()?.ReceiveBusinessAssignToId))" alt="">
                                                                         </td>
@@ -270,7 +269,7 @@
                                                             <thead>
                                                                 <tr>
                                                                     <th width="10%">اسم المشروع</th>
-                                                                    <th width="45%">ترقيم الطلب</th>
+                                                                    @*<th width="45%">ترقيم الطلب</th>*@
                                                                     <th width="20%">المقاول</th>
                                                                     <th width="5%">تاريخ الطلب</th>
                                                                     <th width="5%">الاجراء</th>
@@ -287,9 +286,9 @@
                                                                         <td>
                                                                             @(item.Project.ProjectName)
                                                                         </td>
-                                                                        <td>
+                                                                   @*     <td>
                                                                             @item.Project.ProjectCode-@item.Project.Contractor.ContractorCode-@item.TypeOfAccreditationRequest
-                                                                        </td>
+                                                                        </td>*@
                                                                         <td>
                                                                             @if (@item.Project.Contractor != null)
                                                                             {
@@ -336,7 +335,7 @@
                                                             <thead>
                                                                 <tr>
                                                                     <th width="10%">اسم المشروع</th>
-                                                                    <th width="45%">ترقيم الطلب</th>
+                                                                   @* <th width="45%">ترقيم الطلب</th>*@
                                                                     <th width="20%">المقاول</th> 
                                                                     <th width="5%">تاريخ الطلب</th>
                                                                     <th width="5%">الاجراء</th>
@@ -354,7 +353,7 @@
                                                                             @(item.Project.ProjectName)
                                                                         </td>
 
-                                                                        <td>@item.Project.ProjectCode-@item.Project.Contractor.ContractorCode-@item.TypeOfAccreditationRequest</td>
+                                                                        @*<td>@item.Project.ProjectCode-@item.Project.Contractor.ContractorCode-@item.TypeOfAccreditationRequest</td>*@
 
                                                                         <td>
                                                                             @if (item.Project.Contractor != null)
@@ -418,7 +417,7 @@
                                                                             @(item.Project.ProjectName)
                                                                         </td>
 
-                                                                        <td>@item.Project.ProjectCode-@item.Project.Contractor.ContractorCode-@item.TypeOfAccreditationRequest</td>
+                                                                        @*<td>@item.Project.ProjectCode-@item.Project.Contractor.ContractorCode-@item.TypeOfAccreditationRequest</td>*@
 
                                                                         <td>
                                                                             @if (@item.Project.Contractor != null)

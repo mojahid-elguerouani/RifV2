@@ -51,16 +51,20 @@ namespace FasDemo.Controllers
             ViewData["ContractorUser"] = _app.GetContractorSelectList();
             ViewData["Employee"] = _app.GetEmployeeUserSelectList();
             ViewData["Status"] = _app.GetProjectStatusTypeSelectList();
-            ViewData["Program"] = _app.GetProgramSelectList();
+
             ViewData["SupervisionConsultant"] = _app.GetEmployeeUserSelectList();
             ViewData["ProjectManagementConsultant"] = _app.GetEmployeeUserSelectList();
+
+            ViewData["Sector"] = _app.GetSectorSelectList();
+            ViewData["Region"] = _app.GetRegionSelectList();
+
         }
         public IActionResult Index()
         {
 
             var objs = _context.Projects.Include(a => a.Contractor)
                .AsNoTracking()
-               .Include(x => x.ProjectProgram)
+               //.Include(x => x.ProjectProgram)
                .Include(x => x.SupervisionConsultant)
                .Include(x => x.ProjectManagementConsultant)
                .OrderByDescending(x => x.CreatedAtUtc).ToList();
@@ -110,11 +114,13 @@ namespace FasDemo.Controllers
             "ProjectId",
             "ProjectName",
             "ProjectCode",
+            "Sector",
+            "Region",
             "ProjectDescription",
             "StartDate",
             "EndDate",
             "EstimatedBudget",
-            "TotalAmountSpent",
+            "ContractualBudget",
             "ContractorId",
             "ProgramId",
             "SupervisionConsultantId",
@@ -129,8 +135,6 @@ namespace FasDemo.Controllers
                     TempData[StaticString.StatusMessage] = " خطأ : حالة النموذج غير صالحة.";
                     return RedirectToAction(nameof(Form), new { id = project.ProjectId });
                 }
-
-
 
                 //create new
                 if (project.ProjectId == 0)
@@ -151,10 +155,14 @@ namespace FasDemo.Controllers
                     newProject.StartDate = project.StartDate;
                     newProject.EndDate = project.EndDate;
                     newProject.EstimatedBudget = project.EstimatedBudget;
-                    newProject.TotalAmountSpent = project.TotalAmountSpent;
+                    newProject.ContractualBudget = project.ContractualBudget;
                     newProject.ProjectDescription = project.ProjectDescription;
-                    newProject.ProjectProgramId = project.ProjectProgramId;
                     newProject.StatusId = project.StatusId;
+
+                    
+                    newProject.Sector = project.Sector;
+                    newProject.Region = project.Region;
+
                     newProject.ContractorId = project.ContractorId;
                     newProject.SupervisionConsultantId = project.SupervisionConsultantId;
                     newProject.ProjectManagementConsultantId = project.ProjectManagementConsultantId;
@@ -189,15 +197,21 @@ namespace FasDemo.Controllers
                     editproject.StartDate = project.StartDate;
                     editproject.EndDate = project.EndDate;
                     editproject.EstimatedBudget = project.EstimatedBudget;
-                    editproject.TotalAmountSpent = project.TotalAmountSpent;
+                    editproject.ContractualBudget = project.ContractualBudget;
                     editproject.ProjectDescription = project.ProjectDescription;
-                    editproject.ProjectProgramId = project.ProjectProgramId;
                     editproject.StatusId = project.StatusId;
+
+                    editproject.Sector = project.Sector;
+                    editproject.Region = project.Region;
+
                     editproject.ContractorId = project.ContractorId;
                     editproject.SupervisionConsultantId = project.SupervisionConsultantId;
                     editproject.ProjectManagementConsultantId = project.ProjectManagementConsultantId;
+
                     editproject.UpdatedBy = await _userManager.GetUserAsync(User);
                     editproject.UpdatedAtUtc = DateTime.UtcNow;
+
+
                     _context.Update(editproject);
                     _context.SaveChanges();
 
@@ -233,7 +247,6 @@ namespace FasDemo.Controllers
 
             var del = _context.Projects.Include(a => a.Contractor)
                .AsNoTracking()
-               .Include(x => x.ProjectProgram)
                .Include(x => x.SupervisionConsultant)
                .Include(x => x.ProjectManagementConsultant)
                .OrderByDescending(x => x.CreatedAtUtc).ToList();

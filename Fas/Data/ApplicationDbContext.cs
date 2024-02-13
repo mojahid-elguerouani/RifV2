@@ -58,9 +58,9 @@ namespace FasDemo.Data
         public DbSet<ContractorImage> ContractorImages { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<Project> Projects { get; set; }
-        public DbSet<ProjectProgram> ProjectPrograms { get; set; }
-        public DbSet<SupervisionConsultant> SupervisionConsultants { get; set; }
-        public DbSet<ProjectManagementConsultant> ProjectManagementConsultants { get; set; }
+        //public DbSet<ProjectProgram> ProjectPrograms { get; set; }
+        //public DbSet<SupervisionConsultant> SupervisionConsultants { get; set; }
+        //public DbSet<ProjectManagementConsultant> ProjectManagementConsultants { get; set; }
 
         public DbSet<ProjectComment> ProjectComment { get; set; }
         public DbSet<CommentImage> CommentImage { get; set; }

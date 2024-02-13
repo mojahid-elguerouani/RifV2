@@ -24,7 +24,9 @@ namespace FasDemo.Services.App
 
         IEnumerable<SelectListItem> GetSystemUserSelectList();
         IEnumerable<SelectListItem> GetEmployeeUserSelectList();
-        IEnumerable<SelectListItem> GetContractorSelectList(); 
+        IEnumerable<SelectListItem> GetContractorSelectList();
+        IEnumerable<SelectListItem> GetSectorSelectList();
+        IEnumerable<SelectListItem> GetRegionSelectList();
 
         IEnumerable<SelectListItem> GetAllUserSelectList();
         IEnumerable<SelectListItem> GetGenderSelectList();
@@ -47,7 +49,7 @@ namespace FasDemo.Services.App
         IEnumerable<SelectListItem> GetReceiveBusinessSchedualTempletSelectList();
         IEnumerable<SelectListItem> GetReceiveBusinessSchedualParentSelectList(string _ReceiveBusinessSchedualTempletId);
         IEnumerable<SelectListItem> GetReceiveBusinessSpecializationSelectList();
-        IEnumerable<SelectListItem> GetProgramSelectList();
+
 
         //IEnumerable<SelectListItem> GetSupervisionConsultantSelectList();
         //IEnumerable<SelectListItem> GetProjectManagementConsultantSelectList();

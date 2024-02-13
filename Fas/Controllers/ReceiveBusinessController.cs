@@ -148,7 +148,7 @@ namespace FasDemo.Controllers
 
                     newReceiveBusiness.SerialNumber = 001;
                     newReceiveBusiness.ReviewNumber = 00;
-                    newReceiveBusiness.TypeOfAccreditationRequest = receivebusiness.TypeOfAccreditationRequest;
+                    //newReceiveBusiness.TypeOfAccreditationRequest = receivebusiness.TypeOfAccreditationRequest;
                     newReceiveBusiness.ProjectId = receivebusiness.ProjectId;
                     newReceiveBusiness.Specialization = receivebusiness.Specialization;
                     newReceiveBusiness.ReceiveBusinessDate = receivebusiness.ReceiveBusinessDate;
@@ -188,7 +188,7 @@ namespace FasDemo.Controllers
                 if (editreceivebusiness != null)
                 {
 
-                    editreceivebusiness.TypeOfAccreditationRequest = receivebusiness.TypeOfAccreditationRequest;
+                    //editreceivebusiness.TypeOfAccreditationRequest = receivebusiness.TypeOfAccreditationRequest;
                     editreceivebusiness.ProjectId = receivebusiness.ProjectId;
                     editreceivebusiness.Specialization = receivebusiness.Specialization;
                     editreceivebusiness.ReceiveBusinessDate = receivebusiness.ReceiveBusinessDate;

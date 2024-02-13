@@ -154,6 +154,60 @@ namespace FasDemo.Services.App
             list.Insert(0, blankOption);
             return new SelectList(list, "Value", "Text");
         }
+
+        public IEnumerable<SelectListItem> GetSectorSelectList()
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+            List<Listitems> all = new List<Listitems>();
+
+            all = new List<Listitems>() {
+                new Listitems(){ Id = "1", Name="البن"},
+                new Listitems(){ Id = "2", Name="العسل"},
+                new Listitems(){ Id = "3", Name="الفواكه"},
+                new Listitems(){ Id = "4", Name="الورود"}
+            };
+
+            list = all
+                .OrderBy(x => x.Id)
+                .Select(x => new SelectListItem
+                {
+                    Value = x.Id,
+                    Text = x.Name
+                }).ToList();
+            return new SelectList(list, "Value", "Text");
+        }
+        
+        public IEnumerable<SelectListItem> GetRegionSelectList()
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+            List<Listitems> all = new List<Listitems>();
+
+            all = new List<Listitems>() {
+                new Listitems(){ Id = "1",  Name="الرياض"},
+                new Listitems(){ Id = "2",  Name="مكة المكرمة"},
+                new Listitems(){ Id = "3",  Name="المدينة المنورة"},
+                new Listitems(){ Id = "4",  Name="المنطقة الشرقية"},
+                new Listitems(){ Id = "5",  Name="القصيم"},
+                new Listitems(){ Id = "6",  Name="عسير"},
+                new Listitems(){ Id = "7",  Name="حائل"},
+                new Listitems(){ Id = "8",  Name="تبوك"},
+                new Listitems(){ Id = "9",  Name="الباحة"},
+                new Listitems(){ Id = "10", Name="الحدود الشمالية"},
+                new Listitems(){ Id = "11", Name="الجوف"},
+                new Listitems(){ Id = "12", Name="جازان"},
+                new Listitems(){ Id = "13", Name="نجران"}
+            };
+
+            list = all
+                .OrderBy(x => x.Id)
+                .Select(x => new SelectListItem
+                {
+                    Value = x.Id,
+                    Text = x.Name
+                }).ToList();
+            return new SelectList(list, "Value", "Text");
+        }
+
         public IEnumerable<SelectListItem> GetAllUserSelectList()
         {
             List<SelectListItem> list = new List<SelectListItem>();
@@ -213,26 +267,7 @@ namespace FasDemo.Services.App
             return new SelectList(list, "Value", "Text");
         }
 
-        
-
-        public IEnumerable<SelectListItem> GetProgramSelectList()
-        {
-            List<SelectListItem> list = new List<SelectListItem>();
-            list = _context.ProjectPrograms.AsNoTracking()
-                .OrderBy(x => x.CreatedAtUtc)
-                .Select(x => new SelectListItem
-                {
-                    Value = x.ProjectProgramId,
-                    Text = x.ProjectProgramName
-                }).ToList();
-            SelectListItem blankOption = new SelectListItem()
-            {
-                Value = "",
-                Text = ""
-            };
-            list.Insert(0, blankOption);
-            return new SelectList(list, "Value", "Text");
-        }
+    
 
         //public IEnumerable<SelectListItem> GetSupervisionConsultantSelectList()
         //{

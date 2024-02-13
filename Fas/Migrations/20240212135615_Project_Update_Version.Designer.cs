@@ -4,14 +4,16 @@ using FasDemo.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Fas.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240212135615_Project_Update_Version")]
+    partial class Project_Update_Version
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1171,8 +1173,6 @@ namespace Fas.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ContractorSignature");
-
                     b.Property<DateTime>("CreatedAtUtc");
 
                     b.Property<string>("CreatedById");
@@ -1188,15 +1188,15 @@ namespace Fas.Migrations
 
                     b.Property<int>("SerialNumber");
 
-                    b.Property<string>("Specialization");
+                    b.Property<int>("Specialization");
 
                     b.Property<int?>("StatusId");
+
+                    b.Property<int>("TypeOfAccreditationRequest");
 
                     b.Property<DateTime>("UpdatedAtUtc");
 
                     b.Property<string>("UpdatedById");
-
-                    b.Property<int>("WorkId");
 
                     b.HasKey("ReceiveBusinessId");
 

@@ -5,7 +5,7 @@
     string id = this.ViewContext.RouteData.Values["id"]?.ToString();
     string action = this.ViewContext.RouteData.Values["action"].ToString();
     string modelName = "ReceiveBusinessSchedualTemplet";
-    string modelNameSub = "ProjectSchedual";
+    string modelNameSub = "ReceiveBusinessSchedual";
     ViewData["Title"] = modelName + " Form";
 }
 
@@ -122,7 +122,7 @@
                                 <div class="col-sm-12">
                                     <div class="card">
                                         <div class="card-header">
-                                            <h5>عناصر المشروع</h5>
+                                            <h5>عناصر الطلب</h5>
                                             <div class="card-header-left">
                                                 <div class="btn-group card-option">
                                                     <a href="/@controller/@(modelNameSub)Form?header=@Model.ReceiveBusinessSchedualTempletId" class="btn drp-icon btn-rounded btn-primary">
