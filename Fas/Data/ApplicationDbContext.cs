@@ -4,6 +4,7 @@ using System.Data.Common;
 using System.Linq;
 using System.Text;
 using ChatApp.Domain.Entity;
+using Fas.ProjectModel;
 using FasDemo.Models;
 using FasDemo.ProjectModel;
 using FasDemo.ProjectModel.DTO;
@@ -11,6 +12,7 @@ using FasDemo.ProjectVM;
 using FasDemo.SurveyModel;
 using FasDemo.ViewModels;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using ProjectManagment.Models;
 
@@ -57,7 +59,7 @@ namespace FasDemo.Data
         //public DbSet<Bill> Bills { get; set; }
         public DbSet<ContractorImage> ContractorImages { get; set; }
         public DbSet<Event> Events { get; set; }
-        public DbSet<Project> Projects { get; set; }
+        public DbSet<ProjectManagment.Models.Project> Projects { get; set; }
         //public DbSet<ProjectProgram> ProjectPrograms { get; set; }
         //public DbSet<SupervisionConsultant> SupervisionConsultants { get; set; }
         //public DbSet<ProjectManagementConsultant> ProjectManagementConsultants { get; set; }
@@ -87,6 +89,15 @@ namespace FasDemo.Data
         public DbSet<Choice> Choices { get; set; }
         public DbSet<Response> Responses { get; set; }
         #endregion
+
+
+        //Work DESCRIPTION
+        public DbSet<WorkToBeExamined> WorkToBeExamined { get; set; }
+        public DbSet<Building> Buildings { get; set; }
+        public DbSet<Floor> Floors { get; set; }
+        public DbSet<RequiredExaminationDate> RequiredExaminationDate { get; set; }
+        public DbSet<ApprovedPlates> ApprovedPlates { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
