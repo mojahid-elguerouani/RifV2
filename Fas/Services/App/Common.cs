@@ -155,6 +155,27 @@ namespace FasDemo.Services.App
             return new SelectList(list, "Value", "Text");
         }
 
+        
+
+        public IEnumerable<SelectListItem> GetProjectCodeSelectList()
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+            list = _context.Projects.AsNoTracking()
+                .OrderBy(x => x.CreatedAtUtc)
+                .Select(x => new SelectListItem
+                {
+                    Value = x.ProjectId.ToString(),
+                    Text = x.ProjectCode
+                }).ToList();
+            SelectListItem blankOption = new SelectListItem()
+            {
+                Value = "",
+                Text = ""
+            };
+            list.Insert(0, blankOption);
+            return new SelectList(list, "Value", "Text");
+        }
+
         public IEnumerable<SelectListItem> GetSectorSelectList()
         {
             List<SelectListItem> list = new List<SelectListItem>();

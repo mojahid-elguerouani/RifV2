@@ -25,6 +25,10 @@ namespace FasDemo.Services.App
         IEnumerable<SelectListItem> GetSystemUserSelectList();
         IEnumerable<SelectListItem> GetEmployeeUserSelectList();
         IEnumerable<SelectListItem> GetContractorSelectList();
+
+        
+
+        IEnumerable<SelectListItem> GetProjectCodeSelectList();
         IEnumerable<SelectListItem> GetSectorSelectList();
         IEnumerable<SelectListItem> GetRegionSelectList();
 

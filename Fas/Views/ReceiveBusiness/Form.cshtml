@@ -58,31 +58,34 @@
                                         </div>
                                         <div class="card-body">
                                             <input type="hidden" asp-for="ReceiveBusinessId" />
+
                                             <div class="row">
 
-                                                <div class="col-6">
+
+
+                                                <div class="col-3">
                                                     <div class="form-group">
-                                                        <label asp-for="ProjectId"></label>
-                                                        <select asp-for="ProjectId" class="select2 form-control" asp-items="ViewBag.Projects" data-val-required="فضلا اختر المشروع"></select>
-                                                        <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
-                                                        <span asp-validation-for="ProjectId" class="text-danger"></span>
+                                                        <label asp-for="SerialNumber"></label>
+                                                        <input asp-for="SerialNumber" class="form-control" />
+                                                        <span class="input-group-addon" aria-hidden="true">
+                                                            <span class="glyphicon glyphicon-ok text-success"></span>
+                                                        </span>
+                                                        <span asp-validation-for="SerialNumber" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-3">
+                                                    <div class="form-group">
+                                                        <label asp-for="ReviewNumber"></label>
+                                                        <input asp-for="ReviewNumber" class="form-control" />
+                                                        <span class="input-group-addon" aria-hidden="true">
+                                                            <span class="glyphicon glyphicon-ok text-success"></span>
+                                                        </span>
+                                                        <span asp-validation-for="ReviewNumber" class="text-danger"></span>
                                                     </div>
                                                 </div>
 
                                                 <div class="col-6">
-                                                    <div class="form-group">
-                                                        <label asp-for="ReceiveBusinessSchedualTempletId"></label>
-                                                        <select asp-for="ReceiveBusinessSchedualTempletId" class="select2 form-control" asp-items="ViewBag.ReceiveBusinessSchedualTemplet" data-val-required="فضلا اختر نموذج الطلب"></select>
-                                                        <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
-                                                        <span asp-validation-for="ReceiveBusinessSchedualTempletId" class="text-danger"></span>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-
-                                            <div class="row">
-
-                                                <div class="col-4">
                                                     <div class="form-group">
                                                         <label asp-for="ReceiveBusinessDate"></label>
                                                         <input type="text" id="ReceiveBusinessDate" name="ReceiveBusinessDate" value="@Model.ReceiveBusinessDate" class="datepicker form-control" data-val="true" data-val-required="تاريخ الطلب">
@@ -91,16 +94,114 @@
                                                     </div>
                                                 </div>
 
+
+                                            </div>
+
+
+                                            <div class="row">
+
+
                                                 <div class="col-4">
                                                     <div class="form-group">
-                                                        <label asp-for="Specialization"></label>
-                                                        <select asp-for="Specialization" class="select2 form-control" asp-items="ViewBag.Specialization" data-val-required="فضلا اختر التخصص"></select>
+                                                        <label asp-for="Project.Sector"></label>
+                                                        <select asp-for="Project.Sector" class="select2 form-control" asp-items="ViewBag.Sector"></select>
                                                         <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
-                                                        <span asp-validation-for="Specialization" class="text-danger"></span>
+                                                        <span asp-validation-for="Project.Sector" class="text-danger"></span>
                                                     </div>
                                                 </div>
 
                                                 <div class="col-4">
+                                                    <div class="form-group">
+                                                        <label asp-for="Project.ProjectCode"></label>
+                                                        <select asp-for="Project.ProjectCode" class="select2 form-control" asp-items="ViewBag.ProjectCode"></select>
+                                                        <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
+                                                        <span asp-validation-for="Project.ProjectCode" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-4">
+                                                    <div class="form-group">
+                                                        <label asp-for="ReceiveBusinessSchedualTempletId"></label>
+                                                        <select asp-for="ReceiveBusinessSchedualTempletId" class="select2 form-control" asp-items="ViewBag.ReceiveBusinessSchedualTemplet"></select>
+                                                        <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
+                                                        <span asp-validation-for="ReceiveBusinessSchedualTempletId" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <h4 class="mt-3">التخصص : </h4>
+
+                                            <div class="row">
+
+
+                                                <div class="col-12" style="display: flex;gap: 185px;">
+
+                                                    <div class="form-group">
+
+                                                        <label>مدني</label>
+                                                        <div class="switch d-inline m-r-10">
+                                                            <input asp-for="IsCivil" class="form-control" type="checkbox" data-value="true" id="IsCompany">
+                                                            <label for="IsCivil" class="cr"></label>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="form-group">
+
+                                                        <label>معماري</label>
+                                                        <div class="switch d-inline m-r-10">
+                                                            <input asp-for="IsArchitectural" class="form-control" type="checkbox" data-value="true" id="IsCompany">
+                                                            <label for="IsArchitectural" class="cr"></label>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="form-group">
+
+                                                        <label>ميكانيكا</label>
+                                                        <div class="switch d-inline m-r-10">
+                                                            <input asp-for="IsMechanics" class="form-control" type="checkbox" data-value="true" id="IsCompany">
+                                                            <label for="IsMechanics" class="cr"></label>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="form-group">
+
+                                                        <label>كهرباء</label>
+                                                        <div class="switch d-inline m-r-10">
+                                                            <input asp-for="IsElectricity" class="form-control" type="checkbox" data-value="true" id="IsCompany">
+                                                            <label for="IsElectricity" class="cr"></label>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="form-group">
+
+                                                        <label>زراعي</label>
+                                                        <div class="switch d-inline m-r-10">
+                                                            <input asp-for="IsAgricultural" class="form-control" type="checkbox" data-value="true" id="IsCompany">
+                                                            <label for="IsAgricultural" class="cr"></label>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="form-group">
+
+                                                        <label>أخرى</label>
+                                                        <div class="switch d-inline m-r-10">
+                                                            <input asp-for="IsOthers" class="form-control" type="checkbox" data-value="true" id="IsCompany">
+                                                            <label for="IsOthers" class="cr"></label>
+                                                        </div>
+
+                                                    </div>
+                                    
+                                            </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-12">
                                                     <div class="form-group">
                                                         <label asp-for="StatusId"></label>
                                                         <select asp-for="StatusId" class="select2 form-control" asp-items="ViewBag.Status" data-val-required="فضلا اختر الحالة"></select>
@@ -109,8 +210,152 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                     
+
+                                    </article>
+
+                                    <article class="card mb-4">
+
+                                        <div class="card-header">
+                                            <h4 class="card-title mb-0">تفاصيل الأعمال</h4>
+                                        </div>
 
 
+
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <div class="form-group">
+
+                                                        <label asp-for="Project">بيان المبنى</label>
+                                                        <input asp-for="Project" class="form-control" />
+                                                        <span class="input-group-addon" aria-hidden="true">
+                                                            <span class="glyphicon glyphicon-ok text-success"></span>
+                                                        </span>
+                                                        <span asp-validation-for="Project" class="text-danger"></span>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+
+                                                        <label asp-for="Project">ملاحظات المبنى</label>
+                                                        <input asp-for="Project" class="form-control" />
+                                                        <span class="input-group-addon" aria-hidden="true">
+                                                            <span class="glyphicon glyphicon-ok text-success"></span>
+                                                        </span>
+                                                        <span asp-validation-for="Project" class="text-danger"></span>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <div class="form-group">
+
+                                                        <label asp-for="Project">بيان الدور</label>
+                                                        <input asp-for="Project" class="form-control" />
+                                                        <span class="input-group-addon" aria-hidden="true">
+                                                            <span class="glyphicon glyphicon-ok text-success"></span>
+                                                        </span>
+                                                        <span asp-validation-for="Project" class="text-danger"></span>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+
+                                                        <label asp-for="Project">ملاحضظات الدور</label>
+                                                        <input asp-for="Project" class="form-control" />
+                                                        <span class="input-group-addon" aria-hidden="true">
+                                                            <span class="glyphicon glyphicon-ok text-success"></span>
+                                                        </span>
+                                                        <span asp-validation-for="Project" class="text-danger"></span>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <div class="form-group">
+
+                                                        <label asp-for="Project">بيان اللوحات المعتمدة</label>
+                                                        <input asp-for="Project" class="form-control" />
+                                                        <span class="input-group-addon" aria-hidden="true">
+                                                            <span class="glyphicon glyphicon-ok text-success"></span>
+                                                        </span>
+                                                        <span asp-validation-for="Project" class="text-danger"></span>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+
+                                                        <label asp-for="Project">ملاحضظات اللوحات المعتمدة</label>
+                                                        <input asp-for="Project" class="form-control" />
+                                                        <span class="input-group-addon" aria-hidden="true">
+                                                            <span class="glyphicon glyphicon-ok text-success"></span>
+                                                        </span>
+                                                        <span asp-validation-for="Project" class="text-danger"></span>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <div class="form-group">
+
+                                                        <label asp-for="Project">بيان تاريخ الفحص المطلوب</label>
+                                                        <input asp-for="Project" class="form-control" />
+                                                        <span class="input-group-addon" aria-hidden="true">
+                                                            <span class="glyphicon glyphicon-ok text-success"></span>
+                                                        </span>
+                                                        <span asp-validation-for="Project" class="text-danger"></span>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+
+                                                        <label asp-for="Project">ملاحضظات تاريخ الفحص المطلوب</label>
+                                                        <input asp-for="Project" class="form-control" />
+                                                        <span class="input-group-addon" aria-hidden="true">
+                                                            <span class="glyphicon glyphicon-ok text-success"></span>
+                                                        </span>
+                                                        <span asp-validation-for="Project" class="text-danger"></span>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <div class="form-group">
+
+                                                        <label asp-for="Project">بيان العمل المطلوب فحصه</label>
+                                                        <input asp-for="Project" class="form-control" />
+                                                        <span class="input-group-addon" aria-hidden="true">
+                                                            <span class="glyphicon glyphicon-ok text-success"></span>
+                                                        </span>
+                                                        <span asp-validation-for="Project" class="text-danger"></span>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+
+                                                        <label asp-for="Project">ملاحضظات العمل المطلوب فحصه</label>
+                                                        <input asp-for="Project" class="form-control" />
+                                                        <span class="input-group-addon" aria-hidden="true">
+                                                            <span class="glyphicon glyphicon-ok text-success"></span>
+                                                        </span>
+                                                        <span asp-validation-for="Project" class="text-danger"></span>
+
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
 
                                     </article>

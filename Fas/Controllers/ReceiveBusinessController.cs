@@ -53,6 +53,10 @@ namespace FasDemo.Controllers
             ViewData["Status"] = _app.GetReceiveBusinessStatusTypeSelectList();
             ViewData["Specialization"] = _app.GetReceiveBusinessSpecializationSelectList();
             ViewData["Project"] = _app.GetProjectSelectList();
+
+            ViewData["ProjectCode"] = _app.GetProjectCodeSelectList();
+            ViewData["Sector"] = _app.GetSectorSelectList();
+            ViewData["Region"] = _app.GetRegionSelectList();
         }
 
 

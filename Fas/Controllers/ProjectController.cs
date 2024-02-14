@@ -55,8 +55,11 @@ namespace FasDemo.Controllers
             ViewData["SupervisionConsultant"] = _app.GetEmployeeUserSelectList();
             ViewData["ProjectManagementConsultant"] = _app.GetEmployeeUserSelectList();
 
+            ViewData["ProjectCode"] = _app.GetProjectCodeSelectList();
             ViewData["Sector"] = _app.GetSectorSelectList();
             ViewData["Region"] = _app.GetRegionSelectList();
+
+            
 
         }
         public IActionResult Index()

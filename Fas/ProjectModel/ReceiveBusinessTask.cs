@@ -22,20 +22,6 @@
         [Display(Name = "البريد الالكتروني الدي سيتلقى الاشعار")]
         public string toEmail { get; set; }
 
-        //[Display(Name = "تاريخ البداية")]
-        //[DataType(DataType.Date)]
-        //[DisplayFormat(DataFormatString = "{0:yyyy/mm/dd}")]
-        //public DateTime? StarDate { get; set; }
-
-        //[Display(Name = "تاريخ النهاية")]
-        //[DataType(DataType.Date)]
-        //[DisplayFormat(DataFormatString = "{0:yyyy/mm/dd}")]
-        //public DateTime? EndDate { get; set; }
-
-        //public DateTime? StartDateActual { get; set; }
-        //public DateTime? EndDateActual { get; set; }
-
-
         [Display(Name = "نشطة")]
         public bool? IsActive { get; set; }
 
@@ -51,9 +37,6 @@
 
         [Display(Name = "المهمة تابعة")]
         public int? TaskParentId { get; set; }
-
-        //[Display(Name = "المدة")]
-        //public int? Duration { get; set; }
 
         [Display(Name = "نسبة الانجاز")]
         [Range(0, 100, ErrorMessage = "فضلاً ادخل قيمة بين  1  و  100")]
