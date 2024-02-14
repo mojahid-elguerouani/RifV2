@@ -31,6 +31,9 @@
         [Display(Name = "الاعتماد")]
         public bool? IsApproved { get; set; }
 
+        [Display(Name = "التوقيع")]
+        public bool? IsSigned { get; set; }
+
         [Display(Name = "تعتمد بـ")]
         public string ApprovedById { get; set; }
         public ApplicationUser ApprovedBy { get; set; }

@@ -23,9 +23,6 @@
         public int? ProjectId { get; set; }
         public Project Project { get; set; }
 
-        [Display(Name = "التخصص")]
-        public string Specialization { get; set; }
-
         //التخصصات
 
         [Required(ErrorMessage = "مدني؟")]
@@ -47,12 +44,29 @@
         public bool IsOthers { get; set; } = false;
 
 
-        [Display(Name = "رقم العمل")]
-        public int WorkId { get; set; }
+        [Display(Name = "العمل المطلوب فحصه")]
+        public int WorkToBeExaminedId { get; set; }
+        public virtual WorkToBeExamined WorkToBeExamined { get; set; }
+
+        [Display(Name = "المبنى")]
+        public int BuildingId { get; set; }
+        public virtual Building Buildings { get; set; }
+
+        [Display(Name = "الدور")]
+        public int FloorId { get; set; }
+        public virtual Floor Floor { get; set; }
+
+        [Display(Name = "تاريخ الفحص المطلوب")]
+        public int RequiredExaminationDateId { get; set; }
+        public virtual RequiredExaminationDate RequiredExaminationDate { get; set; }
+
+        [Display(Name = "اللوحات المعتمدة")]
+        public int ApprovedPlatesId { get; set; }
+        public virtual ApprovedPlates ApprovedPlates { get; set; }
 
 
-        [Display(Name = "توقيع المقاول")]
-        public string ContractorSignature { get; set; }
+        [Display(Name = "التوقيع")]
+        public string Signature { get; set; }
 
         //حقل معتمد من قبل
         [Display(Name = "حالة التسليم")]

@@ -4,7 +4,7 @@ using System.Data.Common;
 using System.Linq;
 using System.Text;
 using ChatApp.Domain.Entity;
-using Fas.ProjectModel;
+using FasDemo.ProjectModel;
 using FasDemo.Models;
 using FasDemo.ProjectModel;
 using FasDemo.ProjectModel.DTO;
@@ -80,6 +80,13 @@ namespace FasDemo.Data
         public DbSet<ReceiveBusinessCommentImage> ReceiveBusinessCommentImages { get; set; }
 
 
+        //Work DESCRIPTION
+        public DbSet<WorkToBeExamined> WorkToBeExamined { get; set; }
+        public DbSet<Building> Buildings { get; set; }
+        public DbSet<Floor> Floors { get; set; }
+        public DbSet<RequiredExaminationDate> RequiredExaminationDate { get; set; }
+        public DbSet<ApprovedPlates> ApprovedPlates { get; set; }
+
 
         #endregion
 
@@ -91,12 +98,7 @@ namespace FasDemo.Data
         #endregion
 
 
-        //Work DESCRIPTION
-        public DbSet<WorkToBeExamined> WorkToBeExamined { get; set; }
-        public DbSet<Building> Buildings { get; set; }
-        public DbSet<Floor> Floors { get; set; }
-        public DbSet<RequiredExaminationDate> RequiredExaminationDate { get; set; }
-        public DbSet<ApprovedPlates> ApprovedPlates { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -111,7 +111,6 @@ namespace FasDemo.Controllers
             "ReviewNumber",
             "RequestTypeCode",
             "ProjectId",
-            "Specialization",
             "ReceiveBusinessDate",
             "StatusId",
             "ReceiveBusinessSchedualTempletId"
@@ -154,7 +153,7 @@ namespace FasDemo.Controllers
                     newReceiveBusiness.ReviewNumber = 00;
                     //newReceiveBusiness.TypeOfAccreditationRequest = receivebusiness.TypeOfAccreditationRequest;
                     newReceiveBusiness.ProjectId = receivebusiness.ProjectId;
-                    newReceiveBusiness.Specialization = receivebusiness.Specialization;
+                    //newReceiveBusiness.Specialization = receivebusiness.Specialization;
                     newReceiveBusiness.ReceiveBusinessDate = receivebusiness.ReceiveBusinessDate;
                     newReceiveBusiness.StatusId = receivebusiness.StatusId;
                     newReceiveBusiness.ReceiveBusinessSchedualTempletId = receivebusiness.ReceiveBusinessSchedualTempletId;
@@ -194,7 +193,7 @@ namespace FasDemo.Controllers
 
                     //editreceivebusiness.TypeOfAccreditationRequest = receivebusiness.TypeOfAccreditationRequest;
                     editreceivebusiness.ProjectId = receivebusiness.ProjectId;
-                    editreceivebusiness.Specialization = receivebusiness.Specialization;
+                    //editreceivebusiness.Specialization = receivebusiness.Specialization;
                     editreceivebusiness.ReceiveBusinessDate = receivebusiness.ReceiveBusinessDate;
                     editreceivebusiness.StatusId = receivebusiness.StatusId;
                     editreceivebusiness.ReceiveBusinessSchedualTempletId = receivebusiness.ReceiveBusinessSchedualTempletId;

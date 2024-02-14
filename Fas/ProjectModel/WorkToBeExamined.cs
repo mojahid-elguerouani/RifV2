@@ -1,8 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Fas.ProjectModel
+﻿namespace ProjectManagment.Models
 {
-    public class  WorkToBeExamined
+    using FasDemo.Models;
+    using Microsoft.AspNetCore.Mvc.ViewEngines;
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    public partial class WorkToBeExamined
     {
         [Key]
         public int WorkId { get; set; }
@@ -10,6 +14,8 @@ namespace Fas.ProjectModel
         public string Statement { get; set; }
         [Display(Name = "ملاحظات")]
         public string Comments { get; set; }
+
+        public List<ReceiveBusiness> ReceiveBusiness { get; set; } = new List<ReceiveBusiness>();
     }
 
 }
