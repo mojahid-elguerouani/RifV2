@@ -52,14 +52,12 @@ namespace FasDemo.Controllers
             ViewData["Employee"] = _app.GetEmployeeUserSelectList();
             ViewData["Status"] = _app.GetProjectStatusTypeSelectList();
 
-            ViewData["SupervisionConsultant"] = _app.GetEmployeeUserSelectList();
-            ViewData["ProjectManagementConsultant"] = _app.GetEmployeeUserSelectList();
+            ViewData["SupervisionConsultant"] = _app.GetSupervisionConsultant();
+            ViewData["ProjectManagementConsultant"] = _app.GetProjectManagementConsultant();
 
             ViewData["ProjectCode"] = _app.GetProjectCodeSelectList();
             ViewData["Sector"] = _app.GetSectorSelectList();
             ViewData["Region"] = _app.GetRegionSelectList();
-
-            
 
         }
         public IActionResult Index()
@@ -125,7 +123,6 @@ namespace FasDemo.Controllers
             "EstimatedBudget",
             "ContractualBudget",
             "ContractorId",
-            "ProgramId",
             "SupervisionConsultantId",
             "ProjectManagementConsultantId",
             "StatusId"
@@ -161,11 +158,8 @@ namespace FasDemo.Controllers
                     newProject.ContractualBudget = project.ContractualBudget;
                     newProject.ProjectDescription = project.ProjectDescription;
                     newProject.StatusId = project.StatusId;
-
-                    
                     newProject.Sector = project.Sector;
                     newProject.Region = project.Region;
-
                     newProject.ContractorId = project.ContractorId;
                     newProject.SupervisionConsultantId = project.SupervisionConsultantId;
                     newProject.ProjectManagementConsultantId = project.ProjectManagementConsultantId;
@@ -234,7 +228,7 @@ namespace FasDemo.Controllers
             catch (Exception ex)
             {
 
-                TempData[StaticString.StatusMessage] = " خطأ : " + ex.Message;
+                TempData[StaticString.StatusMessage] = " خطأ : " + ex.InnerException.Message;
                 return RedirectToAction(nameof(Form), new { id = project.ProjectId });
             }
         }

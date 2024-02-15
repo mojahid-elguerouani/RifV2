@@ -252,7 +252,7 @@ namespace FasDemo.Controllers
                     //dropdownlist 
                     FillDropdownListForEmployeeForm();
 
-                    TempData[StaticString.StatusMessage] = "Create new employee success.";
+                    TempData[StaticString.StatusMessage] = "تم انشاء حساب موظف جديد بنجاح.";
                     return RedirectToAction(nameof(Form), new { id = newEmployee.EmployeeId ?? "" });
                 }
 

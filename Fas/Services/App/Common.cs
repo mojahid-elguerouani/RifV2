@@ -64,6 +64,46 @@ namespace FasDemo.Services.App
             list.Insert(0, blankOption);
             return new SelectList(list, "Value", "Text");
         }
+
+        public IEnumerable<SelectListItem> GetSupervisionConsultant()
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+            list = _context.Employee.AsNoTracking().Include(d => d.Designation)
+                .OrderBy(x => x.EmployeeId).Where(x => x.Designation.Name == "Supervision Consultant")
+                .Select(x => new SelectListItem
+                {
+                    Value = x.EmployeeId,
+                    Text = x.FirstName + " " + x.LastName
+                }).ToList();
+            SelectListItem blankOption = new SelectListItem()
+            {
+                Value = "",
+                Text = ""
+            };
+            list.Insert(0, blankOption);
+            return new SelectList(list, "Value", "Text");
+        }
+
+        public IEnumerable<SelectListItem> GetProjectManagementConsultant()
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+            list = _context.Employee.AsNoTracking().Include(d => d.Designation)
+                .OrderBy(x => x.EmployeeId).Where(x => x.Designation.Name == "Project Management Consultant")
+                .Select(x => new SelectListItem
+                {
+                    Value = x.EmployeeId,
+                    Text = x.FirstName + " " + x.LastName
+                }).ToList();
+            SelectListItem blankOption = new SelectListItem()
+            {
+                Value = "",
+                Text = ""
+            };
+            list.Insert(0, blankOption);
+            return new SelectList(list, "Value", "Text");
+        }
+
+
         public IEnumerable<SelectListItem> GetDesignationSelectList()
         {
             List<SelectListItem> list = new List<SelectListItem>();
@@ -136,6 +176,8 @@ namespace FasDemo.Services.App
             list.Insert(0, blankOption);
             return new SelectList(list, "Value", "Text");
         }
+
+
         public IEnumerable<SelectListItem> GetContractorSelectList()
         {
             List<SelectListItem> list = new List<SelectListItem>();

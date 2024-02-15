@@ -118,7 +118,7 @@
                                     <div class="dropdown-menu" style="position: absolute;will-change: transform;top: -2px;right: 5px;transform: translate3d(10px, 31px, 0px);">
                                         <h6 class="dropdown-header">الإعدادات</h6>
                                         @*<a class="dropdown-item" href="~/@controller/CustomerIndex">العملاء</a>*@
-                                        <a class="dropdown-item" href="~/@controller/ProjectSchedualTempletIndex">نماذج الجدوله</a>
+@*                                        <a class="dropdown-item" href="~/@controller/ProjectSchedualTempletIndex">نماذج الجدوله</a>*@
                                     </div>
                                 </div>
                             </div>
@@ -202,9 +202,9 @@
 
                                                                     <th width="10%">اسم المشروع</th>
                                                                     <th width="10%"> كود المشروع </th>
-                                                                    @*<th width="20%">المهمة الحالية</th>*@
                                                                     <th width="20%">المقاول</th>
-                                                                    <th width="45%">وصف المشروع</th>
+                                                                    <th width="10%">القطاع</th>
+                                                                    <th width="10%">المنطقة</th>
                                                                     <th width="5%"> البداية</th>
                                                                     <th width="5%"> النهاية</th>
                                                                     <th width="5%">الاجراء</th>
@@ -233,7 +233,76 @@
                                                                             {@item.Contractor.ContractorName}
                                                                     </td>
                                                                     <td>
-                                                                        @item.ProjectDescription
+                                                                            @if (item.Sector == 1)
+                                                                            {
+                                                                                <text>البن</text>
+                                                                            }
+                                                                            else if (item.Sector == 2)
+                                                                            {
+                                                                                <text>العسل</text>
+                                                                            }
+                                                                            else if (item.Sector == 3)
+                                                                            {
+                                                                                <text>الفواكه</text>
+                                                                            }
+                                                                            else if (item.Sector == 4)
+                                                                            {
+                                                                                <text>الورود</text>
+                                                                            }
+                                                                    </td>
+                                                                    <td>
+                                                                            @if (item.Sector == 1)
+                                                                            {
+                                                                                    <text>الرياض</text>
+                                                                            }
+                                                                            else if (item.Sector == 2)
+                                                                            {
+                                                                                    <text>مكة المكرمة</text>
+                                                                            }
+                                                                            else if (item.Sector == 3)
+                                                                            {
+                                                                                    <text>المدينة المنورة</text>
+                                                                            }
+                                                                            else if (item.Sector == 4)
+                                                                            {
+                                                                                    <text>المنطقة الشرقية</text>
+                                                                            }
+                                                                            else if (item.Sector == 5)
+                                                                            {
+                                                                                    <text>القصيم</text>
+                                                                            }
+                                                                            else if (item.Sector == 6)
+                                                                            {
+                                                                                    <text>عسير</text>
+                                                                            }
+                                                                            else if (item.Sector == 7)
+                                                                            {
+                                                                                    <text>حائل</text>
+                                                                            }
+                                                                            else if (item.Sector == 8)
+                                                                            {
+                                                                                    <text>تبوك</text>
+                                                                            }
+                                                                            else if (item.Sector == 9)
+                                                                            {
+                                                                                    <text>الباحة</text>
+                                                                            }
+                                                                            else if (item.Sector == 10)
+                                                                            {
+                                                                                    <text>الحدود الشمالية</text>
+                                                                            }
+                                                                            else if (item.Sector == 11)
+                                                                            {
+                                                                                    <text>الجوف</text>
+                                                                            }
+                                                                            else if (item.Sector == 12)
+                                                                            {
+                                                                                    <text>جازان</text>
+                                                                            }
+                                                                            else if (item.Sector == 13)
+                                                                            {
+                                                                                    <text>نجران</text>
+                                                                            }
                                                                     </td>
                                                                     <td>
                                                                         @item?.StartDate?.ToString("yyyy/MM/dd")
@@ -252,9 +321,6 @@
                                                                                 <h6 class="dropdown-header">الإعدادات</h6>
                                                                                 <a href="/ProjectTask/ProjectTaskDetails/@item.ProjectId" class="dropdown-item">متابعة</a>
                                                                                 <a href="/@controller/EditProject/@item.ProjectId" class="dropdown-item">تحديث</a>
-                                                                                <a href="/@controller/Licence/@item.ProjectId" class="dropdown-item">رخصة</a>
-                                                                                <a class="dropdown-item" href="/@controller/FlowChart/@item.ProjectId">جانت</a>
-                                                                                <a class="dropdown-item" href="/@controller/QuizTest/@item.ProjectId">الاستبيان</a>
                                                                             </div>
                                                                         </div>
                                                                     </td>
