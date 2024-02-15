@@ -729,5 +729,12 @@ namespace FasDemo.Controllers
             return RedirectToAction(nameof(EditReceiveBusiness), new { id = ReceiveBusinessId });
         }
 
+
+        public List<Project> GetProjectByType(int type)
+        {
+            var result = _context.Projects.Where(x => x.Sector == type).ToList();
+            return result;
+        }
+
     }
 }
