@@ -49,29 +49,57 @@
         public string OtherSpecialization { get; set; }
 
 
-        [Display(Name = "العمل المطلوب فحصه")]
-        public int WorkToBeExaminedId { get; set; }
-        public virtual WorkToBeExamined WorkToBeExamined { get; set; }
+        //[Display(Name = "العمل المطلوب فحصه")]
+        //public int WorkToBeExaminedId { get; set; }
+        //public virtual WorkToBeExamined WorkToBeExamined { get; set; }
 
-        [Display(Name = "المبنى")]
-        public int BuildingId { get; set; }
-        public virtual Building Buildings { get; set; }
+        //[Display(Name = "المبنى")]
+        //public int BuildingId { get; set; }
+        //public virtual Building Buildings { get; set; }
 
-        [Display(Name = "الدور")]
-        public int FloorId { get; set; }
-        public virtual Floor Floor { get; set; }
+        //[Display(Name = "الدور")]
+        //public int FloorId { get; set; }
+        //public virtual Floor Floor { get; set; }
 
-        [Display(Name = "تاريخ الفحص المطلوب")]
-        public int RequiredExaminationDateId { get; set; }
-        public virtual RequiredExaminationDate RequiredExaminationDate { get; set; }
+        //[Display(Name = "تاريخ الفحص المطلوب")]
+        //public int RequiredExaminationDateId { get; set; }
+        //public virtual RequiredExaminationDate RequiredExaminationDate { get; set; }
 
-        [Display(Name = "اللوحات المعتمدة")]
-        public int ApprovedPlatesId { get; set; }
-        public virtual ApprovedPlates ApprovedPlates { get; set; }
+        //[Display(Name = "اللوحات المعتمدة")]
+        //public int ApprovedPlatesId { get; set; }
+        //public virtual ApprovedPlates ApprovedPlates { get; set; }
 
 
-        [Display(Name = "التوقيع")]
-        public string Signature { get; set; }
+        [Display(Name = "بيان المبنى")]
+        public string BuildingStatement { get; set; }
+
+        [Display(Name = "ملاحظات المبنى")]
+        public string BuildingComments { get; set; }
+
+        [Display(Name = "بيان العمل المطلوب فحصه")]
+        public string WorkToBeExaminedStatement { get; set; }
+
+        [Display(Name = "ملاحظات العمل المطلوب فحصه")]
+        public string WorkToBeExaminedComments { get; set; }
+
+        [Display(Name = "بيان الدور")]
+        public string FloorStatement { get; set; }
+
+        [Display(Name = "ملاحظات الدور")]
+        public string FloorComments { get; set; }
+
+        [Display(Name = "بيان تاريخ الفحص المطلوب")]
+        public string RequiredExaminationDateStatement { get; set; }
+
+        [Display(Name = "ملاحظات تاريخ الفحص المطلوب")]
+        public string RequiredExaminationDateComments { get; set; }
+
+
+        [Display(Name = "بيان اللوحات المعتمدة")]
+        public string ApprovedPlatesStatement { get; set; }
+
+        [Display(Name = "ملاحظات اللوحات المعتمدة")]
+        public string ApprovedPlatesComments { get; set; }
 
         //حقل معتمد من قبل
         [Display(Name = "حالة التسليم")]

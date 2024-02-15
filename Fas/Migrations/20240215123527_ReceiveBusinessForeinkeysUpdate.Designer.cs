@@ -4,14 +4,16 @@ using FasDemo.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Fas.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240215123527_ReceiveBusinessForeinkeysUpdate")]
+    partial class ReceiveBusinessForeinkeysUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -960,6 +962,21 @@ namespace Fas.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("ProjectManagment.Models.ApprovedPlates", b =>
+                {
+                    b.Property<int>("ApprovedPlatesId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Comments");
+
+                    b.Property<string>("Statement");
+
+                    b.HasKey("ApprovedPlatesId");
+
+                    b.ToTable("ApprovedPlates");
+                });
+
             modelBuilder.Entity("ProjectManagment.Models.Attachment", b =>
                 {
                     b.Property<int>("Id")
@@ -991,6 +1008,21 @@ namespace Fas.Migrations
                     b.HasIndex("UpdatedById");
 
                     b.ToTable("Attachments");
+                });
+
+            modelBuilder.Entity("ProjectManagment.Models.Building", b =>
+                {
+                    b.Property<int>("BuildingId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Comments");
+
+                    b.Property<string>("Statement");
+
+                    b.HasKey("BuildingId");
+
+                    b.ToTable("Buildings");
                 });
 
             modelBuilder.Entity("ProjectManagment.Models.Contractor", b =>
@@ -1102,6 +1134,21 @@ namespace Fas.Migrations
                     b.ToTable("Events");
                 });
 
+            modelBuilder.Entity("ProjectManagment.Models.Floor", b =>
+                {
+                    b.Property<int>("FloorId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Comments");
+
+                    b.Property<string>("Statement");
+
+                    b.HasKey("FloorId");
+
+                    b.ToTable("Floors");
+                });
+
             modelBuilder.Entity("ProjectManagment.Models.Project", b =>
                 {
                     b.Property<int>("ProjectId")
@@ -1173,21 +1220,15 @@ namespace Fas.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ApprovedPlatesComments");
+                    b.Property<int>("ApprovedPlatesId");
 
-                    b.Property<string>("ApprovedPlatesStatement");
-
-                    b.Property<string>("BuildingComments");
-
-                    b.Property<string>("BuildingStatement");
+                    b.Property<int>("BuildingId");
 
                     b.Property<DateTime>("CreatedAtUtc");
 
                     b.Property<string>("CreatedById");
 
-                    b.Property<string>("FloorComments");
-
-                    b.Property<string>("FloorStatement");
+                    b.Property<int>("FloorId");
 
                     b.Property<bool>("IsAgricultural");
 
@@ -1210,13 +1251,13 @@ namespace Fas.Migrations
                     b.Property<string>("ReceiveBusinessSchedualTempletId")
                         .IsRequired();
 
-                    b.Property<string>("RequiredExaminationDateComments");
-
-                    b.Property<string>("RequiredExaminationDateStatement");
+                    b.Property<int>("RequiredExaminationDateId");
 
                     b.Property<int>("ReviewNumber");
 
                     b.Property<int>("SerialNumber");
+
+                    b.Property<string>("Signature");
 
                     b.Property<int?>("StatusId");
 
@@ -1224,19 +1265,27 @@ namespace Fas.Migrations
 
                     b.Property<string>("UpdatedById");
 
-                    b.Property<string>("WorkToBeExaminedComments");
-
-                    b.Property<string>("WorkToBeExaminedStatement");
+                    b.Property<int>("WorkToBeExaminedId");
 
                     b.HasKey("ReceiveBusinessId");
 
+                    b.HasIndex("ApprovedPlatesId");
+
+                    b.HasIndex("BuildingId");
+
                     b.HasIndex("CreatedById");
+
+                    b.HasIndex("FloorId");
 
                     b.HasIndex("ProjectId");
 
                     b.HasIndex("ReceiveBusinessSchedualTempletId");
 
+                    b.HasIndex("RequiredExaminationDateId");
+
                     b.HasIndex("UpdatedById");
+
+                    b.HasIndex("WorkToBeExaminedId");
 
                     b.ToTable("ReceiveBusiness");
                 });
@@ -1429,6 +1478,36 @@ namespace Fas.Migrations
                     b.HasIndex("UpdatedById");
 
                     b.ToTable("ReceiveBusinessTaskLogImages");
+                });
+
+            modelBuilder.Entity("ProjectManagment.Models.RequiredExaminationDate", b =>
+                {
+                    b.Property<int>("RequiredExaminationDateId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Comments");
+
+                    b.Property<string>("Statement");
+
+                    b.HasKey("RequiredExaminationDateId");
+
+                    b.ToTable("RequiredExaminationDate");
+                });
+
+            modelBuilder.Entity("ProjectManagment.Models.WorkToBeExamined", b =>
+                {
+                    b.Property<int>("WorkToBeExaminedId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Comments");
+
+                    b.Property<string>("Statement");
+
+                    b.HasKey("WorkToBeExaminedId");
+
+                    b.ToTable("WorkToBeExamined");
                 });
 
             modelBuilder.Entity("FasDemo.Models.ApplicationUser", b =>
@@ -1817,9 +1896,24 @@ namespace Fas.Migrations
 
             modelBuilder.Entity("ProjectManagment.Models.ReceiveBusiness", b =>
                 {
+                    b.HasOne("ProjectManagment.Models.ApprovedPlates", "ApprovedPlates")
+                        .WithMany("ReceiveBusiness")
+                        .HasForeignKey("ApprovedPlatesId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("ProjectManagment.Models.Building", "Buildings")
+                        .WithMany("ReceiveBusiness")
+                        .HasForeignKey("BuildingId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("FasDemo.Models.ApplicationUser", "CreatedBy")
                         .WithMany()
                         .HasForeignKey("CreatedById");
+
+                    b.HasOne("ProjectManagment.Models.Floor", "Floor")
+                        .WithMany("ReceiveBusiness")
+                        .HasForeignKey("FloorId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("ProjectManagment.Models.Project", "Project")
                         .WithMany("ReceiveBusiness")
@@ -1830,9 +1924,19 @@ namespace Fas.Migrations
                         .HasForeignKey("ReceiveBusinessSchedualTempletId")
                         .OnDelete(DeleteBehavior.Cascade);
 
+                    b.HasOne("ProjectManagment.Models.RequiredExaminationDate", "RequiredExaminationDate")
+                        .WithMany("ReceiveBusiness")
+                        .HasForeignKey("RequiredExaminationDateId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("FasDemo.Models.ApplicationUser", "UpdatedBy")
                         .WithMany()
                         .HasForeignKey("UpdatedById");
+
+                    b.HasOne("ProjectManagment.Models.WorkToBeExamined", "WorkToBeExamined")
+                        .WithMany("ReceiveBusiness")
+                        .HasForeignKey("WorkToBeExaminedId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("ProjectManagment.Models.ReceiveBusinessSchedual", b =>

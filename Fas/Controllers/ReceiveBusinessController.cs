@@ -124,12 +124,16 @@ namespace FasDemo.Controllers
             "IsAgricultural",
             "IsOthers",
             "OtherSpecialization",
-            "WorkToBeExaminedId",
-            "BuildingId",
-            "FloorId",
-            "RequiredExaminationDateId",
-            "ApprovedPlatesId",
-            "Signature",
+            "BuildingStatement",
+            "BuildingComments",
+            "WorkToBeExaminedStatement",
+            "WorkToBeExaminedComments",
+            "FloorStatement",
+            "FloorComments",
+            "RequiredExaminationDateStatement",
+            "RequiredExaminationDateComments",
+            "ApprovedPlatesStatement",
+            "ApprovedPlatesComments",
             "StatusId",
             "ReceiveBusinessSchedualTempletId"
             )]ReceiveBusiness receivebusiness)
@@ -141,8 +145,6 @@ namespace FasDemo.Controllers
                     TempData[StaticString.StatusMessage] = " خطأ : حالة النموذج غير صالحة.";
                     return RedirectToAction(nameof(Form), new { id = receivebusiness.ReceiveBusinessId });
                 }
-
-
 
                 //create new
                 if (receivebusiness.ReceiveBusinessId == 0)
@@ -170,67 +172,24 @@ namespace FasDemo.Controllers
                     newReceiveBusiness.IsOthers = receivebusiness.IsOthers;
                     newReceiveBusiness.OtherSpecialization = receivebusiness.OtherSpecialization;
 
-                    newReceiveBusiness.Signature = receivebusiness.Signature;
                     newReceiveBusiness.StatusId = receivebusiness.StatusId;
                     newReceiveBusiness.ReceiveBusinessSchedualTempletId = receivebusiness.ReceiveBusinessSchedualTempletId;
 
                     newReceiveBusiness.ProjectId = receivebusiness.ProjectId;
 
 
-                    var building = new Building
-                    {
-                        Statement   = newReceiveBusiness.Buildings.Statement,
-                        Comments    = newReceiveBusiness.Buildings.Comments,
-                    };
-                    // Save the new Building entry to the database
-                    _context.Buildings.Add(building);
-                    _context.SaveChanges();
-
-                    var worktobeexamined = new WorkToBeExamined
-                    {
-                        Statement = newReceiveBusiness.WorkToBeExamined.Statement,
-                        Comments = newReceiveBusiness.WorkToBeExamined.Comments,
-                    };
-                    // Save the new WorkToBeExamined entry to the database
-                    _context.WorkToBeExamined.Add(worktobeexamined);
-                    _context.SaveChanges();
-
-                    var floor = new Floor
-                    {
-                        Statement = newReceiveBusiness.Floor.Statement,
-                        Comments  = newReceiveBusiness.Floor.Comments,
-                    };
-                    // Save the new Floor entry to the database
-                    _context.Floors.Add(floor);
-                    _context.SaveChanges();
-
-                    var requiredexaminationdate = new RequiredExaminationDate
-                    {
-                        Statement = newReceiveBusiness.RequiredExaminationDate.Statement,
-                        Comments = newReceiveBusiness.RequiredExaminationDate.Comments,
-                    };
-                    // Save the new requiredexaminationdate entry to the database
-                    _context.RequiredExaminationDate.Add(requiredexaminationdate);
-                    _context.SaveChanges();
+                    newReceiveBusiness.BuildingStatement = receivebusiness.BuildingStatement;
+                    newReceiveBusiness.BuildingComments = receivebusiness.BuildingComments;
+                    newReceiveBusiness.WorkToBeExaminedStatement = receivebusiness.WorkToBeExaminedStatement;
+                    newReceiveBusiness.WorkToBeExaminedComments = receivebusiness.WorkToBeExaminedComments;
+                    newReceiveBusiness.FloorStatement = receivebusiness.FloorStatement;
+                    newReceiveBusiness.FloorComments  = receivebusiness.FloorComments;
+                    newReceiveBusiness.RequiredExaminationDateStatement = receivebusiness.RequiredExaminationDateStatement;
+                    newReceiveBusiness.RequiredExaminationDateComments = receivebusiness.RequiredExaminationDateComments;
+                    newReceiveBusiness.ApprovedPlatesStatement = receivebusiness.ApprovedPlatesStatement;
+                    newReceiveBusiness.ApprovedPlatesComments = receivebusiness.ApprovedPlatesComments;
 
 
-                    var approvedplates = new ApprovedPlates
-                    {
-                        Statement = newReceiveBusiness.ApprovedPlates.Statement,
-                        Comments = newReceiveBusiness.ApprovedPlates.Comments,
-                    };
-                    // Save the new approvedplates entry to the database
-                    _context.ApprovedPlates.Add(approvedplates);
-                    _context.SaveChanges();
-
-
-                    // Associate the new Building, WorkToBeExamined, Floor, RequiredExaminationDate AND ApprovedPlates  with the ReceiveBusiness
-
-                    newReceiveBusiness.BuildingId = building.WorkId;
-                    newReceiveBusiness.WorkToBeExaminedId = worktobeexamined.WorkId;
-                    newReceiveBusiness.FloorId = floor.WorkId;
-                    newReceiveBusiness.RequiredExaminationDateId = requiredexaminationdate.WorkId;
-                    newReceiveBusiness.ApprovedPlatesId = approvedplates.WorkId;
 
 
                     newReceiveBusiness.CreatedBy = await _userManager.GetUserAsync(User);
@@ -245,16 +204,14 @@ namespace FasDemo.Controllers
                     FillDropdownListWithData();
 
 
-                    //    SqlParameter[] parameters = {
-                    //    new SqlParameter("@ReceiveBusinessSchedualTempletId", receivebusiness.ReceiveBusinessSchedualTempletId),
-                    //    new SqlParameter("@ReceiveBusinessId",  receivebusiness.ReceiveBusinessId),
-                    //    new SqlParameter("@CreatedBy",  receivebusiness.CreatedById),
-                    //    new SqlParameter("@CreatedAtUtc",  receivebusiness.CreatedAtUtc),
-                    //};
+                    SqlParameter[] parameters = {
+                        new SqlParameter("@ReceiveBusinessSchedualTempletId", receivebusiness.ReceiveBusinessSchedualTempletId),
+                        new SqlParameter("@ReceiveBusinessId",  receivebusiness.ReceiveBusinessId),
+                        new SqlParameter("@CreatedBy",  receivebusiness.CreatedById),
+                        new SqlParameter("@CreatedAtUtc",  receivebusiness.CreatedAtUtc),
+                    };
 
-                    //var xdata = _context.Database.ExecuteSqlCommand("CreateReceiveBusiness @ReceiveBusinessSchedualTempletId, @ReceiveBusinessId, @CreatedBy ,@CreatedAtUtc", parameters);
-
-
+                    var xdata = _context.Database.ExecuteSqlCommand("CreateReceiveBusiness @ReceiveBusinessSchedualTempletId, @ReceiveBusinessId, @CreatedBy ,@CreatedAtUtc", parameters);
 
                     TempData[StaticString.StatusMessage] = "تم انشاء الطلب بنجاح.";
                     return RedirectToAction(nameof(Form), new { id = receivebusiness.ReceiveBusinessId });
@@ -267,12 +224,35 @@ namespace FasDemo.Controllers
                 if (editreceivebusiness != null)
                 {
 
-                    //editreceivebusiness.TypeOfAccreditationRequest = receivebusiness.TypeOfAccreditationRequest;
-                    editreceivebusiness.ProjectId = receivebusiness.ProjectId;
-                    //editreceivebusiness.Specialization = receivebusiness.Specialization;
+                    //editreceivebusiness.ReceiveBusinessId = receivebusiness.ReceiveBusinessId;
+
+                    editreceivebusiness.SerialNumber = receivebusiness.SerialNumber;
+                    editreceivebusiness.ReviewNumber = editreceivebusiness.ReviewNumber;
                     editreceivebusiness.ReceiveBusinessDate = receivebusiness.ReceiveBusinessDate;
+
+                    editreceivebusiness.IsCivil = receivebusiness.IsCivil;
+                    editreceivebusiness.IsArchitectural = receivebusiness.IsArchitectural;
+                    editreceivebusiness.IsMechanics = receivebusiness.IsMechanics;
+                    editreceivebusiness.IsElectricity = receivebusiness.IsElectricity;
+                    editreceivebusiness.IsAgricultural = receivebusiness.IsAgricultural;
+                    editreceivebusiness.IsOthers = receivebusiness.IsOthers;
+                    editreceivebusiness.OtherSpecialization = receivebusiness.OtherSpecialization;
+
+
                     editreceivebusiness.StatusId = receivebusiness.StatusId;
                     editreceivebusiness.ReceiveBusinessSchedualTempletId = receivebusiness.ReceiveBusinessSchedualTempletId;
+                    editreceivebusiness.ProjectId = receivebusiness.ProjectId;
+
+                    editreceivebusiness.BuildingStatement = receivebusiness.BuildingStatement;
+                    editreceivebusiness.BuildingComments = receivebusiness.BuildingComments;
+                    editreceivebusiness.WorkToBeExaminedStatement = receivebusiness.WorkToBeExaminedStatement;
+                    editreceivebusiness.WorkToBeExaminedComments = receivebusiness.WorkToBeExaminedComments;
+                    editreceivebusiness.FloorStatement = receivebusiness.FloorStatement;
+                    editreceivebusiness.FloorComments = receivebusiness.FloorComments;
+                    editreceivebusiness.RequiredExaminationDateStatement = receivebusiness.RequiredExaminationDateStatement;
+                    editreceivebusiness.RequiredExaminationDateComments = receivebusiness.RequiredExaminationDateComments;
+                    editreceivebusiness.ApprovedPlatesStatement = receivebusiness.ApprovedPlatesStatement;
+                    editreceivebusiness.ApprovedPlatesComments = receivebusiness.ApprovedPlatesComments;
 
                     editreceivebusiness.UpdatedBy = await _userManager.GetUserAsync(User);
                     editreceivebusiness.UpdatedAtUtc = DateTime.UtcNow;

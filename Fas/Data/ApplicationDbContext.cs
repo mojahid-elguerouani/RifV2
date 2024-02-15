@@ -81,11 +81,11 @@ namespace FasDemo.Data
 
 
         //Work DESCRIPTION
-        public DbSet<WorkToBeExamined> WorkToBeExamined { get; set; }
-        public DbSet<Building> Buildings { get; set; }
-        public DbSet<Floor> Floors { get; set; }
-        public DbSet<RequiredExaminationDate> RequiredExaminationDate { get; set; }
-        public DbSet<ApprovedPlates> ApprovedPlates { get; set; }
+        //public DbSet<WorkToBeExamined> WorkToBeExamined { get; set; }
+        //public DbSet<Building> Buildings { get; set; }
+        //public DbSet<Floor> Floors { get; set; }
+        //public DbSet<RequiredExaminationDate> RequiredExaminationDate { get; set; }
+        //public DbSet<ApprovedPlates> ApprovedPlates { get; set; }
 
 
         #endregion
