@@ -233,76 +233,10 @@
                                                                             {@item.Contractor.ContractorName}
                                                                     </td>
                                                                     <td>
-                                                                            @if (item.Sector == 1)
-                                                                            {
-                                                                                <text>البن</text>
-                                                                            }
-                                                                            else if (item.Sector == 2)
-                                                                            {
-                                                                                <text>العسل</text>
-                                                                            }
-                                                                            else if (item.Sector == 3)
-                                                                            {
-                                                                                <text>الفواكه</text>
-                                                                            }
-                                                                            else if (item.Sector == 4)
-                                                                            {
-                                                                                <text>الورود</text>
-                                                                            }
+                                                                       @item.Sector
                                                                     </td>
                                                                     <td>
-                                                                            @if (item.Sector == 1)
-                                                                            {
-                                                                                    <text>الرياض</text>
-                                                                            }
-                                                                            else if (item.Sector == 2)
-                                                                            {
-                                                                                    <text>مكة المكرمة</text>
-                                                                            }
-                                                                            else if (item.Sector == 3)
-                                                                            {
-                                                                                    <text>المدينة المنورة</text>
-                                                                            }
-                                                                            else if (item.Sector == 4)
-                                                                            {
-                                                                                    <text>المنطقة الشرقية</text>
-                                                                            }
-                                                                            else if (item.Sector == 5)
-                                                                            {
-                                                                                    <text>القصيم</text>
-                                                                            }
-                                                                            else if (item.Sector == 6)
-                                                                            {
-                                                                                    <text>عسير</text>
-                                                                            }
-                                                                            else if (item.Sector == 7)
-                                                                            {
-                                                                                    <text>حائل</text>
-                                                                            }
-                                                                            else if (item.Sector == 8)
-                                                                            {
-                                                                                    <text>تبوك</text>
-                                                                            }
-                                                                            else if (item.Sector == 9)
-                                                                            {
-                                                                                    <text>الباحة</text>
-                                                                            }
-                                                                            else if (item.Sector == 10)
-                                                                            {
-                                                                                    <text>الحدود الشمالية</text>
-                                                                            }
-                                                                            else if (item.Sector == 11)
-                                                                            {
-                                                                                    <text>الجوف</text>
-                                                                            }
-                                                                            else if (item.Sector == 12)
-                                                                            {
-                                                                                    <text>جازان</text>
-                                                                            }
-                                                                            else if (item.Sector == 13)
-                                                                            {
-                                                                                    <text>نجران</text>
-                                                                            }
+                                                                       @item.Region
                                                                     </td>
                                                                     <td>
                                                                         @item?.StartDate?.ToString("yyyy/MM/dd")

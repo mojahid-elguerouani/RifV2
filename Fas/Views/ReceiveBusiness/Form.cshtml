@@ -103,10 +103,9 @@
 
                                                 <div class="col-4">
                                                     <div class="form-group">
-                                                        <label asp-for="Project.Sector"></label>
-                                                        <select asp-for="Project.Sector" class="select2 form-control" asp-items="ViewBag.Sector" onchange="fillProjectId(this)"></select>
+                                                        <label>القطاع</label>
+                                                        <select class="select2 form-control" asp-items="ViewBag.Sector" onchange="fillProjectId(this)"></select>
                                                         <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
-                                                        <span asp-validation-for="Project.Sector" class="text-danger"></span>
                                                     </div>
                                                 </div>
 
@@ -135,7 +134,7 @@
                                             <div class="row">
 
 
-                                                <div class="col-12" style="display: flex;gap: 185px;">
+                                                <div class="col-12" style="display: flex;gap: 145px;">
 
                                                     <div class="form-group">
 
@@ -199,12 +198,13 @@
 
                                                     <div class="form-group" id="isOtherDiv" style="display:none">
 
-                                                        <label>اكتب التخصص</label>
-                                                        <div class="switch d-inline m-r-10">
-                                                            <input class="form-control" type="text" id="IsOthersText" onchange="track()">
-                                                            <label for="IsOthers" class="cr"></label>
-                                                        </div>
-
+                                                            <label asp-for="OtherSpecialization"></label>
+                                                            <input asp-for="OtherSpecialization" class="form-control" id="IsOthersText" onchange="track()" />
+                                                            <span class="input-group-addon" aria-hidden="true">
+                                                                <span class="glyphicon glyphicon-ok text-success"></span>
+                                                            </span>
+                                                            <span asp-validation-for="OtherSpecialization" class="text-danger"></span>
+                                             
                                                     </div>
                                     
                                             </div>
@@ -237,7 +237,7 @@
                                                 <div class="col-6">
                                                     <div class="form-group">
 
-                                                        <label asp-for="Buildings.Statement"></label>
+                                                        <label asp-for="Buildings.Statement">بيان المبنى</label>
                                                         <input asp-for="Buildings.Statement" class="form-control" />
                                                         <span class="input-group-addon" aria-hidden="true">
                                                             <span class="glyphicon glyphicon-ok text-success"></span>

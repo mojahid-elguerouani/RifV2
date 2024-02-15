@@ -89,7 +89,7 @@
                                                 <div class="col-2">
                                                     <div class="form-group">
                                                         <label asp-for="Sector"></label>
-                                                        <select asp-for="Sector" class="select2 form-control" asp-items="ViewBag.Sector" data-val-required="فضلا اختر البرنامج"></select>
+                                                        <select asp-for="Sector" class="select2 form-control" asp-items="ViewBag.Sector"></select>
                                                         <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
                                                         <span asp-validation-for="Sector" class="text-danger"></span>
                                                     </div>
@@ -98,7 +98,7 @@
                                                 <div class="col-2">
                                                     <div class="form-group">
                                                         <label asp-for="Region"></label>
-                                                        <select asp-for="Region" class="select2 form-control" asp-items="ViewBag.Region" data-val-required="فضلا اختر البرنامج"></select>
+                                                        <select asp-for="Region" class="select2 form-control" asp-items="ViewBag.Region"></select>
                                                         <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
                                                         <span asp-validation-for="Region" class="text-danger"></span>
                                                     </div>
@@ -107,7 +107,7 @@
                                                 <div class="col-4">
                                                     <div class="form-group">
                                                         <label asp-for="SupervisionConsultantId"></label>
-                                                        <select asp-for="SupervisionConsultantId" class="select2 form-control" asp-items="ViewBag.SupervisionConsultant" data-val-required="فضلا اختر استشاري الإشراف"></select>
+                                                        <select asp-for="SupervisionConsultantId" class="select2 form-control" asp-items="ViewBag.SupervisionConsultant"></select>
                                                         <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
                                                         <span asp-validation-for="SupervisionConsultantId" class="text-danger"></span>
                                                     </div>
@@ -116,7 +116,7 @@
                                                 <div class="col-4">
                                                     <div class="form-group">
                                                         <label asp-for="ProjectManagementConsultantId"></label>
-                                                        <select asp-for="ProjectManagementConsultantId" class="select2 form-control" asp-items="ViewBag.ProjectManagementConsultant" data-val-required="فضلا اختر استشاري إدارة المشروع"></select>
+                                                        <select asp-for="ProjectManagementConsultantId" class="select2 form-control" asp-items="ViewBag.ProjectManagementConsultant"></select>
                                                         <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
                                                         <span asp-validation-for="ProjectManagementConsultantId" class="text-danger"></span>
                                                     </div>
@@ -128,7 +128,7 @@
                                                 <div class="col-6">
                                                     <div class="form-group">
                                                         <label asp-for="StartDate"></label>
-                                                        <input type="text" id="StartDate" name="StartDate" value="@Model.StartDate" class="datepicker form-control" data-val="true" data-val-required="تاريخ بداية المشروع مطلوب">
+                                                        <input type="text" id="StartDate" name="StartDate" value="@Model.StartDate" class="datepicker form-control" data-val="true">
                                                         <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
                                                         <span asp-validation-for="StartDate" class="text-danger"></span>
                                                     </div>

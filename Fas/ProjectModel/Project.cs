@@ -39,11 +39,11 @@
 
         [Required]
         [Display(Name = "القطاع")]
-        public int Sector { get; set; }
+        public string Sector { get; set; }
 
         [Required]
         [Display(Name = "المنطقة")]
-        public int Region { get; set; }
+        public string Region { get; set; }
 
         [Required]
         [Display(Name = "المقاول")]

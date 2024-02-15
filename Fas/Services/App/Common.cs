@@ -234,7 +234,7 @@ namespace FasDemo.Services.App
                 .OrderBy(x => x.Id)
                 .Select(x => new SelectListItem
                 {
-                    Value = x.Id,
+                    Value = x.Name,
                     Text = x.Name
                 }).ToList();
             return new SelectList(list, "Value", "Text");
@@ -265,7 +265,7 @@ namespace FasDemo.Services.App
                 .OrderBy(x => x.Id)
                 .Select(x => new SelectListItem
                 {
-                    Value = x.Id,
+                    Value = x.Name,
                     Text = x.Name
                 }).ToList();
             return new SelectList(list, "Value", "Text");

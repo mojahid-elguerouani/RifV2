@@ -43,6 +43,11 @@
         [Required(ErrorMessage = "أخرى؟")]
         public bool IsOthers { get; set; } = false;
 
+        //تخصص اخر
+
+        [Display(Name = "أكتب تخصص اخر")]
+        public string OtherSpecialization { get; set; }
+
 
         [Display(Name = "العمل المطلوب فحصه")]
         public int WorkToBeExaminedId { get; set; }

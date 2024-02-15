@@ -15,6 +15,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using ProjectManagment.Models;
+using static FasDemo.Services.App.Pages;
+using Employee = FasDemo.Models.Employee;
+using Project = ProjectManagment.Models.Project;
+using ReceiveBusiness = ProjectManagment.Models.ReceiveBusiness;
+using ReceiveBusinessSchedualTemplet = ProjectManagment.Models.ReceiveBusinessSchedualTemplet;
+using ReceiveBusinessTask = ProjectManagment.Models.ReceiveBusinessTask;
 
 namespace FasDemo.Controllers
 {
@@ -117,6 +123,7 @@ namespace FasDemo.Controllers
             "IsElectricity",
             "IsAgricultural",
             "IsOthers",
+            "OtherSpecialization",
             "WorkToBeExaminedId",
             "BuildingId",
             "FloorId",
@@ -140,13 +147,6 @@ namespace FasDemo.Controllers
                 //create new
                 if (receivebusiness.ReceiveBusinessId == 0)
                 {
-                    //duplicate project Number ID is not allowed
-                    //Project empNumber = await _context.Projects.Where(x => x.ProjectName.Equals(project.ProjectName)).FirstOrDefaultAsync();
-                    //if (empNumber != null && !String.IsNullOrEmpty(project.ProjectName))
-                    //{
-                    //    TempData[StaticString.StatusMessage] = " خطأ : لا يمكن تكرار اسم المشروع. " + project.ProjectName;
-                    //    return RedirectToAction(nameof(Form), new { id = project.ProjectId });
-                    //}
                     var receivebusinessSchedualCount = await _context.ReceiveBusinessScheduals.Where(a => a.ReceiveBusinessSchedualTempletId == receivebusiness.ReceiveBusinessSchedualTempletId).CountAsync();
                     if (receivebusinessSchedualCount <= 0)
                     {
@@ -157,19 +157,81 @@ namespace FasDemo.Controllers
 
                     ReceiveBusiness newReceiveBusiness = new ReceiveBusiness();
 
-                    // newProject.ProjectId = Guid.NewGuid().ToString();
-
-
-                    newReceiveBusiness.SerialNumber = 001;
-                    newReceiveBusiness.ReviewNumber = 00;
+                    newReceiveBusiness.ReceiveBusinessId = receivebusiness.ReceiveBusinessId;
+                    newReceiveBusiness.SerialNumber = receivebusiness.SerialNumber;
+                    newReceiveBusiness.ReviewNumber = newReceiveBusiness.ReviewNumber;
                     newReceiveBusiness.ReceiveBusinessDate = receivebusiness.ReceiveBusinessDate;
-                    //newReceiveBusiness.TypeOfAccreditationRequest = receivebusiness.TypeOfAccreditationRequest;
-                    //newReceiveBusiness.Specialization = receivebusiness.Specialization;
-                    newReceiveBusiness.ProjectId = receivebusiness.ProjectId;
 
-                    
+                    newReceiveBusiness.IsCivil = receivebusiness.IsCivil;
+                    newReceiveBusiness.IsArchitectural = receivebusiness.IsArchitectural;
+                    newReceiveBusiness.IsMechanics = receivebusiness.IsMechanics;
+                    newReceiveBusiness.IsElectricity = receivebusiness.IsElectricity;
+                    newReceiveBusiness.IsAgricultural = receivebusiness.IsAgricultural;
+                    newReceiveBusiness.IsOthers = receivebusiness.IsOthers;
+                    newReceiveBusiness.OtherSpecialization = receivebusiness.OtherSpecialization;
+
+                    newReceiveBusiness.Signature = receivebusiness.Signature;
                     newReceiveBusiness.StatusId = receivebusiness.StatusId;
                     newReceiveBusiness.ReceiveBusinessSchedualTempletId = receivebusiness.ReceiveBusinessSchedualTempletId;
+
+                    newReceiveBusiness.ProjectId = receivebusiness.ProjectId;
+
+
+                    var building = new Building
+                    {
+                        Statement   = newReceiveBusiness.Buildings.Statement,
+                        Comments    = newReceiveBusiness.Buildings.Comments,
+                    };
+                    // Save the new Building entry to the database
+                    _context.Buildings.Add(building);
+                    _context.SaveChanges();
+
+                    var worktobeexamined = new WorkToBeExamined
+                    {
+                        Statement = newReceiveBusiness.WorkToBeExamined.Statement,
+                        Comments = newReceiveBusiness.WorkToBeExamined.Comments,
+                    };
+                    // Save the new WorkToBeExamined entry to the database
+                    _context.WorkToBeExamined.Add(worktobeexamined);
+                    _context.SaveChanges();
+
+                    var floor = new Floor
+                    {
+                        Statement = newReceiveBusiness.Floor.Statement,
+                        Comments  = newReceiveBusiness.Floor.Comments,
+                    };
+                    // Save the new Floor entry to the database
+                    _context.Floors.Add(floor);
+                    _context.SaveChanges();
+
+                    var requiredexaminationdate = new RequiredExaminationDate
+                    {
+                        Statement = newReceiveBusiness.RequiredExaminationDate.Statement,
+                        Comments = newReceiveBusiness.RequiredExaminationDate.Comments,
+                    };
+                    // Save the new requiredexaminationdate entry to the database
+                    _context.RequiredExaminationDate.Add(requiredexaminationdate);
+                    _context.SaveChanges();
+
+
+                    var approvedplates = new ApprovedPlates
+                    {
+                        Statement = newReceiveBusiness.ApprovedPlates.Statement,
+                        Comments = newReceiveBusiness.ApprovedPlates.Comments,
+                    };
+                    // Save the new approvedplates entry to the database
+                    _context.ApprovedPlates.Add(approvedplates);
+                    _context.SaveChanges();
+
+
+                    // Associate the new Building, WorkToBeExamined, Floor, RequiredExaminationDate AND ApprovedPlates  with the ReceiveBusiness
+
+                    newReceiveBusiness.BuildingId = building.WorkId;
+                    newReceiveBusiness.WorkToBeExaminedId = worktobeexamined.WorkId;
+                    newReceiveBusiness.FloorId = floor.WorkId;
+                    newReceiveBusiness.RequiredExaminationDateId = requiredexaminationdate.WorkId;
+                    newReceiveBusiness.ApprovedPlatesId = approvedplates.WorkId;
+
 
                     newReceiveBusiness.CreatedBy = await _userManager.GetUserAsync(User);
                     newReceiveBusiness.CreatedAtUtc = DateTime.UtcNow;
@@ -182,14 +244,15 @@ namespace FasDemo.Controllers
                     //dropdownlist 
                     FillDropdownListWithData();
 
-                    SqlParameter[] parameters = {
-                    new SqlParameter("@ReceiveBusinessSchedualTempletId", receivebusiness.ReceiveBusinessSchedualTempletId),
-                    new SqlParameter("@ReceiveBusinessId",  receivebusiness.ReceiveBusinessId),
-                    new SqlParameter("@CreatedBy",  receivebusiness.CreatedById),
-                    new SqlParameter("@CreatedAtUtc",  receivebusiness.CreatedAtUtc),
-                };
 
-                    var xdata = _context.Database.ExecuteSqlCommand("CreateReceiveBusiness @ReceiveBusinessSchedualTempletId, @ReceiveBusinessId, @CreatedBy ,@CreatedAtUtc", parameters);
+                    //    SqlParameter[] parameters = {
+                    //    new SqlParameter("@ReceiveBusinessSchedualTempletId", receivebusiness.ReceiveBusinessSchedualTempletId),
+                    //    new SqlParameter("@ReceiveBusinessId",  receivebusiness.ReceiveBusinessId),
+                    //    new SqlParameter("@CreatedBy",  receivebusiness.CreatedById),
+                    //    new SqlParameter("@CreatedAtUtc",  receivebusiness.CreatedAtUtc),
+                    //};
+
+                    //var xdata = _context.Database.ExecuteSqlCommand("CreateReceiveBusiness @ReceiveBusinessSchedualTempletId, @ReceiveBusinessId, @CreatedBy ,@CreatedAtUtc", parameters);
 
 
 
@@ -743,7 +806,7 @@ namespace FasDemo.Controllers
         }
 
 
-        public List<Project> GetProjectByType(int type)
+        public List<Project> GetProjectByType(string type)
         {
             var result = _context.Projects.Where(x => x.Sector == type).ToList();
             return result;
