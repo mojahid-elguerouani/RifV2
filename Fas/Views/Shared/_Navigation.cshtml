@@ -46,36 +46,6 @@
                                 </a>
                             </li>
                         }
-@*                        @if (User.IsInRole(Pages.DashBoardV2.RoleName))
-                        {
-                            <li class="nav-item  @Html.IsSelected(controller: Pages.DashBoardV2.ControllerName)">
-                                <a href="@Pages.DashBoardV2.UrlDefault?period=@period" class="nav-link">
-                                    <span class="pcoded-micon">
-                                        <i class="feather icon-home"></i>
-                                    </span><span class="pcoded-mtext">@Pages.DashBoardV2.NavigationName</span>
-                                </a>
-                            </li>
-                        }
-                        @if (User.IsInRole(Pages.DashBoardV3.RoleName))
-                        {
-                            <li class="nav-item  @Html.IsSelected(controller: Pages.DashBoardV3.ControllerName)">
-                                <a href="@Pages.DashBoardV3.UrlDefault?period=@period" class="nav-link">
-                                    <span class="pcoded-micon">
-                                        <i class="feather icon-home"></i>
-                                    </span><span class="pcoded-mtext">@Pages.DashBoardV3.NavigationName</span>
-                                </a>
-                            </li>
-                        } 
-                        @if (User.IsInRole(Pages.DashBoardV4.RoleName))
-                        {
-                            <li class="nav-item  @Html.IsSelected(controller: Pages.DashBoardV4.ControllerName)">
-                                <a href="@Pages.DashBoardV4.UrlDefault" class="nav-link">
-                                    <span class="pcoded-micon">
-                                        <i class="feather icon-home"></i>
-                                    </span><span class="pcoded-mtext">@Pages.DashBoardV4.NavigationName</span>
-                                </a>
-                            </li>
-                        }*@
                     </ul>
                 </li>
             }
@@ -92,17 +62,28 @@
                 </li>
             }
 
-            <!--Project Schedual Templets-->
             @if (User.IsInRole(Pages.ReceiveBusinessTask.RoleName))
             {
-                <li class="nav-item  @Html.IsSelected(controller: Pages.ReceiveBusinessTask.ControllerName)">
-                    <a href="@Pages.ReceiveBusinessTask.UrlDefault" class="nav-link">
-                        <span class="pcoded-micon">
-                            <i class="feather icon-layers"></i>
-                        </span><span class="pcoded-mtext">@Pages.ReceiveBusinessTask.NavigationName</span>
-                    </a>
+                <li class="nav-item pcoded-hasmenu @Html.IsSelected(controller: "ReceiveBusiness")">
+                    <a href="#!" class="nav-link"><span class="pcoded-micon"><i class="feather icon-check-circle"></i></span><span class="pcoded-mtext">ادارة الاعتمادات</span></a>
+                    <ul class="pcoded-submenu">
+                        <!--Project Schedual Templets-->
+                        @if (User.IsInRole(Pages.ReceiveBusinessTask.RoleName))
+                        {
+                            <li class="nav-item  @Html.IsSelected(controller: Pages.ReceiveBusinessTask.ControllerName)">
+                                <a href="@Pages.ReceiveBusinessTask.UrlDefault" class="nav-link">
+                                    <span class="pcoded-micon">
+                                        <i class="feather icon-layers"></i>
+                                    </span><span class="pcoded-mtext">@Pages.ReceiveBusinessTask.NavigationName</span>
+                                </a>
+                            </li>
+                        }
+                    </ul>
                 </li>
             }
+
+
+
 
             <!--Agenda -->
             @if (User.IsInRole(Pages.Agenda.RoleName))

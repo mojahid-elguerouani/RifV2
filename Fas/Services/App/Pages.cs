@@ -145,7 +145,7 @@ namespace FasDemo.Services.App
             public const string ControllerName = "ReceiveBusinessTask";
             public const string RoleName = "ReceiveBusinessTask";
             public const string UrlDefault = "/ReceiveBusinessTask/Index";
-            public const string NavigationName = "مهام استلام الأعمال";
+            public const string NavigationName = "اعتمادات استلام الأعمال";
         }
 
 

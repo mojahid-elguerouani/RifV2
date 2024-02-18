@@ -206,15 +206,15 @@ namespace FasDemo.Controllers
 
                     SqlParameter[] parameters = {
                         new SqlParameter("@ReceiveBusinessSchedualTempletId", receivebusiness.ReceiveBusinessSchedualTempletId),
-                        new SqlParameter("@ReceiveBusinessId",  receivebusiness.ReceiveBusinessId),
-                        new SqlParameter("@CreatedBy",  receivebusiness.CreatedById),
-                        new SqlParameter("@CreatedAtUtc",  receivebusiness.CreatedAtUtc),
+                        new SqlParameter("@ReceiveBusinessId",  newReceiveBusiness.ReceiveBusinessId),
+                        new SqlParameter("@CreatedBy",  newReceiveBusiness.CreatedById),
+                        new SqlParameter("@CreatedAtUtc",  newReceiveBusiness.CreatedAtUtc),
                     };
 
                     var xdata = _context.Database.ExecuteSqlCommand("CreateReceiveBusiness @ReceiveBusinessSchedualTempletId, @ReceiveBusinessId, @CreatedBy ,@CreatedAtUtc", parameters);
 
                     TempData[StaticString.StatusMessage] = "تم انشاء الطلب بنجاح.";
-                    return RedirectToAction(nameof(Form), new { id = receivebusiness.ReceiveBusinessId });
+                    return RedirectToAction(nameof(Form), new { id = newReceiveBusiness.ReceiveBusinessId });
                 }
 
                 //edit existing
