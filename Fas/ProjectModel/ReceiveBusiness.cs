@@ -26,48 +26,27 @@
         //التخصصات
 
         [Required(ErrorMessage = "مدني؟")]
-        public bool IsCivil { get; set; } = false;
+        public bool? IsCivil { get; set; } = false;
 
         [Required(ErrorMessage = "معماري؟")]
-        public bool IsArchitectural { get; set; } = false;
+        public bool? IsArchitectural { get; set; } = false;
 
         [Required(ErrorMessage = "ميكانيكا؟")]
-        public bool IsMechanics { get; set; } = false;
+        public bool? IsMechanics { get; set; } = false;
 
         [Required(ErrorMessage = "كهرباء؟")]
-        public bool IsElectricity { get; set; } = false;
+        public bool? IsElectricity { get; set; } = false;
 
         [Required(ErrorMessage = "زراعي؟")]
-        public bool IsAgricultural { get; set; } = false;
+        public bool? IsAgricultural { get; set; } = false;
 
         [Required(ErrorMessage = "أخرى؟")]
-        public bool IsOthers { get; set; } = false;
+        public bool? IsOthers { get; set; } = false;
 
         //تخصص اخر
 
         [Display(Name = "أكتب تخصص اخر")]
         public string OtherSpecialization { get; set; }
-
-
-        //[Display(Name = "العمل المطلوب فحصه")]
-        //public int WorkToBeExaminedId { get; set; }
-        //public virtual WorkToBeExamined WorkToBeExamined { get; set; }
-
-        //[Display(Name = "المبنى")]
-        //public int BuildingId { get; set; }
-        //public virtual Building Buildings { get; set; }
-
-        //[Display(Name = "الدور")]
-        //public int FloorId { get; set; }
-        //public virtual Floor Floor { get; set; }
-
-        //[Display(Name = "تاريخ الفحص المطلوب")]
-        //public int RequiredExaminationDateId { get; set; }
-        //public virtual RequiredExaminationDate RequiredExaminationDate { get; set; }
-
-        //[Display(Name = "اللوحات المعتمدة")]
-        //public int ApprovedPlatesId { get; set; }
-        //public virtual ApprovedPlates ApprovedPlates { get; set; }
 
 
         [Display(Name = "بيان المبنى")]

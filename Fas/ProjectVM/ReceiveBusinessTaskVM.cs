@@ -6,7 +6,6 @@ namespace FasDemo.ProjectModel
     public partial class ReceiveBusinessTaskVM
     {
         public int ReceiveBusinessTaskId { get; set; }
-
         public int ReceiveBusinessId { get; set; }
 
         [Display(Name = "المهمة")]
@@ -29,6 +28,9 @@ namespace FasDemo.ProjectModel
         [Display(Name = "الاعتماد")]
         public bool? IsApproved { get; set; }
 
+        [Display(Name = "التوقيع")]
+        public bool? IsSigned { get; set; }
+
         [Display(Name = "تعتمد بـ")]
         public string ApprovedById { get; set; }
 
@@ -40,30 +42,52 @@ namespace FasDemo.ProjectModel
 
         //FROM PROJECTS TABLE
 
-        [Display(Name = "المشروع")]
+        [Display(Name = "اسم المشروع")]
         public string ProjectName { get; set; }
+
+        [Display(Name = "كود المشروع")]
+        public string ProjectCode { get; set; }
 
         //FROM CONTRACTORS TABLE
 
-        [Display(Name = "المقاول")]
+        [Display(Name = "اسم المقاول")]
         public string ContractorName { get; set; }
+
+        [Display(Name = "كود المقاول")]
+        public string ContractorCode { get; set; }
 
         //FROM RECEIVEBUSINESS TABLE
 
         [Display(Name = "تاريخ الطلب")]
         public DateTime ReceiveBusinessDate { get; set; } = DateTime.Now;
 
+
+        [Display(Name = "مدني")]
+        public bool? IsCivil { get; set; } = false;
+
+        [Display(Name = "معماري")]
+        public bool? IsArchitectural { get; set; } = false;
+
+        [Display(Name = "ميكانيكا")]
+        public bool? IsMechanics { get; set; } = false;
+
+        [Display(Name = "كهرباء")]
+        public bool? IsElectricity { get; set; } = false;
+
+        [Display(Name = "زراعي")]
+        public bool? IsAgricultural { get; set; } = false;
+
+        [Display(Name = "أخرى")]
+        public bool? IsOthers { get; set; } = false;
+
+        [Display(Name = "تخصص اخر")]
+        public string OtherSpecialization { get; set; }
+
         [Display(Name = "رقم التسلسل")]
-        public int SerialNumber { get; set; }
+        public int? SerialNumber { get; set; }
 
         [Display(Name = "رقم المراجعة")]
-        public int ReviewNumber { get; set; }
-
-        [Display(Name = "نوع طلب الاعتماد")]
-        public int TypeOfAccreditationRequest { get; set; }
-
-        [Display(Name = "التخصص")]
-        public int Specialization { get; set; }
+        public int? ReviewNumber { get; set; }
 
 
         public string ProfilePicture { get; set; }
