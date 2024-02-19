@@ -69,17 +69,20 @@ namespace FasDemo.Controllers
 
         public async Task<IActionResult> Index()
         {
+
             ApplicationUser applicationUser = await _userManager.GetUserAsync(User);
 
-            string tempid = applicationUser.Id;// "75e58d3d-edfe-4785-bc08-f9fc3497e17e";
+            string tempid = applicationUser.Id;
+
             SqlParameter[] parameters1 = {
-                new SqlParameter("@cmdType", "GetUserTasks"),
-                 new SqlParameter("@AssignTo", tempid)//applicationUser.Id
+                 new SqlParameter("@cmdType", "GetUserTasks"),
+                 new SqlParameter("@AssignTo", tempid)
             };
 
-            var objs = await _context.Query<ReceiveBusinessTaskVM>().FromSql("sp_ReceiveBusinessTasks @cmdType, @AssignTo", parameters1).ToListAsync();
+            var objs = await _context.Query<ReceiveBusinessTaskVM>().FromSql("sp_DisplayReceiveBusinessTasks @cmdType, @AssignTo", parameters1).ToListAsync();
 
             return View(objs);
+
         }
 
         //display project create edit form

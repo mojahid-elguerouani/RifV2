@@ -106,6 +106,9 @@ namespace FasDemo.Data
 
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Query<ReceiveBusinessTaskVM>();
+
+
             modelBuilder.Query<ProjectTaskVM>();
             modelBuilder.Query<TaskstatusVM>(); 
             modelBuilder.Query<DashBoerdV2DTO>();

@@ -53,6 +53,10 @@ namespace FasDemo.Controllers
         private void FillDropdownListWithData()
         {
             ViewData["SystemUser"] = _app.GetSystemUserSelectList();
+
+
+            ViewData["AllUserSelect"] = _app.GetAllUserSelectList();
+
             ViewData["ContractorUser"] = _app.GetContractorSelectList();
             ViewData["ReceiveBusinessSchedualTemplet"] = _app.GetReceiveBusinessSchedualTempletSelectList();
             ViewData["Employee"] = _app.GetEmployeeUserSelectList();
@@ -63,6 +67,7 @@ namespace FasDemo.Controllers
             ViewData["ProjectCode"] = _app.GetProjectCodeSelectList();
             ViewData["Sector"] = _app.GetSectorSelectList();
             ViewData["Region"] = _app.GetRegionSelectList();
+
         }
 
 
