@@ -113,7 +113,13 @@ namespace FasDemo.Controllers
             FillDropdownListWithData();
 
             ViewBag.ProjectName = editObj.ReceiveBusiness.Project.ProjectName;
+            ViewBag.ReceiveBusinessSerialNumber = editObj.ReceiveBusiness.SerialNumber;
+            ViewBag.ReceiveBusinessReviewNumber = editObj.ReceiveBusiness.ReviewNumber;
+
+            
             ViewBag.ReceiveBusinessTaskName = editObj.TaskName;
+
+            
 
             return View(editObj);
 

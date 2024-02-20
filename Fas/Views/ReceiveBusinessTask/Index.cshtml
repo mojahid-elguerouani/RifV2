@@ -157,14 +157,46 @@
                                                             <div class="progress">
                                                                 <div class="progress-bar progress-bar-striped bg-info progress-bar-animated" role="progressbar" style="width:  @item.Compleation%;" aria-valuenow="@item.Compleation" aria-valuemin="0" aria-valuemax="100"></div>
                                                             </div>
-                                                            <div style="float: left !important;">
+
+
+
+@*
+                                                            <div class="row">
+
+                                                                <div class="col-6">
+                                                                    <button type="button" id="myBtn" class="btn btn-success sign m-2" onclick='deleteorder2(@item.ReceiveBusinessTaskId)'>التوقيع</button>
+
+                                                                </div>
+
+                                                                <div class="col-3">
+                                                                    <a class="btn btn-dark btn-icon m-0" data-toggle="tooltip" data-placement="top" title="تعديل المهمة"
+                                                                    href="/@controller/Form/@item.ReceiveBusinessTaskId"><i class="feather icon-check-circle"></i></a>
+                                                                </div>
+
+                                                                <div class="col-3">
+                                                                    <a class="btn btn-dark btn-icon m-0" data-toggle="tooltip" data-placement="top" title="تفاصيل المشروع"
+                                                                    href="/@controller/ReceiveBusinessTaskDetails/@item.ReceiveBusinessId"><i class="feather icon-camera"></i></a>
+                                                                            
+                                                                </div>
+
+                                                            </div>
+
+
+                                                             <button type="button" id="myBtn" class="btn btn-danger appr  m-2" onclick='deleteorder2(@item.ReceiveBusinessTaskId)'>اعتماد الطلب</button>*@
+
+                                                                           
+
+
+
+                                                            <div style="text-align: center !important;">
+
 
                                                                 <button type="button" id="myBtn" class="btn btn-success sign m-2" onclick='deleteorder2(@item.ReceiveBusinessTaskId)'>التوقيع</button>
 
                                                                     <a class="btn btn-dark btn-icon m-0" data-toggle="tooltip" data-placement="top" title="تعديل المهمة"
                                                                    href="/@controller/Form/@item.ReceiveBusinessTaskId"><i class="feather icon-check-circle"></i></a>
 
-                                                                    <a class="btn btn-dark btn-icon m-0" data-toggle="tooltip" data-placement="top" title="تفاصيل المشروع"
+                                                                    <a class="btn btn-dark btn-icon m-0" data-toggle="tooltip" data-placement="top" title="تفاصيل الطلب"
                                                                    href="/@controller/ReceiveBusinessTaskDetails/@item.ReceiveBusinessId"><i class="feather icon-camera"></i></a>
 
                                                                 <button type="button" id="myBtn" class="btn btn-danger appr  m-2" onclick='deleteorder2(@item.ReceiveBusinessTaskId)'>اعتماد الطلب</button>
@@ -342,7 +374,7 @@
                                                         <div class="card-block">
                                                             <h6 class="text-dark">نوع الطلب : اعتماد طلبات استلام اعمال (IR) </h6>
                                                             <h6 class="text-dark">تاريخ الطلب : @item.ReceiveBusinessDate </h6>
-                                                            <h6 class="text-dark">المقاول : @item.ContractorName </h6>
+                                                            <h6 class="text-dark">المقاول : @item.ContractorName (@item.ContractorCode)</h6>
                                                             <h6 class="f-w-600 text-dark ">رقم التسلسل :  @item.SerialNumber <span class="f-w-300 m-l-10">رقم المراجعة : @item.ReviewNumber</span></h6>
                                                             <h6 class="text-dark">
                                                                 التخصص : @if (item.IsAgricultural == true)
@@ -416,13 +448,39 @@
 
         button.sign{
             border-color: #0e6238;
-
         }
+
+        button.sign:hover{
+            color: #fff;
+            background-color: #0e6238;
+            border-color: #13c095;
+        }
+
+
+
 
         button.appr {
             border-color: #d9a630;
         }
 
+            button.appr:hover {
+            color: #fff;
+            background-color: #d9a630;
+            border-color: #f9be34;
+        }
+
+
+        a.btn-dark{
+            background: transparent;
+        }
+
+        a.btn-dark:hover i {
+                color: #fff;
+        }
+        a.btn-dark i{
+            color: #000;
+            font-weight: 900;
+        }
     </style>
 }
 
