@@ -142,7 +142,8 @@
 
                                                         <label>مدني</label>
                                                         <div class="switch d-inline m-r-10">
-                                                            <input asp-for="IsCivil" class="form-control" type="checkbox" data-value="true" id="IsCivil" onchange="trackChecked()">
+                                                            
+                                                            <input name="IsCivil" class="form-control" type="checkbox" data-value="true" id="IsCivil" onchange="trackChecked()">
                                                             <label for="IsCivil" class="cr"></label>
                                                         </div>
 
@@ -152,7 +153,7 @@
 
                                                         <label>معماري</label>
                                                         <div class="switch d-inline m-r-10">
-                                                            <input asp-for="IsArchitectural" class="form-control" type="checkbox" data-value="true" id="IsArchitectural" onchange="trackChecked()">
+                                                            <input name="IsArchitectural" class="form-control" type="checkbox" data-value="true" id="IsArchitectural" onchange="trackChecked()">
                                                             <label for="IsArchitectural" class="cr"></label>
                                                         </div>
 
@@ -162,7 +163,7 @@
 
                                                         <label>ميكانيكا</label>
                                                         <div class="switch d-inline m-r-10">
-                                                            <input asp-for="IsMechanics" class="form-control" type="checkbox" data-value="true" id="IsMechanics" onchange="trackChecked()">
+                                                            <input name="IsMechanics" class="form-control" type="checkbox" data-value="true" id="IsMechanics" onchange="trackChecked()">
                                                             <label for="IsMechanics" class="cr"></label>
                                                         </div>
 
@@ -172,7 +173,7 @@
 
                                                         <label>كهرباء</label>
                                                         <div class="switch d-inline m-r-10">
-                                                            <input asp-for="IsElectricity" class="form-control" type="checkbox" data-value="true" id="IsElectricity" onchange="trackChecked()">
+                                                            <input name="IsElectricity" class="form-control" type="checkbox" data-value="true" id="IsElectricity" onchange="trackChecked()">
                                                             <label for="IsElectricity" class="cr"></label>
                                                         </div>
 
@@ -182,7 +183,7 @@
 
                                                         <label>زراعي</label>
                                                         <div class="switch d-inline m-r-10">
-                                                            <input asp-for="IsAgricultural" class="form-control" type="checkbox" data-value="true" id="IsAgricultural" onchange="trackChecked()">
+                                                            <input name="IsAgricultural" class="form-control" type="checkbox" data-value="true" id="IsAgricultural" onchange="trackChecked()">
                                                             <label for="IsAgricultural" class="cr"></label>
                                                         </div>
 
@@ -192,7 +193,7 @@
 
                                                         <label>أخرى</label>
                                                         <div class="switch d-inline m-r-10">
-                                                            <input asp-for="IsOthers" class="form-control" type="checkbox" data-value="true" id="IsOthers" onchange="{trackChecked();trackOther()}">
+                                                            <input name="IsOthers" class="form-control" type="checkbox" data-value="true" id="IsOthers" onchange="{trackChecked();trackOther()}">
                                                             <label for="IsOthers" class="cr"></label>
                                                         </div>
 
@@ -377,7 +378,9 @@
                                             <button type="submit" class="btn btn-primary">حفظ</button>
                                         </div>
                                     </article>
-
+                                    @{
+                                        var a = 10;
+                                    }
                                 </form>
                             </div>
                         </div>

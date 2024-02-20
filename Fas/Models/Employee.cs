@@ -98,9 +98,13 @@ namespace FasDemo.Models
         [Display(Name = "سويفت كود / ايبان")]
         public string SwiftCode { get; set; }
 
+
         //system user account
         [Display(Name = "المستخدم")]
         public string SystemUserId { get; set; }       
         public ApplicationUser SystemUser { get; set; }
+
+        [Display(Name = "التوقيع")]
+        public string Signature { get; set; }
     }
 }
