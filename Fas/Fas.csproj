@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20240220090602_AddSignetureToEmployeeTable.cs" />
+    <Compile Remove="Migrations\20240220090602_AddSignetureToEmployeeTable.Designer.cs" />
+    <Compile Remove="Migrations\20240220131432_test.cs" />
+    <Compile Remove="Migrations\20240220131432_test.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\assets\fonts\datta\fonts\pct.svg" />
     <None Include="wwwroot\assets\fonts\feather\fonts\feather.svg" />
     <None Include="wwwroot\assets\fonts\flag\flags\1x1\ad.svg" />

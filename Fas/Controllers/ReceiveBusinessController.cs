@@ -21,7 +21,7 @@ using Project = ProjectManagment.Models.Project;
 using ReceiveBusiness = ProjectManagment.Models.ReceiveBusiness;
 using ReceiveBusinessSchedualTemplet = ProjectManagment.Models.ReceiveBusinessSchedualTemplet;
 using ReceiveBusinessTask = ProjectManagment.Models.ReceiveBusinessTask;
-
+using Newtonsoft.Json;
 namespace FasDemo.Controllers
 {
     public class ReceiveBusinessController : Controller
@@ -94,6 +94,16 @@ namespace FasDemo.Controllers
                 //dropdownlist 
                 FillDropdownListWithData();
                 ReceiveBusiness newObj = new ReceiveBusiness();
+                var RecordCount = _context.ReceiveBusiness.Count();
+                if(RecordCount!=0)
+                {
+                    //var maxReciveBusinessId = _context.ReceiveBusiness.Max(x => x.ReceiveBusinessId);
+                    //var maxSerialNumber = _context.ReceiveBusiness.Where(x => x.ReceiveBusinessId == maxReciveBusinessId).Select(x=>x.SerialNumber).FirstOrDefault();
+                    //var maxReviewNumber = _context.ReceiveBusiness.Where(x => x.ReceiveBusinessId == maxReciveBusinessId).Select(x=>x.ReviewNumber).FirstOrDefault();
+                    newObj.SerialNumber= 1;
+                    newObj.ReviewNumber= 0;
+                }
+                
                 return View(newObj);
             }
 
@@ -166,7 +176,7 @@ namespace FasDemo.Controllers
 
                     newReceiveBusiness.ReceiveBusinessId = receivebusiness.ReceiveBusinessId;
                     newReceiveBusiness.SerialNumber = receivebusiness.SerialNumber;
-                    newReceiveBusiness.ReviewNumber = newReceiveBusiness.ReviewNumber;
+                    newReceiveBusiness.ReviewNumber = receivebusiness.ReviewNumber;
                     newReceiveBusiness.ReceiveBusinessDate = receivebusiness.ReceiveBusinessDate;
 
                     newReceiveBusiness.IsCivil = receivebusiness.IsCivil;
@@ -795,6 +805,15 @@ namespace FasDemo.Controllers
         {
             var result = _context.Projects.Where(x => x.Sector == type).ToList();
             return result;
+        }
+
+
+        public List<ReceiveBusiness> GetMaxReviewAndSerialNumber(string sqlStetment)
+        {
+
+            var newList = _context.ReceiveBusiness.FromSql(sqlStetment).ToList();
+            return newList;
+            
         }
 
     }

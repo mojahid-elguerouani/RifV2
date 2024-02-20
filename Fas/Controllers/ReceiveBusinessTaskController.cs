@@ -23,6 +23,8 @@ using ChatApp.Models;
 using ChatApp.Domain.Entity;
 using FasDemo.SurveyModel.ViewModel;
 using FasDemo.SurveyModel;
+using Fas.Services.Security;
+using Microsoft.Extensions.Configuration;
 
 
 namespace FasDemo.Controllers
@@ -39,6 +41,7 @@ namespace FasDemo.Controllers
         private readonly Services.Security.ICommon _security;
         private readonly Services.App.ICommon _app;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IConfiguration _config;
 
         public ReceiveBusinessTaskController(
             ApplicationDbContext context,
@@ -47,7 +50,8 @@ namespace FasDemo.Controllers
             Services.App.ICommon app,
             SignInManager<ApplicationUser> signInManager,
             IHostingEnvironment _environment,
-            IHubContext<ChatHub> hubContext
+            IHubContext<ChatHub> hubContext,
+            IConfiguration configuration
             )
         {
             _context = context;
@@ -57,6 +61,7 @@ namespace FasDemo.Controllers
             _signInManager = signInManager;
             Environment = _environment;
             _hubContext = hubContext;
+            _config = configuration;
         }
 
         private void FillDropdownListWithData()
@@ -754,6 +759,34 @@ namespace FasDemo.Controllers
         {
             int count = _context.UserNotifications.Where(m => m.Status == "New" && m.ToUserID == toUserID && m.IsActive == true).Count();
             return count;
+        }
+
+
+        [HttpPost]
+        public IActionResult CheckSigneture(string EmployeeId,string pass,int receiveBusinessId)
+        {
+            string message = "";
+            string realPassInDb = _context.Employee.Where(x=>x.EmployeeId==EmployeeId).Select(x=>x.Signature).FirstOrDefault();
+            var key = _config.GetSection("KeyForEncrypt").Value;
+            string passAfterEncrypt = AesOperation.EncryptString(key, pass);
+
+            if(realPassInDb == passAfterEncrypt)
+            {
+                var item = _context.ReceiveBusinessTasks.Include(x => x.ReceiveBusiness).ThenInclude(x => x.Project).ThenInclude(x => x.Contractor).Where(x => x.ReceiveBusinessId == receiveBusinessId).FirstOrDefault();
+            }
+
+            if (EmployeeId != null || pass != null)
+            {
+
+                message = "تم التوقيع بنجاح";
+                return RedirectToAction("", "", new { });
+            }
+            else
+            {
+                message = "هناك خطأ ما في كلمة المرور";
+                return RedirectToAction("", "", new { });
+            }
+            
         }
 
         [HttpPost]
