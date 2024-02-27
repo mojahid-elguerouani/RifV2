@@ -251,52 +251,82 @@
                                                         <div class="card theme-bg3 animated @animations ">
                                                             <div class="card-header borderless align-items-center justify-content-center">
 
-                                                                <h5 class="f-w-300 d-flex align-items-center float-left">
-                                                                    @item.ProjectName (@item.ProjectCode)
-                                                                </h5>
-                                                                <span class="bg-c-yellow d-block rounded-circle mx-auto mb-2" style="width:20px; height:20px; float:left"></span>
-                                                                <br />
-                                                                <span class="d-block  text-dark mt-3 f-w-600" style="text-align:center;">@item.TaskName</span>
-                                                                <span class="d-block text-dark mt-3 f-w-300">@item.TaskUserName</span>
+                                                            <h5 class="f-w-300 d-flex align-items-center float-left">
+                                                                @item.ProjectName (@item.ProjectCode)
+                                                            </h5>
+                                                            <span class="bg-c-yellow d-block rounded-circle mx-auto mb-2" style="width:20px; height:20px; float:left"></span>
+                                                            <br />
+                                                            <span class="d-block  text-dark mt-3 f-w-600" style="text-align:center;">@item.TaskName</span>
+                                                            <span class="d-block text-dark mt-3 f-w-300">@item.TaskUserName</span>
+                                                        </div>
+                                                        <div class="card-block">
+                                                            <h6 class="text-dark">نوع الطلب : اعتماد طلبات استلام اعمال (IR) </h6>
+                                                            <h6 class="text-dark">تاريخ الطلب : @item.ReceiveBusinessDate </h6>
+                                                            <h6 class="text-dark">المقاول : @item.ContractorName </h6>
+                                                            <h6 class="f-w-600 text-dark ">رقم التسلسل :  @item.SerialNumber <span class="f-w-300 m-l-10">رقم المراجعة : @item.ReviewNumber</span></h6>
+                                                            <h6 class="text-dark">التخصص : @if (item.IsAgricultural == true)
+                                                                {
+                                                                    <span>زراعي</span>
+                                                                }
+                                                                else if (item.IsArchitectural == true)
+                                                                {
+                                                                    <span>معماري</span>
+                                                                }
+                                                                else if (item.IsCivil == true)
+                                                                {
+                                                                    <span>مدني</span>
+                                                                }
+                                                                else if (item.IsElectricity == true)
+                                                                {
+                                                                    <span>كهرباء</span>
+                                                                }
+                                                                else if (item.IsMechanics == true)
+                                                                {
+                                                                    <span>ميكانيكا</span>
+                                                                }
+                                                                else if (item.IsOthers == true)
+                                                                {
+                                                                    <span>@item.OtherSpecialization</span>
+                                                                } </h6>
+                                                            <h6 class="f-w-600 text-dark">
+                                                                نسبة الاعتماد : @item.Compleation
+                                                            </h6>
+                                                            <div class="progress">
+                                                                <div class="progress-bar progress-bar-striped bg-info progress-bar-animated" role="progressbar" style="width:  @item.Compleation%;" aria-valuenow="@item.Compleation" aria-valuemin="0" aria-valuemax="100"></div>
                                                             </div>
-                                                            <div class="card-block">
-                                                                <h6 class="text-dark">نوع الطلب : اعتماد طلبات استلام اعمال (IR) </h6>
-                                                                <h6 class="text-dark">تاريخ الطلب : @item.ReceiveBusinessDate </h6>
-                                                                <h6 class="text-dark">المقاول : @item.ContractorName </h6>
-                                                                <h6 class="f-w-600 text-dark ">رقم التسلسل :  @item.SerialNumber 00<span class="f-w-300 m-l-10">رقم المراجعة : @item.ReviewNumber 0</span></h6>
-                                                                <h6 class="text-dark">
-                                                                    التخصص : @if (item.IsAgricultural == true)
-                                                                    {
-                                                                        <span>زراعي</span>
-                                                                    }
-                                                                    else if (item.IsArchitectural == true)
-                                                                    {
-                                                                        <span>معماري</span>
-                                                                    }
-                                                                    else if (item.IsCivil == true)
-                                                                    {
-                                                                        <span>مدني</span>
-                                                                    }
-                                                                    else if (item.IsElectricity == true)
-                                                                    {
-                                                                        <span>كهرباء</span>
-                                                                    }
-                                                                    else if (item.IsMechanics == true)
-                                                                    {
-                                                                        <span>ميكانيكا</span>
-                                                                    }
-                                                                    else if (item.IsOthers == true)
-                                                                    {
-                                                                        <span>@item.OtherSpecialization</span>
-                                                                    }
-                                                                </h6>
-                                                                <h6 class="f-w-600 text-dark">
-                                                                    نسبة الاعتماد : @item.Compleation
-                                                                </h6>
-                                                                <div class="progress">
-                                                                    <div class="progress-bar progress-bar-striped bg-info progress-bar-animated" role="progressbar" style="width:  @item.Compleation%;" aria-valuenow="@item.Compleation" aria-valuemin="0" aria-valuemax="100"></div>
+
+
+
+@*
+                                                            <div class="row">
+
+                                                                <div class="col-6">
+                                                                    <button type="button" id="myBtn" class="btn btn-success sign m-2" onclick='deleteorder2(@item.ReceiveBusinessTaskId)'>التوقيع</button>
+
                                                                 </div>
-                                                                <div style="float: left !important;">
+
+                                                                <div class="col-3">
+                                                                    <a class="btn btn-dark btn-icon m-0" data-toggle="tooltip" data-placement="top" title="تعديل المهمة"
+                                                                    href="/@controller/Form/@item.ReceiveBusinessTaskId"><i class="feather icon-check-circle"></i></a>
+                                                                </div>
+
+                                                                <div class="col-3">
+                                                                    <a class="btn btn-dark btn-icon m-0" data-toggle="tooltip" data-placement="top" title="تفاصيل المشروع"
+                                                                    href="/@controller/ReceiveBusinessTaskDetails/@item.ReceiveBusinessId"><i class="feather icon-camera"></i></a>
+                                                                            
+                                                                </div>
+
+                                                            </div>
+
+
+                                                             <button type="button" id="myBtn" class="btn btn-danger appr  m-2" onclick='deleteorder2(@item.ReceiveBusinessTaskId)'>اعتماد الطلب</button>*@
+
+                                                                           
+
+
+
+                                                            <div style="text-align: center !important;">
+
 
                                                                     <button type="button" id="myBtn" class="btn btn-success sign m-2" onclick='showForm(@item.ReceiveBusinessId)'>التوقيع</button>
 
@@ -304,7 +334,7 @@
                                                                        href="/@controller/Form/@item.ReceiveBusinessTaskId"><i class="feather icon-check-circle"></i></a>
 
                                                                     <a class="btn btn-dark btn-icon m-0" data-toggle="tooltip" data-placement="top" title="تفاصيل المشروع"
-                                                                       href="/@controller/ReceiveBusinessTaskDetails/@item.ReceiveBusinessId"><i class="feather icon-camera"></i></a>
+                                                                   href="/@controller/ReceiveBusinessTaskDetails/@item.ReceiveBusinessId"><i class="feather icon-camera"></i></a>
 
                                                                     <button type="button" id="myBtn" class="btn btn-danger appr  m-2" onclick='deleteorder2(@item.ReceiveBusinessTaskId)'>اعتماد الطلب</button>
 
@@ -483,7 +513,7 @@
                                                         <div class="card-block">
                                                             <h6 class="text-dark">نوع الطلب : اعتماد طلبات استلام اعمال (IR) </h6>
                                                             <h6 class="text-dark">تاريخ الطلب : @item.ReceiveBusinessDate </h6>
-                                                            <h6 class="text-dark">المقاول : @item.ContractorName </h6>
+                                                            <h6 class="text-dark">المقاول : @item.ContractorName (@item.ContractorCode)</h6>
                                                             <h6 class="f-w-600 text-dark ">رقم التسلسل :  @item.SerialNumber <span class="f-w-300 m-l-10">رقم المراجعة : @item.ReviewNumber</span></h6>
                                                             <h6 class="text-dark">
                                                                 التخصص : @if (item.IsAgricultural == true)
@@ -557,13 +587,39 @@
 
         button.sign{
             border-color: #0e6238;
-
         }
+
+        button.sign:hover{
+            color: #fff;
+            background-color: #0e6238;
+            border-color: #13c095;
+        }
+
+
+
 
         button.appr {
             border-color: #d9a630;
         }
 
+            button.appr:hover {
+            color: #fff;
+            background-color: #d9a630;
+            border-color: #f9be34;
+        }
+
+
+        a.btn-dark{
+            background: transparent;
+        }
+
+        a.btn-dark:hover i {
+                color: #fff;
+        }
+        a.btn-dark i{
+            color: #000;
+            font-weight: 900;
+        }
     </style>
 }
 
