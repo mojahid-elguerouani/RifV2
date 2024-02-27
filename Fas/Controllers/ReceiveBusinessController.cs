@@ -95,15 +95,12 @@ namespace FasDemo.Controllers
                 FillDropdownListWithData();
                 ReceiveBusiness newObj = new ReceiveBusiness();
                 var RecordCount = _context.ReceiveBusiness.Count();
-                if(RecordCount!=0)
+                if (RecordCount != 0)
                 {
-                    //var maxReciveBusinessId = _context.ReceiveBusiness.Max(x => x.ReceiveBusinessId);
-                    //var maxSerialNumber = _context.ReceiveBusiness.Where(x => x.ReceiveBusinessId == maxReciveBusinessId).Select(x=>x.SerialNumber).FirstOrDefault();
-                    //var maxReviewNumber = _context.ReceiveBusiness.Where(x => x.ReceiveBusinessId == maxReciveBusinessId).Select(x=>x.ReviewNumber).FirstOrDefault();
-                    newObj.SerialNumber= 1;
-                    newObj.ReviewNumber= 0;
+                    newObj.SerialNumber = 1;
+                    newObj.ReviewNumber = 0;
                 }
-                
+
                 return View(newObj);
             }
 

@@ -42,16 +42,57 @@ namespace FasDemo.ProjectModel.DTO
         public DateTime? ApproveDate { get; set; }
 
         public DateTime? UpdateDate { get; set; }
-        [DisplayFormat(DataFormatString = "{0: MM/dd/yyyy}")]
-        public DateTime? StarDateActual { get; set; }
-        [DisplayFormat(DataFormatString = "{0: MM/dd/yyyy}")]
-        public DateTime? EndDateActual { get; set; }
+
+
+        //FROM RECEIVEBUSINESS TABLE
+
+        [Display(Name = "تاريخ الطلب")]
+        public DateTime ReceiveBusinessDate { get; set; } = DateTime.Now;
+
+
+        [Display(Name = "بيان المبنى")]
+        public string BuildingStatement { get; set; }
+
+        [Display(Name = "ملاحظات المبنى")]
+        public string BuildingComments { get; set; }
+
+        [Display(Name = "بيان العمل المطلوب فحصه")]
+        public string WorkToBeExaminedStatement { get; set; }
+
+        [Display(Name = "ملاحظات العمل المطلوب فحصه")]
+        public string WorkToBeExaminedComments { get; set; }
+
+        [Display(Name = "بيان الدور")]
+        public string FloorStatement { get; set; }
+
+        [Display(Name = "ملاحظات الدور")]
+        public string FloorComments { get; set; }
+
+        [Display(Name = "بيان تاريخ الفحص المطلوب")]
+        public string RequiredExaminationDateStatement { get; set; }
+
+        [Display(Name = "ملاحظات تاريخ الفحص المطلوب")]
+        public string RequiredExaminationDateComments { get; set; }
+
+
+        [Display(Name = "بيان اللوحات المعتمدة")]
+        public string ApprovedPlatesStatement { get; set; }
+
+        [Display(Name = "ملاحظات اللوحات المعتمدة")]
+        public string ApprovedPlatesComments { get; set; }
+
+
+
+        //[DisplayFormat(DataFormatString = "{0: MM/dd/yyyy}")]
+        //public DateTime? StarDateActual { get; set; }
+        //[DisplayFormat(DataFormatString = "{0: MM/dd/yyyy}")]
+        //public DateTime? EndDateActual { get; set; }
 
         public string ProfilePicture { get; set; }
         public virtual ICollection<ReceiveBusinessTaskLog> ReceiveBusinessTaskLog { get; set; }
 
-        public decimal ReceiveBusinessTasksSum { get; set; }
-        public decimal ReceiveBusinessTasksSum100 { get; set; }
-        public decimal ReceiveBusinessTasksRatio { get; set; }
+        //public decimal ReceiveBusinessTasksSum { get; set; }
+        //public decimal ReceiveBusinessTasksSum100 { get; set; }
+        //public decimal ReceiveBusinessTasksRatio { get; set; }
     }
 }

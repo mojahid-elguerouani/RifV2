@@ -316,22 +316,37 @@ namespace FasDemo.Controllers
                 {
                     return NotFound();
                 }
-                //edit object
-                var _project = await _context.Projects.Where(x => x.ProjectId == id).FirstOrDefaultAsync();
-                ViewData["EndDate"] = _project.EndDate;
-                ViewData["ProjectName"] = _project.ProjectName;
-                ViewData["Projectid"] = _project.ProjectId;
 
-                ViewData["ProjectComment"] = await _context.ProjectComment.Include(x => x.CommentImages)
-                                                    .Where(x => x.ProjectId == id && x.CommentToId == null).ToListAsync();
-                ViewData["ProjectCommentClient"] = await _context.ProjectComment.Include(x => x.CommentImages)
-                                                    .Where(x => x.ProjectId == id && x.CommentToId != null).ToListAsync();
+                //edit object
+
+                var _receivebusiness = await _context.ReceiveBusiness.Include(p => p.Project).Where(x => x.ReceiveBusinessId == id).FirstOrDefaultAsync();
+
+
+                //ViewData["EndDate"] = _project.EndDate;
+
+                ViewData["ProjectName"] = _receivebusiness.Project.ProjectName;
+                ViewData["ReceiveBusinessid"] = _receivebusiness.ReceiveBusinessId;
+
+                ViewData["ReceiveBusinessSerialNumber"] = $"00" + _receivebusiness.SerialNumber;
+                ViewData["ReceiveBusinessReviewNumber"] = $"0" +  _receivebusiness.ReviewNumber;
+
+    
+
+
+                ViewData["ReceiveBusinessComment"] = await _context.ReceiveBusinessComment.Include(x => x.ReceiveBusinessCommentImages)
+                                                    .Where(x => x.ReceiveBusinessId == id && x.CommentToId == null).ToListAsync();
+
+
+                //ViewData["ReceiveBusinessCommentClient"] = await _context.ReceiveBusinessComment.Include(x => x.CommentImages)
+                //                                    .Where(x => x.ProjectId == id && x.CommentToId != null).ToListAsync();
 
 
                 var ReceiveBusinessTasksList = await _context.ReceiveBusinessTasks
                                             .Where(a => a.ReceiveBusinessId == id)
                                             .Include(ctx => ctx.ReceiveBusinessAssignTo)
-                                            //.Include(ctx => ctx.ReceiveBusinessTaskLogs)
+
+                                            //.I am added them
+                                            .Include(r => r.ReceiveBusiness)
                                             .OrderBy(a => a.TaskOrder)
                                             .ToListAsync();
                 List<ReceiveBusinessTaskDto> editObj = new List<ReceiveBusinessTaskDto>();
@@ -343,10 +358,6 @@ namespace FasDemo.Controllers
                         {
                             ReceiveBusinessTaskId = item.ReceiveBusinessTaskId,
                             TaskName = item.TaskName,
-                            //StarDate = item.StarDate,
-                            //StarDateActual = item.StartDateActual,
-                            //EndDate = item.EndDate,
-                            //EndDateActual = item.EndDateActual,
                             AssignToId = item.ReceiveBusinessAssignToId,
                             //AssignTo = item.ProjectAssignTo,
                             //Firstname = _context.Employee.Where(a => a.SystemUserId == x.ProjectAssignToId).FirstOrDefault().FirstName,
@@ -356,6 +367,17 @@ namespace FasDemo.Controllers
                             //Duration = item.Duration,
                             IsApproved = item.IsApproved,
                             //ReceiveBusinessTasksSum = (decimal)item.Compleation
+                            BuildingStatement = item.ReceiveBusiness.BuildingStatement,
+                            BuildingComments = item.ReceiveBusiness.BuildingComments,
+                            WorkToBeExaminedStatement = item.ReceiveBusiness.WorkToBeExaminedStatement,
+                            WorkToBeExaminedComments = item.ReceiveBusiness.WorkToBeExaminedComments,
+                            FloorStatement = item.ReceiveBusiness.FloorStatement,
+                            FloorComments = item.ReceiveBusiness.FloorComments,
+                            RequiredExaminationDateStatement = item.ReceiveBusiness.RequiredExaminationDateStatement,
+                            RequiredExaminationDateComments = item.ReceiveBusiness.RequiredExaminationDateComments,
+                            ApprovedPlatesStatement = item.ReceiveBusiness.ApprovedPlatesStatement,
+                            ApprovedPlatesComments = item.ReceiveBusiness.ApprovedPlatesComments,
+
                             Firstname = userFirstName(item.ReceiveBusinessAssignToId),
                             ProfilePicture = userImage(item.ReceiveBusinessAssignToId),
                             ReceiveBusinessTaskLog = _context.ReceiveBusinessTaskLog.AsNoTracking()
@@ -381,10 +403,10 @@ namespace FasDemo.Controllers
                 };
 
 
-                var _ReceiveBusinessTasksSum = editObj.Sum(d => d.Compleation * d.Duration);
-                var _ReceiveBusinessTasksSum1 = editObj.Sum(d => 100.00 * d.Duration);
+                //var _ReceiveBusinessTasksSum = editObj.Sum(d => d.Compleation * d.Duration);
+                //var _ReceiveBusinessTasksSum1 = editObj.Sum(d => 100.00 * d.Duration);
 
-                var _ReceiveBusinessTasksSum2 = (_ReceiveBusinessTasksSum / _ReceiveBusinessTasksSum1) * 100;
+                //var _ReceiveBusinessTasksSum2 = (_ReceiveBusinessTasksSum / _ReceiveBusinessTasksSum1) * 100;
 
                 if (editObj == null)
                 {
@@ -429,71 +451,71 @@ namespace FasDemo.Controllers
 
                 SqlParameter[] parameters1 = {
                 new SqlParameter("@cmdType", "GetTaskstatus"),
-                 new SqlParameter("@ProjectId", id)//applicationUser.Id
+                 new SqlParameter("@ReceiveBusinessId", id)//applicationUser.Id
             };
 
 
-                var objs = await _context.Query<TaskstatusVM>().FromSql("ManageTasks @cmdType, @ProjectId", parameters1).ToListAsync();
+                var objs = await _context.Query<TaskstatusVM>().FromSql("ManageTasks @cmdType, @ReceiveBusinessId", parameters1).ToListAsync();
 
                 ViewBag.Taskstatus = JsonConvert.SerializeObject(objs, _jsonSetting);
 
-                string ResponseId = id.ToString();
+               // string ResponseId = id.ToString();
 
-                List<Response> responses = _context.Responses.Where(q => q.ResponseId == ResponseId)
-               .ToList();
+               // List<Response> responses = _context.Responses.Where(q => q.ResponseId == ResponseId)
+               //.ToList();
 
-                List<QuestionVM> questions = null;
+               // List<QuestionVM> questions = null;
 
-                if (responses.Count > 0)
-                {
-                    var questionVMs = _context.Questions.ToList();
-                    questions = _context.Questions.Where(q => q.SurveyId == responses.FirstOrDefault().SurveyId)
-                       .Select(q => new QuestionVM
-                       {
-                           QuestionId = q.QuestionId,
-                           QuestionText = q.QuestionBody,
-                           QuestionType = q.AnswerType,
-                           Choices = responses.Where(c => c.QuestionId == q.QuestionId)
-                                .Select(c => new ChoiceVM
-                                {
-                                    ChoiceID = c.ChoiceId,
-                                    ChoiceText = c.ChoiceText
-                                }).ToList()
+               // if (responses.Count > 0)
+               // {
+               //     var questionVMs = _context.Questions.ToList();
+               //     questions = _context.Questions.Where(q => q.SurveyId == responses.FirstOrDefault().SurveyId)
+               //        .Select(q => new QuestionVM
+               //        {
+               //            QuestionId = q.QuestionId,
+               //            QuestionText = q.QuestionBody,
+               //            QuestionType = q.AnswerType,
+               //            Choices = responses.Where(c => c.QuestionId == q.QuestionId)
+               //                 .Select(c => new ChoiceVM
+               //                 {
+               //                     ChoiceID = c.ChoiceId,
+               //                     ChoiceText = c.ChoiceText
+               //                 }).ToList()
 
-                       }).ToList();
+               //        }).ToList();
 
-                    ViewData["survey"] = questions;
-                }
-                else
-                {
-                    QuizVM quizSelected = _context.Surveys.Where(q => q.Id == "07636B1A-790C-4C96-A506-B8CEDA98CE97").Select(q => new QuizVM
-                    {
-                        QuizID = q.Id,
-                        QuizName = q.Title,
+               //     ViewData["survey"] = questions;
+               // }
+               // else
+               // {
+               //     QuizVM quizSelected = _context.Surveys.Where(q => q.Id == "07636B1A-790C-4C96-A506-B8CEDA98CE97").Select(q => new QuizVM
+               //     {
+               //         QuizID = q.Id,
+               //         QuizName = q.Title,
 
-                    }).FirstOrDefault();
+               //     }).FirstOrDefault();
 
-                    if (quizSelected != null)
-                    {
-                        var questionVMs = _context.Questions.ToList();
-                        questions = _context.Questions.Where(q => q.SurveyId == quizSelected.QuizID)
-                           .Select(q => new QuestionVM
-                           {
-                               QuestionId = q.QuestionId,
-                               QuestionText = q.QuestionBody,
-                               QuestionType = q.AnswerType,
-                               Choices = q.Choices.Select(c => new ChoiceVM
-                               {
-                                   ChoiceID = c.ChoiceId,
-                                   ChoiceText = c.ChoiceText
-                               }).ToList()
+               //     if (quizSelected != null)
+               //     {
+               //         var questionVMs = _context.Questions.ToList();
+               //         questions = _context.Questions.Where(q => q.SurveyId == quizSelected.QuizID)
+               //            .Select(q => new QuestionVM
+               //            {
+               //                QuestionId = q.QuestionId,
+               //                QuestionText = q.QuestionBody,
+               //                QuestionType = q.AnswerType,
+               //                Choices = q.Choices.Select(c => new ChoiceVM
+               //                {
+               //                    ChoiceID = c.ChoiceId,
+               //                    ChoiceText = c.ChoiceText
+               //                }).ToList()
 
-                           }).ToList();
+               //            }).ToList();
 
 
-                    }
-                    ViewData["Newsurvey"] = questions;
-                }
+               //     }
+               //     ViewData["Newsurvey"] = questions;
+               // }
 
 
                 return View(editObj);
@@ -710,7 +732,7 @@ namespace FasDemo.Controllers
         }
         public string userFirstName(string userId)
         {
-            string FirstName = "عميل";
+            string FirstName = "مقاول";
             var existing = _context.Employee.Where(a => a.SystemUserId == userId).FirstOrDefault();
             FirstName = existing != null ?
                                     _context.Employee.Where(a => a.SystemUserId == userId).FirstOrDefault().FirstName + " " + _context.Employee.Where(a => a.SystemUserId == userId).FirstOrDefault().LastName :

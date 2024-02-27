@@ -18,11 +18,14 @@
     ChartDoughnut donutChart = _app.GetEmployeeDoughnut();
     var animationstatus = true;
     var animations = "";
+
+
+
 }
 
 
 @{
-    ViewData["Title"] = "Widget4";
+    ViewData["Title"] = "مهام اعتمادات استلام الأعمال";
     string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
 }
 @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
@@ -116,7 +119,7 @@
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">
-                                            مهام للتعديل
+                                            مهام تمت اعادة تقديمها
                                             <span class="badge badge-pill badge-warning">
                                                 @Model.Where(x => x.StatusId == 2 && x.ReceiveBusinessAssignToId == userID && x.Compleation < 100).Count()
                                             </span>
@@ -124,7 +127,7 @@
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">
-                                            مهام منتهية
+                                            مهام مقبولة
                                             <span class="badge badge-pill badge-success">
                                                 @Model.Where(x => x.Compleation == 100 && x.IsApproved == true && x.ReceiveBusinessAssignToId == userID).Count()
                                             </span>
@@ -132,7 +135,7 @@
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" id="pills-Approval-tab" data-toggle="pill" href="#pills-Approval" role="tab" aria-controls="pills-Approval" aria-selected="false">
-                                            مهام للأعتماد
+                                            مهام مرفوضة
                                             <span class="badge badge-pill badge-danger">
                                                 @Model.Where(x => x.Compleation == 100 && x.IsApproved == false && x.ApprovedById == userID).Count()
                                             </span>
@@ -140,11 +143,7 @@
                                     </li>
 
                                 </ul>
-                                <div class="zoom-filter">
-                                    <a href="#" id="late"><img src="/Content/img/c2.png">مهام متأخرة </a>
-                                    <a href="" id="now"><img src="/Content/img/c3.png">مهام حالية </a>
-                                    <a href="" id="all"><img src="/Content/img/c5.png">الجميع</a>
-                                </div>
+
                                 <div class="tab-content" id="pills-tabContent">
 
                                     <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
@@ -160,6 +159,9 @@
                                                 {
                                                     animations = "fadeInRightBig"; animationstatus = true;
                                                 }
+
+                                                var serialNumber = $"00" + (item.SerialNumber);
+                                                var reviewNumber = $"0" + (item.ReviewNumber);
 
                                                 <!-- [ visa section ] start -->
                                                 <div class="col-xl-3 col-md-6 search-area all late">
@@ -177,68 +179,150 @@
                                                         <div class="card-block">
                                                             <h6 class="text-dark">نوع الطلب : اعتماد طلبات استلام اعمال (IR) </h6>
                                                             <h6 class="text-dark">تاريخ الطلب : @item.ReceiveBusinessDate </h6>
-                                                            <h6 class="text-dark">المقاول : @item.ContractorName </h6>
-                                                            <h6 class="f-w-600 text-dark ">رقم التسلسل :  @item.SerialNumber <span class="f-w-300 m-l-10">رقم المراجعة : @item.ReviewNumber</span></h6>
-                                                            <h6 class="text-dark">التخصص : @if (item.IsAgricultural == true)
+                                                            <h6 class="text-dark">المقاول : @item.ContractorName (@item.ContractorCode)</h6>
+                                                            <h6 class="f-w-600 text-dark ">رقم التسلسل :  @serialNumber <span class="f-w-300 m-l-10">رقم المراجعة : @reviewNumber</span></h6>
+                                                            <h6 class="text-dark">التخصص :
+
+
+                                                                @*الاحتمالات السداسية*@
+
+                                                                @if (item.IsAgricultural == true && item.IsArchitectural == true && item.IsCivil == true && item.IsElectricity == true && item.IsMechanics == true && item.IsOthers == true)
+                                                                {
+                                                                    <span>زراعي</span>
+                                                                    <span>معماري</span>
+                                                                    <span>مدني</span>
+                                                                    <span>كهرباء</span>
+                                                                    <span>ميكانيكا</span>
+                                                                    <span>@item.OtherSpecialization</span>
+                                                                }
+
+                                                                @*الاحتمالات الثنائية*@
+
+                                                                else if (item.IsAgricultural == true && item.IsArchitectural == true)
+                                                                {
+                                                                    <span>زراعي</span>
+                                                                    <span>معماري</span>
+                                                                }
+                                                                else if (item.IsAgricultural == true && item.IsCivil == true)
+                                                                {
+                                                                    <span>زراعي</span>
+                                                                    <span>مدني</span>
+                                                                }
+                                                                else if (item.IsAgricultural == true && item.IsElectricity == true)
+                                                                {
+                                                                    <span>زراعي</span>
+                                                                    <span>كهرباء</span>
+                                                                }
+                                                                else if (item.IsAgricultural == true && item.IsMechanics == true)
+                                                                {
+                                                                    <span>زراعي</span>
+                                                                    <span>ميكانيكا</span>
+                                                                }
+                                                                else if (item.IsAgricultural == true && item.IsOthers == true)
+                                                                {
+                                                                    <span>زراعي</span>
+                                                                    <span>@item.OtherSpecialization</span>
+                                                                }
+
+                                                                else if (item.IsArchitectural == true && item.IsCivil == true)
+                                                                {
+                                                                    <span>معماري</span>
+                                                                    <span>مدني</span>
+                                                                }
+                                                                else if (item.IsArchitectural == true && item.IsElectricity == true)
+                                                                {
+                                                                    <span>معماري</span>
+                                                                    <span>كهرباء</span>
+                                                                }
+                                                                else if (item.IsArchitectural == true && item.IsMechanics == true)
+                                                                {
+                                                                    <span>معماري</span>
+                                                                    <span>ميكانيكا</span>
+                                                                }
+                                                                else if (item.IsArchitectural == true && item.IsOthers == true)
+                                                                {
+                                                                    <span>معماري</span>
+                                                                    <span>@item.OtherSpecialization</span>
+                                                                }
+
+                                                                else if (item.IsCivil == true && item.IsElectricity == true)
+                                                                {
+                                                                    <span>مدني</span>
+                                                                    <span>كهرباء</span>
+                                                                }
+                                                                else if (item.IsCivil == true && item.IsMechanics == true)
+                                                                {
+                                                                    <span>مدني</span>
+                                                                    <span>ميكانيكا</span>
+                                                                }
+                                                                else if (item.IsCivil == true && item.IsOthers == true)
+                                                                {
+                                                                    <span>مدني</span>
+                                                                    <span>@item.OtherSpecialization</span>
+                                                                }
+
+                                                                else if (item.IsElectricity == true && item.IsMechanics == true)
+                                                                {
+                                                                    <span>كهرباء</span>
+                                                                    <span>ميكانيكا</span>
+                                                                }
+                                                                else if (item.IsElectricity == true && item.IsOthers == true)
+                                                                {
+                                                                    <span>كهرباء</span>
+                                                                    <span>@item.OtherSpecialization</span>
+                                                                }
+
+                                                                else if (item.IsElectricity == true && item.IsOthers == true)
+                                                                {
+                                                                    <span>ميكانيكا</span>
+                                                                    <span>@item.OtherSpecialization</span>
+                                                                }
+
+                                                                @*الاحتمالات الأحادية*@
+
+                                                                @*زراعي*@
+                                                                else if (item.IsAgricultural == true)
                                                                 {
                                                                     <span>زراعي</span>
                                                                 }
+                                                                @*معماري*@
                                                                 else if (item.IsArchitectural == true)
                                                                 {
                                                                     <span>معماري</span>
                                                                 }
+                                                                @*مدني*@
                                                                 else if (item.IsCivil == true)
                                                                 {
                                                                     <span>مدني</span>
                                                                 }
+                                                                @*كهرباء*@
                                                                 else if (item.IsElectricity == true)
                                                                 {
                                                                     <span>كهرباء</span>
                                                                 }
+                                                                @*ميكانيكا*@
                                                                 else if (item.IsMechanics == true)
                                                                 {
                                                                     <span>ميكانيكا</span>
                                                                 }
+                                                                @*أخرى*@
                                                                 else if (item.IsOthers == true)
                                                                 {
                                                                     <span>@item.OtherSpecialization</span>
-                                                                } </h6>
+                                                                }
+
+
+
+
+                                                            </h6>
+
                                                             <h6 class="f-w-600 text-dark">
                                                                 نسبة الاعتماد : @item.Compleation
                                                             </h6>
                                                             <div class="progress">
                                                                 <div class="progress-bar progress-bar-striped bg-info progress-bar-animated" role="progressbar" style="width:  @item.Compleation%;" aria-valuenow="@item.Compleation" aria-valuemin="0" aria-valuemax="100"></div>
                                                             </div>
-
-
-
-@*
-                                                            <div class="row">
-
-                                                                <div class="col-6">
-                                                                    <button type="button" id="myBtn" class="btn btn-success sign m-2" onclick='deleteorder2(@item.ReceiveBusinessTaskId)'>التوقيع</button>
-
-                                                                </div>
-
-                                                                <div class="col-3">
-                                                                    <a class="btn btn-dark btn-icon m-0" data-toggle="tooltip" data-placement="top" title="تعديل المهمة"
-                                                                    href="/@controller/Form/@item.ReceiveBusinessTaskId"><i class="feather icon-check-circle"></i></a>
-                                                                </div>
-
-                                                                <div class="col-3">
-                                                                    <a class="btn btn-dark btn-icon m-0" data-toggle="tooltip" data-placement="top" title="تفاصيل المشروع"
-                                                                    href="/@controller/ReceiveBusinessTaskDetails/@item.ReceiveBusinessId"><i class="feather icon-camera"></i></a>
-                                                                            
-                                                                </div>
-
-                                                            </div>
-
-
-                                                             <button type="button" id="myBtn" class="btn btn-danger appr  m-2" onclick='deleteorder2(@item.ReceiveBusinessTaskId)'>اعتماد الطلب</button>*@
-
-                                                                           
-
-
+                                                                          
 
                                                             <div style="text-align: center !important;">
 
@@ -274,6 +358,11 @@
                                                 {
                                                     animations = "fadeInRightBig"; animationstatus = true;
                                                 }
+
+
+                                                var serialNumber = $"00" + (item.SerialNumber);
+                                                var reviewNumber = $"0" + (item.ReviewNumber);
+
                                                 <!-- [ visa section ] start -->
                                                 <div class="col-xl-3 col-md-6 search-area">
                                                     <div class="card bg-c-blue animated      @animations ">
@@ -287,8 +376,8 @@
                                                         <div class="card-block ">
                                                             <h6 class="text-dark">نوع الطلب : اعتماد طلبات استلام اعمال (IR) </h6>
                                                             <h6 class="text-dark">تاريخ الطلب : @item.ReceiveBusinessDate </h6>
-                                                            <h6 class="text-dark">المقاول : @item.ContractorName </h6>
-                                                            <h6 class="f-w-600 text-dark ">رقم التسلسل :  @item.SerialNumber <span class="f-w-300 m-l-10">رقم المراجعة : @item.ReviewNumber</span></h6>
+                                                            <h6 class="text-dark">المقاول : @item.ContractorName (@item.ContractorCode)</h6>
+                                                            <h6 class="f-w-600 text-dark ">رقم التسلسل :  @serialNumber <span class="f-w-300 m-l-10">رقم المراجعة : @reviewNumber</span></h6>
                                                             <h6 class="text-dark">
                                                                 التخصص : @if (item.IsAgricultural == true)
                                                                 {
@@ -348,6 +437,10 @@
                                                 {
                                                     animations = "fadeInRightBig"; animationstatus = true;
                                                 }
+
+                                                var serialNumber = $"00" + (item.SerialNumber);
+                                                var reviewNumber = $"0" + (item.ReviewNumber);
+
                                                 <!-- [ visa section ] start -->
                                                 <div class="col-xl-3 col-md-6 search-area">
                                                     <div class="card theme-bg3 animated @animations">
@@ -361,8 +454,8 @@
                                                         <div class="card-block">
                                                             <h6 class="text-dark">نوع الطلب : اعتماد طلبات استلام اعمال (IR) </h6>
                                                             <h6 class="text-dark">تاريخ الطلب : @item.ReceiveBusinessDate </h6>
-                                                            <h6 class="text-dark">المقاول : @item.ContractorName </h6>
-                                                            <h6 class="f-w-600 text-dark ">رقم التسلسل :  @item.SerialNumber <span class="f-w-300 m-l-10">رقم المراجعة : @item.ReviewNumber</span></h6>
+                                                            <h6 class="text-dark">المقاول : @item.ContractorName (@item.ContractorCode)</h6>
+                                                            <h6 class="f-w-600 text-dark ">رقم التسلسل :  serialNumber <span class="f-w-300 m-l-10">رقم المراجعة : reviewNumber</span></h6>
                                                             <h6 class="text-dark">
                                                                 التخصص : @if (item.IsAgricultural == true)
                                                                 {
@@ -413,6 +506,10 @@
                                         <div class="row">
                                             @foreach (var item in Model.Where(x => x.Compleation == 100 && x.IsApproved == false && x.ApprovedById == userID).ToList())
                                             {
+
+                                                var serialNumber = $"00" + (item.SerialNumber);
+                                                var reviewNumber = $"0" + (item.ReviewNumber);
+
                                                 <!-- [ visa section ] start -->
                                                 <div class="col-xl-3 col-md-6 search-area">
                                                     <div class="card theme-bg3  ">
@@ -427,7 +524,7 @@
                                                             <h6 class="text-dark">نوع الطلب : اعتماد طلبات استلام اعمال (IR) </h6>
                                                             <h6 class="text-dark">تاريخ الطلب : @item.ReceiveBusinessDate </h6>
                                                             <h6 class="text-dark">المقاول : @item.ContractorName (@item.ContractorCode)</h6>
-                                                            <h6 class="f-w-600 text-dark ">رقم التسلسل :  @item.SerialNumber <span class="f-w-300 m-l-10">رقم المراجعة : @item.ReviewNumber</span></h6>
+                                                            <h6 class="f-w-600 text-dark ">رقم التسلسل :  @serialNumber <span class="f-w-300 m-l-10">رقم المراجعة : @reviewNumber </span></h6>
                                                             <h6 class="text-dark">
                                                                 التخصص : @if (item.IsAgricultural == true)
                                                                 {

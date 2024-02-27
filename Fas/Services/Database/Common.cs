@@ -445,13 +445,13 @@ namespace FasDemo.Services.Database
 
                 Employee empCalistaWise = new Employee()
                 {
-                    FirstName = "العميل",
+                    FirstName = "المقاول",
                     LastName = "",
                     Gender = "Male",
                     DateOfBirth = new DateTime(1990, 1, 1),
                     PlaceOfBirth = "الرياض",
                     MaritalStatus = "أعزب",
-                    Email = "Customer@fas.com",
+                    Email = "Contractor@fas.com",
                     Phone = "(966) 543-1234",
                     Address1 = "الرياض.",
                     City = "الرياض",

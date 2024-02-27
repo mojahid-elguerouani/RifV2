@@ -2401,7 +2401,7 @@ padding-right: 40px;
             border-radius: 0.25rem 0.25rem 0 0;
             padding: 15px;
             position: relative;
-            background: #04a9f5;
+            background: #d9a630;
         }
 
             .pcoded-header .dropdown .profile-notification .pro-head img {
@@ -2453,7 +2453,7 @@ padding-right: 40px;
                 }
 
     .pcoded-header .dropdown.drp-user.show:before {
-        color: #04a9f5;
+        color: #d9a630;
     }
 
 /* header css end */

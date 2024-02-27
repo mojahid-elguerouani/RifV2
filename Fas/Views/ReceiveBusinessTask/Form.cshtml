@@ -55,11 +55,22 @@
                                             <span class="checked"><input type="radio" name="service_type" id="service_type" value="green"></span> مرفوض
                                         </label>
                                     </div>
+
                                     <article class="card mb-4">
+
                                         <div class="card-header">
-                                            <h5 class="card-title mb-0">  تحديث بيانات مشروع :    @ViewBag.ProjectName /   رقم تسلسل الطلب  : @ViewBag.ReceiveBusinessSerialNumber /  رقم مراجعة الطلب : @ViewBag.ReceiveBusinessReviewNumber / مهمة : @ViewBag.ReceiveBusinessTaskName  </h5>
+
+                                            @{
+                                                var serialNumber = $"00" + (ViewBag.ReceiveBusinessSerialNumber);
+                                                var reviewNumber = $"0"  + (ViewBag.ReceiveBusinessReviewNumber);
+                                            }
+
+                                            <h5 class="card-title mb-0">  تحديث بيانات مشروع :    @ViewBag.ProjectName /   رقم تسلسل الطلب  :    @serialNumber /  رقم مراجعة الطلب : @reviewNumber / مهمة : @ViewBag.ReceiveBusinessTaskName  </h5>
+
                                         </div>
+
                                     </article>
+
                                     <article class="card mb-4" id="divAssignTo" style="display:none">
                                         <div class="card-header">
                                             <h4 class="card-title mb-0">بيانات المهمة</h4>
@@ -105,6 +116,7 @@
                                         </div>
 
                                     </article>
+
                                     <article class="card mb-4">
                                         <div class="card-header">
                                             <h4 class="card-title mb-0">بيانات اضافية</h4>

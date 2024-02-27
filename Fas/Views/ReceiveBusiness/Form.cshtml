@@ -69,7 +69,7 @@
                                                             var serialNumber = $"00"+(Model.SerialNumber);
                                                             var reviewNumber = $"0"+(Model.ReviewNumber);
                                                         }
-                                                        <input asp-for="SerialNumber" class="form-control" value="@serialNumber" id="serialNumber"/>
+                                                        <input asp-for="SerialNumber" class="form-control" value="serialNumber" id="serialNumber" disabled />
                                                         <span class="input-group-addon" aria-hidden="true">
                                                             <span class="glyphicon glyphicon-ok text-success"></span>
                                                         </span>
@@ -80,7 +80,7 @@
                                                 <div class="col-3">
                                                     <div class="form-group">
                                                         <label asp-for="ReviewNumber"></label>
-                                                        <input asp-for="ReviewNumber" class="form-control" value="@reviewNumber" id="reviewNumber"/>
+                                                        <input asp-for="ReviewNumber" class="form-control" value="reviewNumber" id="reviewNumber" disabled />
                                                         <span class="input-group-addon" aria-hidden="true">
                                                             <span class="glyphicon glyphicon-ok text-success"></span>
                                                         </span>

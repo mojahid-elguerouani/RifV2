@@ -75,7 +75,6 @@ namespace FasDemo.Data
         public DbSet<ReceiveBusinessTask> ReceiveBusinessTasks { get; set; }
         public DbSet<ReceiveBusinessTaskLog> ReceiveBusinessTaskLog { get; set; }
         public DbSet<ReceiveBusinessTaskLogImage> ReceiveBusinessTaskLogImages { get; set; }
-
         public DbSet<ReceiveBusinessComment> ReceiveBusinessComment { get; set; }
         public DbSet<ReceiveBusinessCommentImage> ReceiveBusinessCommentImages { get; set; }
 
@@ -110,9 +109,9 @@ namespace FasDemo.Data
 
 
             modelBuilder.Query<ProjectTaskVM>();
-            modelBuilder.Query<TaskstatusVM>(); 
-            modelBuilder.Query<DashBoerdV2DTO>();
-            modelBuilder.Query<ProjectRatioVM>();
+            modelBuilder.Query<TaskstatusVM>();
+            //modelBuilder.Query<DashBoerdV2DTO>();
+            //modelBuilder.Query<ProjectRatioVM>();
             modelBuilder.Query<WeeklyRep>();
 
 

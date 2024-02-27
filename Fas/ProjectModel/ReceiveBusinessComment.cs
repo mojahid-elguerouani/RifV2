@@ -15,7 +15,7 @@ namespace FasDemo.ProjectModel
         public ApplicationUser CommentFrom { get; set; }
         public string CommentToId { get; set; }
         public ApplicationUser CommentTo { get; set; }
-        public int PurchaseId { get; set; }
+        public int ReceiveBusinessId { get; set; }
         public virtual ReceiveBusiness ReceiveBusiness { get; set; }
         public List<ReceiveBusinessCommentImage> ReceiveBusinessCommentImages { get; set; } = new List<ReceiveBusinessCommentImage>();
     }

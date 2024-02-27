@@ -1,1 +1,840 @@
-﻿
+﻿@model IEnumerable<FasDemo.ProjectModel.DTO.ReceiveBusinessTaskDto>
+
+
+@inject FasDemo.Services.App.ICommon _app;
+@using FasDemo.ViewModels;
+@using Newtonsoft.Json;
+@using System.Security.Claims;
+@{
+    string id = this.ViewContext.RouteData.Values["id"].ToString();
+    string controller = this.ViewContext.RouteData.Values["controller"].ToString();
+    string action = this.ViewContext.RouteData.Values["action"].ToString();
+    string modelName = "Employee";
+    ViewData["Title"] = "تفاصيل المهمة";
+
+    var a = User.Identities.ToArray();
+    var b = a[0].Claims.ToArray();
+    var userID = b[0].Value;
+    var currentuser = User.Identity.Name;
+
+    var roles = ((ClaimsIdentity)User.Identity).Claims
+                .Where(c => c.Type == ClaimTypes.Role)
+                .Select(c => c.Value);
+
+    List<ProjectManagment.Models.ReceiveBusinessTaskLog> _ReceiveBusinessTaskLog;
+
+    List<FasDemo.ProjectModel.DTO.ReceiveBusinessTaskDto> projectTeam = ViewData["Team"] as List<FasDemo.ProjectModel.DTO.ReceiveBusinessTaskDto>;
+
+    var firstReceiveBusinessTaskId = Model.FirstOrDefault(x => x.ReceiveBusinessId == Convert.ToInt32(ViewData["ReceiveBusinessid"]))?.ReceiveBusinessTaskId;
+
+    //List<FasDemo.SurveyModel.ViewModel.QuestionVM> questions = ViewData["survey"] as List<FasDemo.SurveyModel.ViewModel.QuestionVM>;
+    //List<FasDemo.SurveyModel.ViewModel.QuestionVM> Newquestions = ViewData["Newsurvey"] as List<FasDemo.SurveyModel.ViewModel.QuestionVM>;
+    int count = 1;
+
+    //EmployeeSummary summary = _app.GetEmployeeSummary();
+    TaskSummary summary = ViewData["TaskSummary"] as TaskSummary;
+
+    //ChartDoughnut donutChart = _app.GetProjectDoughnut((int)ViewData["Purchaseid"]);
+
+    FasDemo.ProjectModel.DTO.ReceiveBusinessTaskDto _CurrentTaskDto = Model.Where(cu => cu.Compleation < 100).FirstOrDefault();
+    //FasDemo.ProjectModel.DTO.ProjectTaskDto _CurrentTaskDto = Model.Where(cu => cu.Compleation < 100).FirstOrDefault();
+
+    List<FasDemo.ProjectModel.ReceiveBusinessComment> ReceiveBusinessComments = ViewData["ReceiveBusinessComment"] as List<FasDemo.ProjectModel.ReceiveBusinessComment>;
+
+}
+
+
+
+<script src="~/assets/plugins/chart-highchart/js/highcharts-gantt.js"></script>
+<script src="~/assets/plugins/chart-highchart/js/exporting.js"></script>
+<style>
+    #container {
+        /*max-width: 1800px;*/
+        margin: 1em auto;
+    }
+
+    .scrolling-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+</style>
+<style>
+    input[type=checkbox], input[type=radio] {
+        width: 22.5px;
+        height: 22.5px;
+        display: inline-block;
+        margin-right: 10px;
+        border: 2px solid #e9eaec;
+        border-radius: 2px;
+        vertical-align: bottom;
+        text-align: center;
+        background: transparent;
+        cursor: pointer;
+        -webkit-transition: all 0.2s ease-in-out;
+        transition: all 0.2s ease-in-out;
+        top: 8.5px;
+    }
+</style>
+
+<div class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <!-- [ breadcrumb ] start -->
+                <div class="page-header">
+                    <div class="page-block">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <div class="page-header-title">
+                                    <h5 class="m-b-10">تفاصيل الطلب</h5>
+                                </div>
+                                <ul class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="/Dashboard/ "><i class="feather icon-home"></i></a></li>
+                                    <li class="breadcrumb-item"><a href="#!">تفاصيل الطلب</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- [ breadcrumb ] end -->
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ Main Content ] start -->
+                        <div class="accordion" id="accordionMain">
+                            <div class="card">
+                                <div class="card-header" id="headingOne">
+                                    <div class="row">
+                                        <div class="col-md-7">
+                                            <h5 class="mb-0">
+                                                <a href="#!" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                    تفاصيل
+                                                </a>
+                                                طلب اسستلام أعمال : @ViewData["ProjectName"].ToString() / رقم تسلسل الطلب : @ViewData["ReceiveBusinessSerialNumber"].ToString() / رقم مراجعة الطلب @ViewData["ReceiveBusinessReviewNumber"].ToString()
+                                            </h5>
+                                        </div>
+                                        @*<div class="col-md-5">
+                                        <div class="counter text-center">
+                                        <h4 id="timer" class="text-c-blue m-0"></h4>
+                                        </div>
+                                        </div>*@
+                                    </div>
+                                </div>
+                                <div id="collapseOne" class="card-body collapse show" aria-labelledby="headingOne">
+                                    <div class="row">
+                                        <div class="col-md-12 mb-12">
+                                            <div class="card">
+                                                <div class="card-body">
+
+                                                    <h4 class="card-title mb-4">تفاصيل الطلب</h4>
+
+                                                    @foreach (var item in Model.Where(x => x.ReceiveBusinessId == Convert.ToInt32(ViewData["ReceiveBusinessid"]) && x.AssignToId == userID).Distinct())
+                                                    {
+                                                        <table class="table">
+
+                                                            <thead>
+                                                                <tr>
+                                                                    <th scope="col">م</th>
+                                                                    <th scope="col">تفاصيل الأعمال</th>
+                                                                    <th scope="col">البيان</th>
+                                                                    <th scope="col">ملاحظات</th>
+                                                                </tr>
+                                                            </thead>
+
+                                                            <tbody>
+
+                                                                <tr>
+                                                                    <th scope="row">1</th>
+                                                                    <td>المبنى</td>
+                                                                    <td>@item.BuildingStatement </td>
+                                                                    <td>@item.BuildingComments</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row">2</th>
+                                                                    <td>الدور </td>
+                                                                    <td>@item.FloorStatement </td>
+                                                                    <td>@item.FloorComments</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row">3</th>
+                                                                    <td>اللوحات المعتمدة</td>
+                                                                    <td>@item.ApprovedPlatesStatement </td>
+                                                                    <td>@item.ApprovedPlatesComments</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row">4</th>
+                                                                    <td>تاريخ الفحص المطلوب</td>
+                                                                    <td>@item.RequiredExaminationDateStatement </td>
+                                                                    <td>@item.RequiredExaminationDateComments</td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <th scope="row">5</th>
+                                                                    <td>العمل المطلوب فحصه</td>
+                                                                    <td>@item.WorkToBeExaminedStatement </td>
+                                                                    <td>@item.WorkToBeExaminedComments</td>
+                                                                </tr>
+
+                                                            </tbody>
+                                                        </table>
+                                                    }
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <div class="card-header" id="headingTwo">
+                                    <div class="row">
+                                        <div class="col-md-7">
+                                            <h5 class="mb-0">
+                                                <a href="#!" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                                    تحليل
+                                                </a>
+                                                طلب اسستلام أعمال : @ViewData["ProjectName"].ToString() / رقم تسلسل الطلب : @ViewData["ReceiveBusinessSerialNumber"].ToString() / رقم مراجعة الطلب @ViewData["ReceiveBusinessReviewNumber"].ToString()
+                                            </h5>
+                                        </div>
+                                        @*                                        <div class="col-md-5">
+                                        <div class="counter text-center">
+                                        <h4 id="timer" class="text-c-blue m-0"></h4>
+                                        </div>
+                                        </div>*@
+                                    </div>
+                                </div>
+                                <div id="collapseTwo" class="card-body collapse show" aria-labelledby="headingTwo">
+
+                                    <div class="row">
+                                        <div class="col-md-4 mb-4">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h4 class="card-title mb-4">حالة الطلب</h4>
+                                                    @*                                                    <div class="chart-container doughnut">
+                                                    <canvas id="doughnutChart" height="250" width="250"></canvas>
+                                                    </div>*@
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5 mb-4">
+                                            <div class="card Active-visitor">
+                                                <div class="card-block text-center">
+                                                    <h4 class="mb-3">المهمة الحالية</h4>
+                                                    <img class="rounded-circle" style="width:60px;" src="@_CurrentTaskDto?.ProfilePicture" alt="activity-user">
+                                                    <h5 class="f-w-300 mt-3">@_CurrentTaskDto?.TaskName</h5>
+                                                    @*<span class="text-muted">@_CurrentTaskDto.TaskName</span>*@
+                                                    <div class="progress mt-4 m-b-40">
+                                                        <div class="progress-bar progress-c-theme" role="progressbar" style="width: @_CurrentTaskDto?.Compleation%; height:7px;" aria-valuenow="@_CurrentTaskDto?.Compleation" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    </div>
+                                                    <div class="row card-active">
+                                                        <div class="col-md-6 col-12">
+                                                            <h4>@_CurrentTaskDto?.Compleation</h4>
+                                                            <span class="text-muted">نسبة الاعتماد</span>
+                                                        </div>
+                                                        <div class="col-md-6 col-12">
+                                                            <h4>@_CurrentTaskDto?.ReceiveBusinessDate</h4>
+                                                            <span class="text-muted">تاريخ الطلب</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                @*<div id="bar-chart2" class="bar-chart21" style="height:330px;"></div>*@
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 mb-4">
+                                            <div class="task-list-table">
+                                                <h4 class="mb-3">
+                                                    المهمة الحالية فريق العمل
+                                                </h4>
+                                                @foreach (var item in projectTeam)
+                                                {
+                                                    <div class="user-box assign-user taskboard-right-users" style="">
+                                                        <div class="media mb-2">
+                                                            <div class="media-left media-middle mr-3">
+                                                                <img class="media-object img-radius" src="@item.ProfilePicture" alt="Generic placeholder image">
+                                                            </div>
+                                                            <div class="media-body">
+                                                                <h6>@item.Firstname</h6>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    @await Html.PartialAsync(PartialView.StatusMessage, TempData[StaticString.StatusMessage])
+                                </div>
+                            </div>
+                            <div class="accordion" id="accordionMain1">
+                                <!-- [ Recent Users ] start -->
+                                <div class="col-xl-12 col-md-12">
+                                    <div class="card Recent-Users">
+                                        <div class="card-header">
+                                            <h5>حالة المشروع</h5>
+                                            <div class="card-header-left">
+                                                <div class="btn-group card-option">
+                                                    <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <i class="feather icon-more-horizontal"></i>
+                                                    </button>
+                                                    <ul class="list-unstyled card-option dropdown-menu dropdown-menu-right">
+                                                        <li class="dropdown-item full-card"><a href="#!"><span><i class="feather icon-maximize"></i> تكبير</span><span style="display:none"><i class="feather icon-minimize"></i> Restore</span></a></li>
+                                                        <li class="dropdown-item minimize-card"><a href="#!"><span><i class="feather icon-minus"></i> تصغير</span><span style="display:none"><i class="feather icon-plus"></i> expand</span></a></li>
+                                                        <li class="dropdown-item reload-card"><a href="#!"><i class="feather icon-refresh-cw"></i> اعادة تحميل</a></li>
+                                                        <li class="dropdown-item close-card"><a href="#!"><i class="feather icon-trash"></i> ازالة</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+
+                                            <li class="nav-item">
+                                                <a class="nav-link text-uppercase active" id="tasks-tab" data-toggle="tab" href="#tasks" role="tab" aria-controls="tasks" aria-selected="false">قائمة المهام</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link text-uppercase" id="note-tab" data-toggle="tab" href="#note" role="tab" aria-controls="note" aria-selected="false">
+                                                    ملاحظات الطلب
+                                                    <span class="badge badge-success">
+                                                        @ReceiveBusinessComments.Count
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link text-uppercase" id="files-tab" data-toggle="tab" href="#files" role="tab" aria-controls="files" aria-selected="false">ملفات الطلب</a>
+                                            </li>
+                                            @*                                            <li class="nav-item">
+                                            <a class="nav-link text-uppercase" id="gantt-tab" data-toggle="tab" href="#gantt" role="tab" aria-controls="gantt" aria-selected="false">تسلسل المهام</a>
+                                            </li>*@
+                                        </ul>
+                                        <div class="tab-content" id="myTabContent">
+                                            <div class="tab-pane fade show active" id="tasks" role="tabpanel" aria-labelledby="tasks-tab">
+                                                <div class="card-block px-0 py-3">
+                                                    <div class="table-responsive">
+                                                        @*<table class="table table-hover">*@
+                                                        <table id="responsive-table-model" class="display table nowrap table-striped table-hover" style="width:100%">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th width="5%">المسؤول</th>
+                                                                    <th width="25%">المهمة</th>
+                                                                    <th width="10%">التوقيع</th>
+                                                                    <th width="10%">نسبة الاعتماد</th>
+                                                                    @*<th width="10%">البداية/النهاية </th>*@
+                                                                    <th width="20%">الحالة</th>
+                                                                    @if (currentuser == "super@admin.com")
+                                                                    {
+                                                                        <th width="30%">الصلاحية</th>
+                                                                    }
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach (var item in Model)
+                                                                {
+                                                                    var color = "text-c-green"; var theme = "theme-bg"; var theme_name = "تمت الموافقة على الطلب";
+                                                                    @if (@item.Compleation < 100)
+                                                                    { color = "text-c-red"; theme = "theme-bg2"; ; theme_name = "الطلب تحت المراجعة"; }
+                                                                    <tr class="unread">
+                                                                        <td><img class="rounded-circle" style="width:40px;" src="@item.ProfilePicture" alt=""></td>
+                                                                        <td>
+                                                                            <h6 class="mb-1"> @item.TaskName</h6>
+                                                                            <p class="m-0">@item.Firstname</p>
+                                                                        </td>
+                                                                        <td>
+                                                                            <h6 class="mb-1">
+                                                                                <i class="fas fa-circle @color f-10 m-r-15"></i>
+                                                                            </h6>
+                                                                        </td>
+                                                                        <td>
+                                                                            <h6 class="mb-1">
+                                                                                @item.Compleation
+                                                                                <i class="fas fa-circle @color f-10 m-r-15"></i>
+                                                                            </h6>
+                                                                        </td>
+                                                                        @*                                              <td>
+                                                                    <p class="text-muted">@(item.StarDateActual == null ? item.StarDate : item.StarDateActual)   </p>
+                                                                    <p class="m-0">
+                                                                    @(item.EndDateActual == null ? item.EndDate : item.EndDateActual)   @*.ToString("MM/dd/yyyy HH:mm")
+                                                                    </p>
+
+                                                                    </td>*@
+                                                                        <td>
+                                                                            <a href="#!" class="label @theme text-white f-12">@theme_name</a>
+                                                                        </td>
+
+                                                                        @if (currentuser == "super@admin.com")
+                                                                        {
+                                                                            <td>
+                                                                                <a href="/@controller/LoginOnBehalf/@item.AssignToId&@item.ReceiveBusinessTaskId" class="btn btn-primary">الدخول نيابة عن</a>
+                                                                            </td>
+                                                                        }
+
+                                                                    </tr>
+
+                                                                    @if (item.ReceiveBusinessTaskLog.Count != 0)
+                                                                    {
+                                                                        <!-- /.timeline-label -->
+                                                                        <tr>
+                                                                            <td colspan="6">
+                                                                                <ul class="task-list">
+                                                                                    @foreach (var pitem in @item.ReceiveBusinessTaskLog.OrderBy(log => log.ReceiveBusinessTaskId).ToList())
+                                                                                    {
+                                                                                        <li>
+                                                                                            <!-- timeline item -->
+                                                                                            <div class="row">
+                                                                                                <i class="task-icon bg-c-green"></i>
+                                                                                                <div class="col-md-4">
+                                                                                                    <h5>
+                                                                                                        <span class="time"><i class="far fa-clock"></i> @pitem.CreatedOn</span>
+                                                                                                        <span class="float-right text-muted"> @_app.userFirstName(@pitem.ReceiveBusinessUser.Id)  </span>
+                                                                                                    </h5>
+                                                                                                    <p class="text-muted" style="white-space: break-spaces;"> @pitem.ReceiveBusinessTaskComment</p>
+                                                                                                </div>
+                                                                                                <div class="col-md-8">
+                                                                                                    @if (pitem.ReceiveBusinessTaskLogImages != null && pitem.ReceiveBusinessTaskLogImages.Count != 0)
+                                                                                                    {
+                                                                                                        <div class="timeline-body">
+                                                                                                            <table class="table table-bordered table-primary" width="100%" name="example1" cellspacing="0">
+                                                                                                                <tr>
+                                                                                                                    <th>
+                                                                                                                        اسم الملف
+                                                                                                                    </th>
+                                                                                                                    <th>
+                                                                                                                        استعراض الملف
+                                                                                                                    </th>
+                                                                                                                    <th>
+                                                                                                                        تحميل الملف
+                                                                                                                    </th>
+                                                                                                                </tr>
+                                                                                                                @foreach (var imageitem in pitem.ReceiveBusinessTaskLogImages.OrderBy(img => img.ReceiveBusinessTaskLogImageId).ToList())
+                                                                                                                {
+                                                                                                                    <tr>
+                                                                                                                        <td>
+                                                                                                                            @Html.DisplayFor(modelItem => imageitem.FileName)
+                                                                                                                        </td>
+                                                                                                                        <td>
+                                                                                                                            <a href="@imageitem.ReceiveBusinessTaskLogImageUrl" target="_blank">استعراض</a>
+                                                                                                                        </td>
+                                                                                                                        <td>
+                                                                                                                            @*@using (Html.BeginForm("Download", "ProjectTasks", FormMethod.Post, new { id = item.ProjectId, Url = imageitem.ProjectTaskLogImageUrl }))
+                                                                                                        {
+                                                                                                        <input type="submit" value="Download" class="btn btn-default" />
+                                                                                                        }*@
+                                                                                                                            @Html.ActionLink("تحميل", "Download", controller, new { imagename = imageitem.FileName, Url = imageitem.ReceiveBusinessTaskLogImageUrl, contenttype = imageitem.ImageType }, null)
+                                                                                                                        </td>
+                                                                                                                    </tr>
+                                                                                                                }
+                                                                                                            </table>
+                                                                                                        </div>
+                                                                                                        <div class="timeline-body">
+                                                                                                            @foreach (var imageitem in pitem.ReceiveBusinessTaskLogImages.Where(Im => Im.ImageType.Contains("image")).ToList())
+                                                                                                            {
+                                                                                                                <img height="96" src="@imageitem.ReceiveBusinessTaskLogImageUrl" alt="...">
+                                                                                                            }
+                                                                                                        </div>
+                                                                                                    }
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </li>
+
+                                                                                    }
+
+                                                                                </ul>
+                                                                            </td>
+                                                                        </tr>
+                                                                    }
+                                                                }
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="note" role="tabpanel">
+                                                <div class="card">
+                                                    <div class="card-block task-comment">
+                                                        <ul class="media-list p-0">
+
+                                                            @foreach (var item in ReceiveBusinessComments)
+                                                            {
+                                                                <li class="media mt-2">
+                                                                    <div class="media-left mr-3">
+                                                                        <a href="#!">
+                                                                            <img class="media-object img-radius comment-img" src="@_app.userImage(item.CommentFromId)" alt="">
+                                                                        </a>
+                                                                    </div>
+                                                                    <div class="media-body">
+                                                                        <h6 class="media-heading txt-primary">
+                                                                            @_app.userFirstName(item.CommentFromId)<span class="f-12 text-muted ml-1">
+                                                                                <span class="n-time text-muted">
+                                                                                    <i class="icon feather icon-clock m-r-10"></i>
+                                                                                    <time id="loaded" class="timeago" datetime=@item.CreatedAtUtc></time>
+                                                                                </span>
+
+                                                                            </span>
+                                                                        </h6>
+                                                                        <p class="text-muted"> @item.Comment</p>
+                                                                        @if (item.ReceiveBusinessCommentImages != null && item.ReceiveBusinessCommentImages.Count != 0)
+                                                                        {
+                                                                            <div class="timeline-body">
+                                                                                <table class="table table-bordered table-primary" width="100%" name="example1" cellspacing="0">
+                                                                                    <tr>
+                                                                                        <th>
+                                                                                            اسم الملف
+                                                                                        </th>
+                                                                                        <th>
+                                                                                            تحميل الملف
+                                                                                        </th>
+                                                                                        <th>
+                                                                                            تحميل
+                                                                                        </th>
+                                                                                    </tr>
+                                                                                    @foreach (var imageitem in item.ReceiveBusinessCommentImages.OrderBy(img => img.ReceiveBusinessCommentImageId).ToList())
+                                                                                    {
+                                                                                        <tr>
+                                                                                            <td>
+                                                                                                <p>  @imageitem.FileName </p>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <a href="@imageitem.CommentImageUrl" target="_blank">تحميل الملف</a>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                @Html.ActionLink("Download File", "Download", controller, new { imagename = imageitem.FileName, Url = imageitem.CommentImageUrl, contenttype = imageitem.ImageType }, null)
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    }
+                                                                                </table>
+                                                                            </div>
+                                                                            <div class="timeline-body">
+                                                                                @foreach (var imageitem in item.ReceiveBusinessCommentImages.Where(Im => Im.ImageType.Contains("image")).ToList())
+                                                                                {
+                                                                                    <img height="96" src="@imageitem.CommentImageUrl" alt="...">
+                                                                                }
+                                                                            </div>
+                                                                        }
+                                                                        <hr>
+                                                                    </div>
+                                                                </li>
+                                                            }
+                                                        </ul>
+                                                        <div class="input-group mb-3">
+                                                            <form asp-controller="@controller" asp-action="Submit@(action)" method="post" enctype="multipart/form-data" style="width:100%;">
+                                                                <input type="hidden" name="receivebusinessId" id="receivebusinessId" value="@ViewData["ReceiveBusinessid"]" />
+                                                                <div class="form-group">
+                                                                    <label for="ReceiveBusinessTaskComment">ملاحظات</label>
+                                                                    <textarea class="form-control" id="ReceiveBusinessTaskComment" name="ReceiveBusinessTaskComment" rows="3" placeholder="اضافة ملاحظة عامة للمشروع ...."></textarea>
+                                                                </div>
+                                                                <div class="input-group mb-3">
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text">اضافة ملفات </span>
+                                                                    </div>
+                                                                    <div class="custom-file">
+                                                                        <input type="file" class="custom-file-input" name="files" multiple="">
+                                                                        <label class="custom-file-label" for="inputGroupFile01">أختر الملف</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="input-group-append">
+                                                                    <button type="submit" class="btn btn-icon btn-primary float-right m-0">
+                                                                        <i class="fas fa-plus"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="files" role="tabpanel">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h5>الملفات</h5>
+                                                    </div>
+                                                    <div class="card-block task-attachment">
+                                                        <ul class="media-list p-0">
+                                                            @foreach (var item in Model)
+                                                            {
+                                                                @foreach (var pitem in item.ReceiveBusinessTaskLog.OrderBy(log => log.ReceiveBusinessTaskId).ToList())
+                                                                {
+                                                                    <li>
+                                                                        <!-- timeline item -->
+                                                                        <div>
+                                                                            <i class="task-icon bg-c-green"></i>
+
+                                                                            <h6>
+                                                                                <span class="time"><i class="far fa-clock"></i> @pitem.CreatedOn</span>
+                                                                                <span class="float-right text-muted"> @_app.userFirstName(pitem.ReceiveBusinessUser.Id) </span>
+                                                                            </h6>
+                                                                            <p class="text-muted"> @pitem.ReceiveBusinessTaskComment</p>
+                                                                            @if (pitem.ReceiveBusinessTaskLogImages != null && pitem.ReceiveBusinessTaskLogImages.Count != 0)
+                                                                            {
+                                                                                <div class="timeline-body">
+                                                                                    <table class="table table-bordered table-primary" width="100%" name="example1" cellspacing="0">
+                                                                                        <tr>
+                                                                                            <th>
+                                                                                                اسم الملف
+                                                                                            </th>
+                                                                                            <th>
+                                                                                                تاريخ انشاء الملف
+                                                                                            </th>
+                                                                                            <th>
+                                                                                                تحميل الملف
+                                                                                            </th>
+                                                                                            <th>
+                                                                                                تحميل
+                                                                                            </th>
+                                                                                        </tr>
+                                                                                        @foreach (var imageitem in pitem.ReceiveBusinessTaskLogImages.OrderBy(img => img.ReceiveBusinessTaskLogImageId).ToList())
+                                                                                        {
+                                                                                            <tr>
+                                                                                                <td>
+                                                                                                    <p>  @imageitem.FileName </p>
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    <p>  @imageitem.CreatedAtUtc </p>
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    <a href="@imageitem.ReceiveBusinessTaskLogImageUrl" target="_blank">تحميل الملف</a>
+                                                                                                </td>
+                                                                                                <td>
+
+                                                                                                    @Html.ActionLink("Download File", "Download", controller, new { imagename = imageitem.FileName, Url = imageitem.ReceiveBusinessTaskLogImageUrl, contenttype = imageitem.ImageType }, null)
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                        }
+                                                                                    </table>
+                                                                                </div>
+                                                                                <div class="timeline-body">
+                                                                                    @foreach (var imageitem in pitem.ReceiveBusinessTaskLogImages.Where(Im => Im.ImageType.Contains("image")).ToList())
+                                                                                    {
+                                                                                        <img height="96" src="@imageitem.ReceiveBusinessTaskLogImageUrl" alt="...">
+                                                                                    }
+                                                                                </div>
+                                                                            }
+
+                                                                        </div>
+                                                                    </li>
+
+                                                                }
+                                                            }
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @*                                            <div class="tab-pane fade fadeInLeft" id="gantt" role="tabpanel">
+
+                                            <div id="container"></div>
+                                            </div>*@
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- [ Recent Users ] end -->
+
+                            </div>
+                            <!-- [ Main Content ] end -->
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section Styles{
+     <!-- data tables css -->
+    <link rel="stylesheet" href="~/assets/plugins/data-tables/css/datatables.min.css">
+
+}
+
+
+@section Scripts {
+    <script>
+        var result = @Html.Raw(ViewBag.DataPoints);
+        var projectname = '@Html.Raw(ViewBag.ProjectName)';
+        var dataPoints = [];
+        for (var i = 0; i < result.length; i++) {
+            dataPoints.push({
+                name: result[i].name,
+                id: result[i].id,
+                dependency: result[i].dependency,
+                completed: { amount: result[i].completed.amount / 100, fill: result[i].completed.fill },
+                owner: result[i].owner,
+            });
+        }
+
+        Highcharts.ganttChart('container', {
+            series: [{
+                name: projectname + '<br/>',
+                data: dataPoints
+            }],
+            tooltip: {
+                pointFormatter: function () {
+                    var point = this,
+                        format = '%e. %b',
+                        options = point.options,
+                        completed = options.completed,
+                        amount = isObject(completed) ? completed.amount : completed,
+                        status = ((amount || 0) * 100) + '%',
+                        lines;
+                    lines = [{
+                        value: point.name + '<br/>',
+                        style: 'font-weight: bold;'
+                    }, {
+                        title: 'Complete',
+                        value: status
+                    }, {
+                        title: 'Assign to',
+                        value: options.owner || 'unassigned'
+                    }];
+
+                    return reduce(lines, function (str, line) {
+                        var s = '',
+                            style = (
+                                defined(line.style) ? line.style : 'font-size: 0.8em;'
+                            );
+                        if (line.visible !== false) {
+                            s = (
+                                '<span style="' + style + '">' +
+                                (defined(line.title) ? line.title + ': ' : '') +
+                                (defined(line.value) ? line.value : '') +
+                                '</span><br/>'
+                            );
+                        }
+                        return str + s;
+                    }, '');
+                }
+            },
+            title: {
+                text: projectname//'Gantt Project Management'
+            },
+            xAxis: {
+                currentDateIndicator: true,
+                min: dataPoints[0].start - 10 * day, //today - 10 * day,
+                max: dataPoints[dataPoints.length - 1].end + 10 * day// today + 38 * day
+            }
+        });
+
+    </script>
+
+    <script>
+        // print button
+        function printData() {
+            var divToPrint = document.getElementById("printTable");
+            newWin = window.open("");
+            newWin.document.write(divToPrint.outerHTML);
+            newWin.print();
+            newWin.close();
+        }
+
+        $('.btn-print-invoice').on('click', function () {
+            printData();
+        })
+
+    </script>
+    <!-- datatable Js -->
+    <script src="~/assets/plugins/data-tables/js/datatables.min.js"></script>
+    <script src="~/assets/js/pages/tbl-datatable-custom.js"></script>
+    <!-- modal-window-effects Js -->
+    <script src="~/assets/plugins/modal-window-effects/js/classie.js"></script>
+    <script src="~/assets/plugins/modal-window-effects/js/modalEffects.js"></script>
+
+
+
+
+
+    <!-- amchart js -->
+    <script src="~/assets/plugins/amchart/js/amcharts.js"></script>
+    <script src="~/assets/plugins/amchart/js/gauge.js"></script>
+    <script src="~/assets/plugins/amchart/js/serial.js"></script>
+    <script src="~/assets/plugins/amchart/js/light.js"></script>
+    <script src="~/assets/plugins/amchart/js/pie.min.js"></script>
+    <script src="~/assets/plugins/amchart/js/ammap.min.js"></script>
+    <script src="~/assets/plugins/amchart/js/usaLow.js"></script>
+    <script src="~/assets/plugins/amchart/js/radar.js"></script>
+    <script src="~/assets/plugins/amchart/js/worldLow.js"></script>
+
+
+    <!-- Float Chart js -->
+    <script src="~/assets/plugins/flot/js/jquery.flot.js"></script>
+    <script src="~/assets/plugins/flot/js/jquery.flot.categories.js"></script>
+    <script src="~/assets/plugins/flot/js/curvedLines.js"></script>
+    <script src="~/assets/plugins/flot/js/jquery.flot.tooltip.min.js"></script>
+
+
+    <script>
+        $(document).ready(function () {
+            generateChart();
+            //$.ajax({
+            //     url: 'https://api.myjson.com/bins/zg8of',
+            //    method: 'GET', success: function (data) {
+            //        generateChart(data);
+            //    }, error: function (err) {
+            //        alert("Unable to display chart. Something went wrong.");
+            //    }
+            //});
+
+            function generateChart() {
+
+        @*var result = @Html.Raw(ViewBag.Taskstatus);
+                var dataPoints =[];
+                for(var i = 0; i < result.length; i++){
+                dataPoints.push({
+                empname: result[i].empname
+                });
+                }*@
+
+
+                        // [ Bar Chart2 ] Start
+                        var chart = AmCharts.makeChart("bar-chart2", {
+                        "type": "serial",
+                        "theme": "light",
+                        "marginTop": 10,
+                        "marginRight": 0,
+                        "valueAxes": [{
+                            "id": "v1",
+                            "position": "left",
+                            "axisAlpha": 0,
+                            "lineAlpha": 0,
+                            "autoGridCount": false,
+                            "labelFunction": function (value) {
+                                return +Math.round(value);
+                            }
+                        }],
+                        "chartCursor": {
+                            "pan": true,
+                            "valueLineEnabled": true,
+                            "valueLineBalloonEnabled": true,
+                            "cursorAlpha": 0,
+                            "valueLineAlpha": 0.2
+                        },
+                        "categoryField": "Empname",
+                        "categoryAxis": {
+                            "dashLength": 1,
+                            "gridAlpha": 0,
+                            "axisAlpha": 0,
+                            "lineAlpha": 0,
+                            "minorGridEnabled": true
+                        },
+                        "legend": {
+                            "useGraphSettings": true,
+                            "position": "top"
+                        },
+                        "balloon": {
+                            "borderThickness": 1,
+                            "shadowAlpha": 0
+                        },
+                        "dataProvider": @Html.Raw(ViewBag.Taskstatus)
+
+                        });
+                // [ Bar Chart2 ] end
+            }
+
+        });
+    </script>
+
+
+}
