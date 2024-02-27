@@ -1,0 +1,103 @@
+﻿@using FasDemo.Data
+@using System.Security.Claims
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@inject ApplicationDbContext _context
+@{
+    string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+    var IfFoundPass = _context.Employee.Where(x => x.SystemUserId == userId).Select(x => x.Signature).FirstOrDefault();
+    
+}
+
+
+<section class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <div class="accordion" id="accordionMain">
+                            <div class="card">
+                               
+                                <div class="card-header" id="headingOne">
+                                    <h5 class="mb-0">
+                                        <a href="#!" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            التوقيع الالكتروني
+                                        </a>
+                                       
+                                    </h5>
+                                    @if(ViewBag.message!=null)
+                                    {
+                                        @if (ViewBag.message == "تم انشاء كلمة مرور بنجاح" || ViewBag.message == "تم تعديل كلمة المرور بنجاح")
+                                        {
+                                            <h4 id="message" style="text-align:center;color:darkgreen;display:block">@ViewBag.message</h4>
+                                        }
+                                        else
+                                        {
+                                            <h4 id="message" style="text-align:center;color:darkred;display:block">@ViewBag.message</h4>
+
+                                        }
+
+                                    }
+                                </div>
+                                <div id="collapseOne" class=" card-body collapse show" aria-labelledby="headingOne" data-parent="#accordionMain">
+                                    <div class="row">
+                                        <div class="col-md-12 mb-4">
+                                            <div class="card">
+                                                <div class="card-body" style="display:flex;justify-content:center;align-items:center">
+                                                    @if(IfFoundPass!=null)
+                                                    {
+                                                        <div>
+                                                            <form asp-action="EditPass" method="post" style="text-align:center">
+                                                                <h5>تغيير كلمة المرور</h5>
+                                                                <div class="input-group" style="width:200px;margin:10px">
+                                                                    <input type="password" class="form-control" placeholder="كلمة المرور القديمة" name="oldPass">
+                                                                </div>
+                                                                <div class="input-group" style="width:200px;margin:10px">
+                                                                    <input type="password" class="form-control" placeholder="كلمة المرور الجديدة" name="newPass">
+                                                                </div>
+                                                                <div class="input-group" style="width:200px;margin:10px">
+                                                                    <input type="password" class="form-control" placeholder="تأكيد كلمة المرور " name="confirmNewPass">
+                                                                </div>
+                                                                <button class="btn btn-primary" type="submit">حسناً</button>
+                                                            </form>
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div>
+                                                            <form asp-action="CreateNewPass" method="post" style="text-align:center">
+                                                                <h5>انشاء كلمة مرور جديدة</h5>
+                                                                <div class="input-group" style="width:200px;margin:10px">
+                                                                    <input type="password" class="form-control" placeholder="كلمة المرور" name="pass">
+                                                                </div>
+                                                                <div class="input-group" style="width:200px;margin:10px">
+                                                                    <input type="password" class="form-control" placeholder="تأكيد كلمة المرور" name="confirmPass">
+                                                                </div>
+                                                                <button class="btn btn-primary" type="submit">حسناً</button>
+                                                            </form>
+                                                        </div>
+                                                    }
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script>
+    if ($("#message").css("display") == "block") {
+        $("#message").fadeOut(3000);
+    }
+</script>

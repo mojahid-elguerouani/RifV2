@@ -105,16 +105,16 @@ namespace FasDemo.Controllers
             }
 
             //edit object
-            ReceiveBusiness editObj = new ReceiveBusiness();
-            editObj = _context.ReceiveBusiness.Where(x => x.ReceiveBusinessId == id).FirstOrDefault();
+            ReceiveBusiness editObj = new ReceiveBusiness(); 
+            editObj = _context.ReceiveBusiness.Where(x => x.ReceiveBusinessId == id).FirstOrDefault(); 
 
             if (editObj == null)
             {
                 return NotFound();
             }
 
-            //dropdownlist 
-            FillDropdownListWithData();
+            //dropdownlist  
+            FillDropdownListWithData(); 
 
             return View(editObj);
 
@@ -226,7 +226,8 @@ namespace FasDemo.Controllers
                     var xdata = _context.Database.ExecuteSqlCommand("CreateReceiveBusiness @ReceiveBusinessSchedualTempletId, @ReceiveBusinessId, @CreatedBy ,@CreatedAtUtc", parameters);
 
                     TempData[StaticString.StatusMessage] = "تم انشاء الطلب بنجاح.";
-                    return RedirectToAction(nameof(Form), new { id = newReceiveBusiness.ReceiveBusinessId });
+                  
+                    return RedirectToAction(nameof(Form));
                 }
 
                 //edit existing
@@ -807,10 +808,8 @@ namespace FasDemo.Controllers
 
         public List<ReceiveBusiness> GetMaxReviewAndSerialNumber(string sqlStetment)
         {
-
             var newList = _context.ReceiveBusiness.FromSql(sqlStetment).ToList();
             return newList;
-            
         }
 
     }

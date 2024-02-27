@@ -72,9 +72,13 @@ namespace FasDemo.Controllers
         }
 
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string message)
         {
-
+            ViewBag.done = null;
+            if(message!=null)
+            {
+                ViewBag.done=message;
+            }
             ApplicationUser applicationUser = await _userManager.GetUserAsync(User);
 
             string tempid = applicationUser.Id;
@@ -788,25 +792,23 @@ namespace FasDemo.Controllers
         public IActionResult CheckSigneture(string EmployeeId,string pass,int receiveBusinessId)
         {
             string message = "";
-            string realPassInDb = _context.Employee.Where(x=>x.EmployeeId==EmployeeId).Select(x=>x.Signature).FirstOrDefault();
+            string realPassInDb = _context.Employee.Where(x=>x.SystemUserId==EmployeeId).Select(x=>x.Signature).FirstOrDefault();
             var key = _config.GetSection("KeyForEncrypt").Value;
             string passAfterEncrypt = AesOperation.EncryptString(key, pass);
 
             if(realPassInDb == passAfterEncrypt)
             {
-                var item = _context.ReceiveBusinessTasks.Include(x => x.ReceiveBusiness).ThenInclude(x => x.Project).ThenInclude(x => x.Contractor).Where(x => x.ReceiveBusinessId == receiveBusinessId).FirstOrDefault();
-            }
-
-            if (EmployeeId != null || pass != null)
-            {
-
+                var item = _context.ReceiveBusinessTasks.Where(x=>x.ReceiveBusinessId==receiveBusinessId).FirstOrDefault();
+                item.IsSigned=true;
+                _context.ReceiveBusinessTasks.Update(item);
+                _context.SaveChanges();
                 message = "تم التوقيع بنجاح";
-                return RedirectToAction("", "", new { });
+                return RedirectToAction("Index", "ReceiveBusinessTask", new { message = message });
             }
             else
             {
                 message = "هناك خطأ ما في كلمة المرور";
-                return RedirectToAction("", "", new { });
+                return RedirectToAction("Index", "ReceiveBusinessTask", new { message = message });
             }
             
         }

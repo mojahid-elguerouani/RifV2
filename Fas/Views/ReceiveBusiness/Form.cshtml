@@ -31,6 +31,7 @@
                         </div>
                     </div>
                 </div>
+             
                 <!-- [ breadcrumb ] end -->
                 <div class="main-body">
                     <div class="page-wrapper">
@@ -69,7 +70,7 @@
                                                             var serialNumber = $"00"+(Model.SerialNumber);
                                                             var reviewNumber = $"0"+(Model.ReviewNumber);
                                                         }
-                                                        <input asp-for="SerialNumber" class="form-control" value="serialNumber" id="serialNumber" disabled />
+                                                        <input asp-for="SerialNumber" class="form-control" value="@serialNumber" id="serialNumber"/>
                                                         <span class="input-group-addon" aria-hidden="true">
                                                             <span class="glyphicon glyphicon-ok text-success"></span>
                                                         </span>
@@ -80,7 +81,7 @@
                                                 <div class="col-3">
                                                     <div class="form-group">
                                                         <label asp-for="ReviewNumber"></label>
-                                                        <input asp-for="ReviewNumber" class="form-control" value="reviewNumber" id="reviewNumber" disabled />
+                                                        <input asp-for="ReviewNumber" class="form-control" value="@reviewNumber" id="reviewNumber"/>
                                                         <span class="input-group-addon" aria-hidden="true">
                                                             <span class="glyphicon glyphicon-ok text-success"></span>
                                                         </span>
@@ -143,7 +144,7 @@
                                                         <label>مدني</label>
                                                         <div class="switch d-inline m-r-10">
                                                             
-                                                            <input name="IsCivil" class="form-control" type="checkbox" data-value="true" id="IsCivil" onchange="trackChecked()">
+                                                            <input asp-for="IsCivil" class="form-control" type="checkbox" data-value="true" id="IsCivil" onchange="trackChecked()">
                                                             <label for="IsCivil" class="cr"></label>
                                                         </div>
 
@@ -153,7 +154,7 @@
 
                                                         <label>معماري</label>
                                                         <div class="switch d-inline m-r-10">
-                                                            <input name="IsArchitectural" class="form-control" type="checkbox" data-value="true" id="IsArchitectural" onchange="trackChecked()">
+                                                            <input asp-for="IsArchitectural" class="form-control" type="checkbox" data-value="true" id="IsArchitectural" onchange="trackChecked()">
                                                             <label for="IsArchitectural" class="cr"></label>
                                                         </div>
 
@@ -163,7 +164,7 @@
 
                                                         <label>ميكانيكا</label>
                                                         <div class="switch d-inline m-r-10">
-                                                            <input name="IsMechanics" class="form-control" type="checkbox" data-value="true" id="IsMechanics" onchange="trackChecked()">
+                                                            <input asp-for="IsMechanics" class="form-control" type="checkbox" data-value="true" id="IsMechanics" onchange="trackChecked()">
                                                             <label for="IsMechanics" class="cr"></label>
                                                         </div>
 
@@ -173,7 +174,7 @@
 
                                                         <label>كهرباء</label>
                                                         <div class="switch d-inline m-r-10">
-                                                            <input name="IsElectricity" class="form-control" type="checkbox" data-value="true" id="IsElectricity" onchange="trackChecked()">
+                                                            <input asp-for="IsElectricity" class="form-control" type="checkbox" data-value="true" id="IsElectricity" onchange="trackChecked()">
                                                             <label for="IsElectricity" class="cr"></label>
                                                         </div>
 
@@ -183,7 +184,7 @@
 
                                                         <label>زراعي</label>
                                                         <div class="switch d-inline m-r-10">
-                                                            <input name="IsAgricultural" class="form-control" type="checkbox" data-value="true" id="IsAgricultural" onchange="trackChecked()">
+                                                            <input asp-for="IsAgricultural" class="form-control" type="checkbox" data-value="true" id="IsAgricultural" onchange="trackChecked()">
                                                             <label for="IsAgricultural" class="cr"></label>
                                                         </div>
 
@@ -193,7 +194,7 @@
 
                                                         <label>أخرى</label>
                                                         <div class="switch d-inline m-r-10">
-                                                            <input name="IsOthers" class="form-control" type="checkbox" data-value="true" id="IsOthers" onchange="{trackChecked();trackOther()}">
+                                                            <input asp-for="IsOthers" class="form-control" type="checkbox" data-value="true" id="IsOthers" onchange="{trackChecked();trackOther()}">
                                                             <label for="IsOthers" class="cr"></label>
                                                         </div>
 
@@ -462,158 +463,7 @@
     }
 
     function trackChecked() {
-
-        //architectural odds
-        if (document.getElementById("IsArchitectural").checked == true && document.getElementById("IsCivil").checked == true && document.getElementById("IsMechanics").checked == true && document.getElementById("IsElectricity").checked == true && document.getElementById("IsAgricultural").checked == true && document.getElementById("IsOthers").checked == true) {
-
-            stetmentForSql = "select * from ReceiveBusiness where IsAgricultural = 'true' and IsArchitectural = 'true' and IsCivil = 'true' and IsElectricity = 'true' and IsMechanics = 'true' and IsOthers = 'true'";
-        }
-
-
-
-
-        else if (document.getElementById("IsArchitectural").checked == true && document.getElementById("IsCivil").checked == true && document.getElementById("IsMechanics").checked == true && document.getElementById("IsElectricity").checked == true && document.getElementById("IsOthers").checked == true && document.getElementById("IsAgricultural").checked == false) {
-
-            stetmentForSql = "select * from ReceiveBusiness where IsAgricultural = 'false' and IsArchitectural = 'true' and IsCivil = 'true' and IsElectricity = 'true' and IsMechanics = 'true' and IsOthers = 'true'";
-        }
-        else if (document.getElementById("IsArchitectural").checked == true && document.getElementById("IsCivil").checked == true && document.getElementById("IsMechanics").checked == true && document.getElementById("IsOthers").checked == true && document.getElementById("IsElectricity").checked == false && document.getElementById("IsAgricultural").checked == false) {
-
-            stetmentForSql = "select * from ReceiveBusiness where IsAgricultural = 'false' and IsArchitectural = 'true' and IsCivil = 'true' and IsElectricity = 'false' and IsMechanics = 'true' and IsOthers = 'true'";
-        }
-        else if (document.getElementById("IsArchitectural").checked == true && document.getElementById("IsCivil").checked == true && document.getElementById("IsOthers").checked == true && document.getElementById("IsMechanics").checked == false && document.getElementById("IsElectricity").checked == false && document.getElementById("IsAgricultural").checked == false) {
-
-            stetmentForSql = "select * from ReceiveBusiness where IsAgricultural = 'false' and IsArchitectural = 'true' and IsCivil = 'true' and IsElectricity = 'false' and IsMechanics = 'false' and IsOthers = 'true'";
-        }
-        else if (document.getElementById("IsArchitectural").checked == true && document.getElementById("IsOthers").checked == true && document.getElementById("IsCivil").checked == false && document.getElementById("IsMechanics").checked == false && document.getElementById("IsElectricity").checked == false && document.getElementById("IsAgricultural").checked == false) {
-
-            stetmentForSql = "select * from ReceiveBusiness where IsAgricultural = 'false' and IsArchitectural = 'true' and IsCivil = 'false' and IsElectricity = 'false' and IsMechanics = 'false' and IsOthers = 'true'";
-        }
-        else if (document.getElementById("IsArchitectural").checked == true && document.getElementById("IsOthers").checked == false && document.getElementById("IsCivil").checked == false && document.getElementById("IsMechanics").checked == false && document.getElementById("IsElectricity").checked == false && document.getElementById("IsAgricultural").checked == false) {
-
-            stetmentForSql = "select * from ReceiveBusiness where IsAgricultural = 'false' and IsArchitectural = 'true' and IsCivil = 'false' and IsElectricity = 'false' and IsMechanics = 'false' and IsOthers = 'false'";
-        }
-
-
-        //civil odds
-        else if (document.getElementById("IsCivil").checked == true && document.getElementById("IsOthers").checked == false && document.getElementById("IsArchitectural").checked == false && document.getElementById("IsMechanics").checked == false && document.getElementById("IsElectricity").checked == false && document.getElementById("IsAgricultural").checked == false) {
-
-            stetmentForSql = "select * from ReceiveBusiness where IsAgricultural = 'false' and IsArchitectural = 'false' and IsCivil = 'true' and IsElectricity = 'false' and IsMechanics = 'false' and IsOthers = 'false'";
-        }
-        else if (document.getElementById("IsCivil").checked == true && document.getElementById("IsOthers").checked == true && document.getElementById("IsArchitectural").checked == false && document.getElementById("IsMechanics").checked == false && document.getElementById("IsElectricity").checked == false && document.getElementById("IsAgricultural").checked == false) {
-
-            stetmentForSql = "select * from ReceiveBusiness where IsAgricultural = 'false' and IsArchitectural = 'false' and IsCivil = 'true' and IsElectricity = 'false' and IsMechanics = 'false' and IsOthers = 'true'";
-        }
-        else if (document.getElementById("IsCivil").checked == true && document.getElementById("IsOthers").checked == true && document.getElementById("IsArchitectural").checked == true && document.getElementById("IsMechanics").checked == true && document.getElementById("IsElectricity").checked == false && document.getElementById("IsAgricultural").checked == false) {
-
-            stetmentForSql = "select * from ReceiveBusiness where IsAgricultural = 'false' and IsArchitectural = 'true' and IsCivil = 'true' and IsElectricity = 'false' and IsMechanics = 'true' and IsOthers = 'true'";
-        }
-        else if (document.getElementById("IsCivil").checked == true && document.getElementById("IsOthers").checked == true && document.getElementById("IsArchitectural").checked == true && document.getElementById("IsMechanics").checked == true && document.getElementById("IsElectricity").checked == true && document.getElementById("IsAgricultural").checked == false) {
-
-            stetmentForSql = "select * from ReceiveBusiness where IsAgricultural = 'false' and IsArchitectural = 'true' and IsCivil = 'true' and IsElectricity = 'true' and IsMechanics = 'true' and IsOthers = 'true'";
-        }
-        else if (document.getElementById("IsCivil").checked == true && document.getElementById("IsOthers").checked == true && document.getElementById("IsArchitectural").checked == true && document.getElementById("IsMechanics").checked == true && document.getElementById("IsElectricity").checked == true && document.getElementById("IsAgricultural").checked == false) {
-
-            stetmentForSql = "select * from ReceiveBusiness where IsAgricultural = 'false' and IsArchitectural = 'true' and IsCivil = 'true' and IsElectricity = 'true' and IsMechanics = 'true' and IsOthers = 'true'";
-        }
-
-
-        //mechanics odds
-        else if (document.getElementById("IsMechanics").checked == true && document.getElementById("IsOthers").checked == false && document.getElementById("IsCivil").checked == false && document.getElementById("IsArchitectural").checked == false && document.getElementById("IsElectricity").checked == false && document.getElementById("IsAgricultural").checked == false) {
-
-            stetmentForSql = "select * from ReceiveBusiness where IsAgricultural = 'false' and IsArchitectural = 'false' and IsCivil = 'false' and IsElectricity = 'false' and IsMechanics = 'true and IsOthers = 'false''";
-        }
-        else if (document.getElementById("IsMechanics").checked == true && document.getElementById("IsCivil").checked == true && document.getElementById("IsOthers").checked == false && document.getElementById("IsArchitectural").checked == false && document.getElementById("IsElectricity").checked == false && document.getElementById("IsAgricultural").checked == false) {
-
-            stetmentForSql = "select * from ReceiveBusiness where IsAgricultural = 'false' and IsArchitectural = 'false' and IsCivil = 'true' and IsElectricity = 'false' and IsMechanics = 'true' and IsOthers = 'false'";
-        }
-        else if (document.getElementById("IsMechanics").checked == true && document.getElementById("IsCivil").checked == true && document.getElementById("IsArchitectural").checked == true && document.getElementById("IsOthers").checked == false && document.getElementById("IsElectricity").checked == false && document.getElementById("IsAgricultural").checked == false) {
-
-            stetmentForSql = "select * from ReceiveBusiness where IsAgricultural = 'false' and IsArchitectural = 'true' and IsCivil = 'true' and IsElectricity = 'false' and IsMechanics = 'true' and IsOthers = 'false'";
-        }
-        else if (document.getElementById("IsMechanics").checked == true && document.getElementById("IsCivil").checked == true && document.getElementById("IsArchitectural").checked == true && document.getElementById("IsElectricity").checked == true && document.getElementById("IsOthers").checked == false && document.getElementById("IsAgricultural").checked == false) {
-
-            stetmentForSql = "select * from ReceiveBusiness where IsAgricultural = 'false' and IsArchitectural = 'true' and IsCivil = 'true' and IsElectricity = 'true' and IsMechanics = 'true' and IsOthers = 'false'";
-        }
-        else if (document.getElementById("IsMechanics").checked == true && document.getElementById("IsCivil").checked == true && document.getElementById("IsArchitectural").checked == true && document.getElementById("IsElectricity").checked == true && document.getElementById("IsOthers").checked == true && document.getElementById("IsAgricultural").checked == false) {
-
-            stetmentForSql = "select * from ReceiveBusiness where IsAgricultural = 'false' and IsArchitectural = 'true' and IsCivil = 'true' and IsElectricity = 'true' and IsMechanics = 'true' and IsOthers = 'true'";
-        }
-
-        //electricity odds
-        else if (document.getElementById("IsElectricity").checked == true && document.getElementById("IsOthers").checked == false && document.getElementById("IsMechanics").checked == false && document.getElementById("IsCivil").checked == false && document.getElementById("IsArchitectural").checked == false && document.getElementById("IsAgricultural").checked == false) {
-
-            stetmentForSql = "select * from ReceiveBusiness where IsAgricultural = 'false' and IsArchitectural = 'false' and IsCivil = 'false' and IsElectricity = 'true' and IsMechanics = 'false' and IsOthers = 'false'";
-        }
-        else if (document.getElementById("IsElectricity").checked == true && document.getElementById("IsMechanics").checked == true && document.getElementById("IsOthers").checked == false && document.getElementById("IsCivil").checked == false && document.getElementById("IsArchitectural").checked == false && document.getElementById("IsAgricultural").checked == false) {
-
-            stetmentForSql = "select * from ReceiveBusiness where IsAgricultural = 'false' and IsArchitectural = 'false' and IsCivil = 'false' and IsElectricity = 'true' and IsMechanics = 'true' and IsOthers = 'false'";
-        }
-        else if (document.getElementById("IsElectricity").checked == true && document.getElementById("IsMechanics").checked == true && document.getElementById("IsCivil").checked == true && document.getElementById("IsArchitectural").checked == false && document.getElementById("IsOthers").checked == false && document.getElementById("IsAgricultural").checked == false) {
-
-            stetmentForSql = "select * from ReceiveBusiness where IsAgricultural = 'false' and IsArchitectural = 'false' and IsCivil = 'true' and IsElectricity = 'true' and IsMechanics = 'true' and IsOthers = 'false'";
-        }
-        else if (document.getElementById("IsElectricity").checked == true && document.getElementById("IsMechanics").checked == true && document.getElementById("IsCivil").checked == true && document.getElementById("IsArchitectural").checked == true && document.getElementById("IsOthers").checked == false && document.getElementById("IsAgricultural").checked == false) {
-
-            stetmentForSql = "select * from ReceiveBusiness where IsAgricultural = 'false' and IsArchitectural = 'true' and IsCivil = 'true' and IsElectricity = 'true' and IsMechanics = 'true' and IsOthers = 'false'";
-        }
-        else if (document.getElementById("IsElectricity").checked == true && document.getElementById("IsMechanics").checked == true && document.getElementById("IsCivil").checked == true && document.getElementById("IsArchitectural").checked == true && document.getElementById("IsOthers").checked == true && document.getElementById("IsAgricultural").checked == false) {
-
-            stetmentForSql = "select * from ReceiveBusiness where IsAgricultural = 'false' and IsArchitectural = 'true' and IsCivil = 'true' and IsElectricity = 'true' and IsMechanics = 'true' and IsOthers = 'true'";
-        }
-
-
-        //agricultural odds
-        else if (document.getElementById("IsAgricultural").checked == true && document.getElementById("IsOthers").checked == false && document.getElementById("IsElectricity").checked == false && document.getElementById("IsMechanics").checked == false && document.getElementById("IsCivil").checked == false && document.getElementById("IsArchitectural").checked == false) {
-
-            stetmentForSql = "select * from ReceiveBusiness where IsAgricultural = 'true' and IsArchitectural = 'false' and IsCivil = 'false' and IsElectricity = 'false' and IsMechanics = 'false' and IsOthers = 'false'";
-        }
-        else if (document.getElementById("IsAgricultural").checked == true && document.getElementById("IsElectricity").checked == true && document.getElementById("IsOthers").checked == false && document.getElementById("IsMechanics").checked == false && document.getElementById("IsCivil").checked == false && document.getElementById("IsArchitectural").checked == false) {
-
-            stetmentForSql = "select * from ReceiveBusiness where IsAgricultural = 'true' and IsArchitectural = 'false' and IsCivil = 'false' and IsElectricity = 'true' and IsMechanics = 'false' and IsOthers = 'false'";
-        }
-        else if (document.getElementById("IsAgricultural").checked == true && document.getElementById("IsElectricity").checked == true && document.getElementById("IsMechanics").checked == true && document.getElementById("IsOthers").checked == false && document.getElementById("IsCivil").checked == false && document.getElementById("IsArchitectural").checked == false) {
-
-            stetmentForSql = "select * from ReceiveBusiness where IsAgricultural = 'true' and IsArchitectural = 'false' and IsCivil = 'false' and IsElectricity = 'true' and IsMechanics = 'true' and IsOthers = 'false'";
-        }
-        else if (document.getElementById("IsAgricultural").checked == true && document.getElementById("IsElectricity").checked == true && document.getElementById("IsMechanics").checked == true && document.getElementById("IsCivil").checked == true && document.getElementById("IsOthers").checked == false && document.getElementById("IsArchitectural").checked == false) {
-
-            stetmentForSql = "select * from ReceiveBusiness where IsAgricultural = 'true' and IsArchitectural = 'false' and IsCivil = 'true' and IsElectricity = 'true' and IsMechanics = 'true' and IsOthers = 'false'";
-        }
-        else if (document.getElementById("IsAgricultural").checked == true && document.getElementById("IsElectricity").checked == true && document.getElementById("IsMechanics").checked == true && document.getElementById("IsCivil").checked == true && document.getElementById("IsOthers").checked == true && document.getElementById("IsArchitectural").checked == false) {
-
-            stetmentForSql = "select * from ReceiveBusiness where IsAgricultural = 'true' and IsArchitectural = 'false' and IsCivil = 'true' and IsElectricity = 'true' and IsMechanics = 'true' and IsOthers = 'true'";
-        }
-
-
-        //others odds
-        else if (document.getElementById("IsOthers").checked == true && document.getElementById("IsAgricultural").checked == false && document.getElementById("IsElectricity").checked == false && document.getElementById("IsMechanics").checked == false && document.getElementById("IsCivil").checked == false && document.getElementById("IsArchitectural").checked == false) {
-
-            stetmentForSql = "select * from ReceiveBusiness where IsAgricultural = 'false' and IsArchitectural = 'false' and IsCivil = 'false' and IsElectricity = 'false' and IsMechanics = 'false' and IsOthers = 'true'";
-        }
-        else if (document.getElementById("IsOthers").checked == true && document.getElementById("IsAgricultural").checked == true && document.getElementById("IsElectricity").checked == false && document.getElementById("IsMechanics").checked == false && document.getElementById("IsCivil").checked == false && document.getElementById("IsArchitectural").checked == false) {
-
-            stetmentForSql = "select * from ReceiveBusiness where IsAgricultural = 'true' and IsArchitectural = 'false' and IsCivil = 'false' and IsElectricity = 'false' and IsMechanics = 'false' and IsOthers = 'true'";
-        }
-        else if (document.getElementById("IsOthers").checked == true && document.getElementById("IsAgricultural").checked == true && document.getElementById("IsElectricity").checked == true && document.getElementById("IsMechanics").checked == false && document.getElementById("IsCivil").checked == false && document.getElementById("IsArchitectural").checked == false) {
-
-            stetmentForSql = "select * from ReceiveBusiness where IsAgricultural = 'true' and IsArchitectural = 'false' and IsCivil = 'false' and IsElectricity = 'true' and IsMechanics = 'false' and IsOthers = 'true'";
-        }
-        else if (document.getElementById("IsOthers").checked == true && document.getElementById("IsAgricultural").checked == true && document.getElementById("IsElectricity").checked == true && document.getElementById("IsMechanics").checked == true && document.getElementById("IsCivil").checked == false && document.getElementById("IsArchitectural").checked == false) {
-
-            stetmentForSql = "select * from ReceiveBusiness where IsAgricultural = 'true' and IsArchitectural = 'false' and IsCivil = 'false' and IsElectricity = 'true' and IsMechanics = 'true' and IsOthers = 'true'";
-        }
-        else if (document.getElementById("IsOthers").checked == true && document.getElementById("IsAgricultural").checked == true && document.getElementById("IsElectricity").checked == true && document.getElementById("IsMechanics").checked == true && document.getElementById("IsCivil").checked == true && document.getElementById("IsArchitectural").checked == false) {
-
-            stetmentForSql = "select * from ReceiveBusiness where IsAgricultural = 'true' and IsArchitectural = 'false' and IsCivil = 'true' and IsElectricity = 'true' and IsMechanics = 'true' and IsOthers = 'true'";
-        }
-
-
-
-
-        else {
-            stetmentForSql = "select * from ReceiveBusiness where IsAgricultural = 'false' and IsArchitectural = 'false' and IsCivil = 'false' and IsElectricity = 'false' and IsMechanics = 'false'";
-
-        }
+        stetmentForSql = "select * from ReceiveBusiness where IsAgricultural = '" + $('#IsAgricultural').is(":checked") + "' and IsArchitectural = '" + $('#IsArchitectural').is(":checked") + "' and IsCivil = '" + $('#IsCivil').is(":checked") + "' and IsElectricity = '" + $('#IsElectricity').is(":checked") + "' and IsMechanics = '" + $('#IsMechanics').is(":checked") + "' and IsOthers = '" + $('#IsOthers').is(":checked") + "'";
         ChangeReviewAndSerialNum();
     }
 
