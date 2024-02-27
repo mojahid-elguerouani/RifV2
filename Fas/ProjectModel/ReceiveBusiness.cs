@@ -26,22 +26,22 @@
         //التخصصات
 
         [Required(ErrorMessage = "مدني؟")]
-        public bool? IsCivil { get; set; } = false;
+        public bool IsCivil { get; set; } = false;
 
         [Required(ErrorMessage = "معماري؟")]
-        public bool? IsArchitectural { get; set; } = false;
+        public bool IsArchitectural { get; set; } = false;
 
         [Required(ErrorMessage = "ميكانيكا؟")]
-        public bool? IsMechanics { get; set; } = false;
+        public bool IsMechanics { get; set; } = false;
 
         [Required(ErrorMessage = "كهرباء؟")]
-        public bool? IsElectricity { get; set; } = false;
+        public bool IsElectricity { get; set; } = false;
 
         [Required(ErrorMessage = "زراعي؟")]
-        public bool? IsAgricultural { get; set; } = false;
+        public bool IsAgricultural { get; set; } = false;
 
         [Required(ErrorMessage = "أخرى؟")]
-        public bool? IsOthers { get; set; } = false;
+        public bool IsOthers { get; set; } = false;
 
         //تخصص اخر
 

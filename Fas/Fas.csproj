@@ -11,6 +11,8 @@
     <Compile Remove="Migrations\20240220090602_AddSignetureToEmployeeTable.Designer.cs" />
     <Compile Remove="Migrations\20240220131432_test.cs" />
     <Compile Remove="Migrations\20240220131432_test.Designer.cs" />
+    <Compile Remove="Migrations\20240222072410_test.cs" />
+    <Compile Remove="Migrations\20240222072410_test.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -547,6 +549,7 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.0" />

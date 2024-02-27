@@ -12628,7 +12628,7 @@ h5 a {
 .loading {
     position: fixed;
     display: none;
-    z-index: 1031;
+    z-index: 99999999999;
     height: 2em;
     width: 2em;
     overflow: show;

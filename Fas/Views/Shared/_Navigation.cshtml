@@ -149,8 +149,28 @@
             }
 
 
-            @if (User.IsInRole(Pages.Employee.RoleName)) 
-            { 
+            @if (User.IsInRole(Pages.SelfService.RoleName))
+            {
+                <li class="nav-item pcoded-hasmenu @Html.IsSelected(controller: "ManageSelfServices")">
+                    <a href="#!" class="nav-link"><span class="pcoded-micon"><i class="feather icon-users"></i></span><span class="pcoded-mtext">الخدمات الذاتية</span></a>
+                    <ul class="pcoded-submenu">
+
+                        <!--employee-->
+                        @if (User.IsInRole(Pages.SelfService.RoleName))
+                        {
+                            <li class="nav-item  @Html.IsSelected(controller: Pages.SelfService.ControllerName)">
+                                <a href="~/ManageSelfServices/Index" class="nav-link">
+                                    <span class="pcoded-micon">
+                                        <i class="feather icon-shield"></i>
+                                    </span><span class="pcoded-mtext">التوقيع</span>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </li>
+            }
+            @if (User.IsInRole(Pages.Employee.RoleName))
+            {
                 <li class="nav-item pcoded-hasmenu @Html.IsSelected(controller: "Employee")">
                     <a href="#!" class="nav-link"><span class="pcoded-micon"><i class="feather icon-users"></i></span><span class="pcoded-mtext">الموارد البشرية</span></a>
                     <ul class="pcoded-submenu">
