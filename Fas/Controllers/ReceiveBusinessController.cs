@@ -185,6 +185,7 @@ namespace FasDemo.Controllers
                     newReceiveBusiness.OtherSpecialization = receivebusiness.OtherSpecialization;
 
                     newReceiveBusiness.StatusId = receivebusiness.StatusId;
+
                     newReceiveBusiness.ReceiveBusinessSchedualTempletId = receivebusiness.ReceiveBusinessSchedualTempletId;
 
                     newReceiveBusiness.ProjectId = receivebusiness.ProjectId;
@@ -227,7 +228,7 @@ namespace FasDemo.Controllers
 
                     TempData[StaticString.StatusMessage] = "تم انشاء الطلب بنجاح.";
                   
-                    return RedirectToAction(nameof(Form));
+                    return RedirectToAction(nameof(Form), new { id = newReceiveBusiness.ReceiveBusinessId });
                 }
 
                 //edit existing

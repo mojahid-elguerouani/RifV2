@@ -25,7 +25,9 @@ using FasDemo.SurveyModel.ViewModel;
 using FasDemo.SurveyModel;
 using Fas.Services.Security;
 using Microsoft.Extensions.Configuration;
-
+using static FasDemo.Services.App.Pages;
+using ReceiveBusinessTask = ProjectManagment.Models.ReceiveBusinessTask;
+using ReceiveBusiness = ProjectManagment.Models.ReceiveBusiness;
 
 namespace FasDemo.Controllers
 {
@@ -138,12 +140,12 @@ namespace FasDemo.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SubmitForm([Bind(
-            "ReceiveBusinessTaskId,ReceiveBusinessId,TaskName,TaskOrder,TaskId,AssignTo,IsActive,StatusId,IsApproved,ApprovedBy,TaskParentId,Compleation,ReceiveBusinessAssignToId")] ReceiveBusinessTask receivebusinessTask,
+            "ReceiveBusinessTaskId,ReceiveBusinessId,TaskName,TaskOrder,TaskId,AssignTo,IsActive,StatusId,IsApproved,IsSigned, ApprovedBy,TaskParentId,Compleation,ReceiveBusinessAssignToId, toEmail")] ReceiveBusinessTask receivebusinessTask,
             string ReceiveBusinessTaskComment, string service_type, IFormFile[] files)
         {
             try
             {
-                ApplicationUser currentser = await _userManager.GetUserAsync(User);
+                ApplicationUser currentuser = await _userManager.GetUserAsync(User);
                 if (!ModelState.IsValid)
                 {
                     TempData[StaticString.StatusMessage] = " خطأ : حالة النموذج غير صالحة.";
@@ -160,7 +162,7 @@ namespace FasDemo.Controllers
 
                     if (service_type == "blue")
                     {
-                        if (receivebusinessTask.Compleation == 100 && _receivebusinessTask.ApprovedById == currentser.Id)
+                        if (receivebusinessTask.Compleation == 100 && _receivebusinessTask.ApprovedById == currentuser.Id)
                         {
                             _receivebusinessTask.IsApproved = true;
                             _receivebusinessTask.ApproveDate = DateTime.Now;
@@ -178,21 +180,25 @@ namespace FasDemo.Controllers
                                     string notificationType = receivebusinessTask.TaskName + "==>" + porjectName + "==>" + "تم اضافة مهمة جديده";
                                     string toUserID = item.ReceiveBusinessAssignToId;
 
-                                    int notificationID = SaveUserNotification(notificationType, currentser.Id, toUserID);
+                                    int notificationID = SaveUserNotification(notificationType, currentuser.Id, toUserID);
 
                                     var connectionId = _context.OnlineUsers.Where(m => m.UserID == toUserID && m.IsActive == true && m.IsOnline == true).Select(m => m.ConnectionID).ToList();
                                     if (connectionId != null && connectionId.Count() > 0)
                                     {
-                                        var userInfo = GetUserModel(currentser.Id);
+                                        var userInfo = GetUserModel(currentuser.Id);
                                         int notificationCounts = GetUserNotificationCounts(toUserID);
                                         await _hubContext.Clients.Clients(connectionId).SendAsync("ReceiveNotification", notificationType, userInfo, 2, notificationCounts);
                                     }
+
+                                    await _context.SaveChangesAsync();
+
                                 }
-                                await _context.SaveChangesAsync();
                             }
 
+                            _receivebusinessTask.Compleation = receivebusinessTask.Compleation;
+
                         }
-                        _receivebusinessTask.Compleation = _receivebusinessTask.Compleation;
+
                     }
                     if (service_type == "red")
                     {
@@ -204,7 +210,7 @@ namespace FasDemo.Controllers
                         ReceiveBusinessTask __receivebusinessTask = new ReceiveBusinessTask
                         {
                             ReceiveBusinessAssignToId = receivebusinessTask.ReceiveBusinessAssignToId,
-                            ApprovedById = currentser.Id,
+                            ApprovedById = currentuser.Id,
                             //StarDate = ReceiveBusinessTask.StarDate,
                             //EndDate = ReceiveBusinessTask.StarDate.Value.AddDays(receivebusinessTask.Duration ?? 1),
                             TaskName = "طلب تعديلات",
@@ -216,9 +222,9 @@ namespace FasDemo.Controllers
                             StatusId = 2,
                             TaskOrder = _receivebusinessTask.TaskOrder,
                             IsApproved = false,
-                            CreatedById = currentser.Id,
+                            CreatedById = currentuser.Id,
                             CreatedAtUtc = DateTime.Now,
-                            UpdatedById = currentser.Id,
+                            UpdatedById = currentuser.Id,
                             UpdatedAtUtc = DateTime.Now,
 
                         };
@@ -237,7 +243,7 @@ namespace FasDemo.Controllers
                 {
                     //ReceiveBusinessTaskLogId = Guid.NewGuid().ToString(),
                     ReceiveBusinessTaskId = receivebusinessTask.ReceiveBusinessTaskId,
-                    ReceiveBusinessUserId = currentser.Id,
+                    ReceiveBusinessUserId = currentuser.Id,
                     ReceiveBusinessTaskComment = ReceiveBusinessTaskComment == "" ? "تم تعديل النسبة الى " + receivebusinessTask.Compleation + "%" : ReceiveBusinessTaskComment,
                     CreatedOn = DateTime.Now,
                 };
@@ -823,6 +829,9 @@ namespace FasDemo.Controllers
 
 
                 ReceiveBusinessTask _ReceiveBusinessTask = _context.ReceiveBusinessTasks.Find(ReceiveBusinessTaskId);
+
+                
+
                 _ReceiveBusinessTask.IsApproved = true;
                 _ReceiveBusinessTask.ApproveDate = DateTime.Now;
                 //_ReceiveBusinessTask.EndDateActual = DateTime.Now;
