@@ -1,0 +1,451 @@
+﻿@model List<ProjectManagment.Models.Project>
+@inject FasDemo.Services.App.ICommon _app;
+@using FasDemo.ViewModels;
+@using Newtonsoft.Json;
+@{
+
+    string controller = this.ViewContext.RouteData.Values["controller"].ToString();
+    string modelName = "Project";
+    ViewData["Title"] = "المشاريع";
+
+    //EmployeeSummary summary = _app.GetEmployeeSummary();
+    TaskSummary summary = ViewData["TaskSummary"] as TaskSummary;
+    ChartDoughnut donutChart = _app.GetProjectsDoughnut();
+}
+
+<!-- [ Main Content ] start -->
+<section class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <div class="page-header">
+                    <div class="page-block">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="dropdown d-inline">
+                                    <button class="btn drp-icon btn-rounded btn-primary dropdown-toggle" type="button"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="feather icon-grid"></i>
+                                    </button>
+                                    <div class="dropdown-menu" style="position: absolute;will-change: transform;top: -2px;right: 5px;transform: translate3d(10px, 31px, 0px);">
+                                        <h6 class="dropdown-header">الإعدادات</h6>
+                                        @*<a class="dropdown-item" href="~/@controller/CustomerIndex">العملاء</a>*@
+                                        @*                                        <a class="dropdown-item" href="~/@controller/ProjectSchedualTempletIndex">نماذج الجدوله</a>*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <div class="page-header-title">
+                                    <h3 class="m-b-10">@ViewData["Title"]</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ Main Content ] start -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                @await Html.PartialAsync(PartialView.StatusMessage, TempData[StaticString.StatusMessage])
+                            </div>
+
+                            <div class="col-sm-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>قائمة المشاريع</h5>
+                                        <div class="card-header-left">
+                                            <div class="btn-group card-option">
+                                                <form action="/Project/Form">
+                                                    <button class="btn drp-icon btn-rounded btn-primary" type="submit">
+                                                        <i class="feather icon-plus"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-block">
+                                        <div class="tab-content" id="pills-tabContent">
+                                            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                                                <li class="nav-item">
+                                                    <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">
+                                                        مشاريع نشطة
+                                                        <span class="badge badge-light">
+                                                            @Model.Where(x => x.StatusId == 1).Count()
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">
+                                                        مشاريع منتهي
+                                                        <span class="badge badge-success">
+                                                            @Model.Where(x => x.StatusId == 2).Count()
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">
+                                                        مشاريع متوقف
+                                                        <span class="badge badge-warning">
+                                                            @Model.Where(x => x.StatusId == 3).Count()
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" id="pills-Approval-tab" data-toggle="pill" href="#pills-Approval" role="tab" aria-controls="pills-Approval" aria-selected="false">
+                                                        مشاريع ملغيه
+                                                        <span class="badge badge-dark">
+                                                            @Model.Where(x => x.StatusId == 4).Count()
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+
+
+                                            <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                                                <div class="row">
+                                                    <div class="table-responsive">
+                                                        @*<table id="responsive-table-model" class="display table nowrap table-striped table-hover" style="width:100%">*@
+                                                        <table id="responsive-table-model" class="display table nowrap table-striped table-hover" style="width:100%">
+                                                            <thead>
+                                                                <tr>
+
+                                                                    <th width="10%">اسم المشروع</th>
+                                                                    <th width="10%"> كود المشروع </th>
+                                                                    <th width="20%">المقاول</th>
+                                                                    <th width="10%">القطاع</th>
+                                                                    <th width="10%">المنطقة</th>
+                                                                    <th width="5%"> البداية</th>
+                                                                    <th width="5%"> النهاية</th>
+                                                                    <th width="5%">الاجراء</th>
+                                                                    <th width="5%">تعديل</th>
+                                                                    <th width="5%">حذف</th>
+
+                                                                    @*<th width="5%">نشط</th>*@
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach (var item in Model.Where(a => a.StatusId == 1).ToList())
+                                                                {
+
+                                                                    <tr>
+                                                                        <td>
+                                                                            @(item.ProjectName)
+                                                                        </td>
+                                                                        <td>
+                                                                            @(item.ProjectCode)
+                                                                        </td>
+                                                                        @*         <td>
+                                                                    @item.ProjectTasks.Where(a => a.Compleation < 100).FirstOrDefault()?.TaskName
+                                                                    </td>*@
+                                                                        <td>
+                                                                            @if (@item.Contractor != null)
+                                                                            {
+                                                                                @item.Contractor.ContractorName
+                                                                            }
+                                                                        </td>
+                                                                        <td>
+                                                                            @item.Sector
+                                                                        </td>
+                                                                        <td>
+                                                                            @item.Region
+                                                                        </td>
+                                                                        <td>
+                                                                            @item?.StartDate?.ToString("yyyy/MM/dd")
+                                                                        </td>
+                                                                        <td>
+                                                                            @item?.EndDate?.ToString("yyyy/MM/dd")
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <div class="dropdown d-inline">
+                                                                                <button class="btn drp-icon btn-rounded btn-primary dropdown-toggle" type="button"
+                                                                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                                    <i class="feather icon-grid"></i>
+                                                                                </button>
+                                                                                <div class="dropdown-menu" style="position: absolute;will-change: transform;top: -2px;right: 5px;transform: translate3d(10px, 31px, 0px);">
+                                                                                    <h6 class="dropdown-header">الإعدادات</h6>
+                                                                                    <a href="/ProjectTask/ProjectTaskDetails/@item.ProjectId" class="dropdown-item">متابعة</a>
+                                                                                    <a href="/@controller/EditProject/@item.ProjectId" class="dropdown-item">تحديث</a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <a href="/@controller/Form/@item.ProjectId"><i class="feather icon-edit"></i></a>
+                                                                        </td>
+                                                                        <td>
+                                                                            <a href="/@controller/Delete/@item.ProjectId"><i class="feather icon-trash"></i></a>
+                                                                        </td>
+
+                                                                    </tr>
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                                                <div class="row">
+                                                    <div class="table-responsive">
+                                                        @*<table id="responsive-table-model" class="display table nowrap table-striped table-hover" style="width:100%">*@
+                                                        <table id="responsive-table-model1" class="display table nowrap table-striped table-hover" style="width:100%">
+                                                            <thead>
+                                                                <tr>
+
+                                                                    <th width="10%">اسم المشروع</th>
+                                                                    <th width="20%">العميل</th>
+                                                                    <th width="45%">وصف المشروع</th>
+                                                                    <th width="5%">تاريخ النهاية</th>
+                                                                    <th width="5%">الاجراء</th>
+                                                                    <th width="5%">تعديل</th>
+                                                                    <th width="5%">حذف</th>
+
+                                                                    @*<th width="5%">نشط</th>*@
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach (var item in Model.Where(a => a.StatusId == 2).ToList())
+                                                                {
+                                                                    var color = "red";
+                                                                    @if (@item.EndDate > DateTime.Now) { color = "green"; }
+                                                                    <tr>
+                                                                        <td>
+                                                                            @(item.ProjectName)
+                                                                        </td>
+                                                                        <td>
+                                                                            @if (@item.Contractor != null)
+                                                                            {
+                                                                                @item.Contractor.ContractorName
+                                                                            }
+                                                                        </td>
+                                                                        <td>
+                                                                            @item.ProjectDescription
+                                                                        </td>
+                                                                        <td style="color:@color">
+                                                                            @item.EndDate?.ToString("yyyy/MM/dd")
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="dropdown d-inline">
+                                                                                <button class="btn drp-icon btn-rounded btn-primary dropdown-toggle" type="button"
+                                                                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                                    <i class="feather icon-grid"></i>
+                                                                                </button>
+                                                                                <div class="dropdown-menu" style="position: absolute;will-change: transform;top: -2px;right: 5px;transform: translate3d(10px, 31px, 0px);">
+                                                                                    <h6 class="dropdown-header">الإعدادات</h6>
+                                                                                    <a href="/ProjectTask/ProjectTaskDetails/@item.ProjectId" class="dropdown-item">متابعة</a>
+                                                                                    <a href="/@controller/EditProject/@item.ProjectId" class="dropdown-item">تحديث</a>
+                                                                                    <a href="/@controller/Licence/@item.ProjectId" class="dropdown-item">رخصة</a>
+                                                                                    <a class="dropdown-item" href="/@controller/FlowChart/@item.ProjectId">جانت</a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <a href="/@controller/Form/@item.ProjectId"><i class="feather icon-edit"></i></a>
+                                                                        </td>
+                                                                        <td>
+                                                                            <a href="/@controller/Delete/@item.ProjectId"><i class="feather icon-trash"></i></a>
+                                                                        </td>
+
+                                                                        @*<td>
+                                                                    <div class="switch d-inline m-r-10">
+                                                                    <input type="checkbox" @( item.StatusId == 1 ? "checked" : "")>
+                                                                    <label class="cr"></label>
+                                                                    </div>
+                                                                    </td>*@
+                                                                    </tr>
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+                                                <div class="row">
+                                                    <div class="table-responsive">
+                                                        @*<table id="responsive-table-model" class="display table nowrap table-striped table-hover" style="width:100%">*@
+                                                        <table id="responsive-table-model2" class="display table nowrap table-striped table-hover" style="width:100%">
+                                                            <thead>
+                                                                <tr>
+
+                                                                    <th width="10%">اسم المشروع</th>
+                                                                    @*<th width="10%">المسؤول  </th>
+                                                                    <th width="20%">المهمة الحالية</th>*@
+                                                                    <th width="20%">العميل</th>
+                                                                    <th width="45%">وصف المشروع</th>
+                                                                    <th width="5%">تاريخ النهاية</th>
+                                                                    <th width="5%">الاجراء</th>
+                                                                    <th width="5%">تعديل</th>
+                                                                    <th width="5%">حذف</th>
+
+                                                                    @*<th width="5%">نشط</th>*@
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach (var item in Model.Where(a => a.StatusId == 3).ToList())
+                                                                {
+                                                                    var color = "red";
+                                                                    @if (@item.EndDate > DateTime.Now) { color = "green"; }
+                                                                    <tr>
+                                                                        <td>
+                                                                            @(item.ProjectName)
+                                                                        </td>
+                                                                        @*<td>
+                                                                    <img class="rounded-circle" style="width:40px;" src=" @(_app.userImage(item.ProjectTasks.Where(a=>a.Compleation<100).FirstOrDefault().ProjectAssignToId))" alt="">
+                                                                    </td>
+                                                                    <td>
+                                                                    @item.ProjectTasks.Where(a => a.Compleation < 100).FirstOrDefault().TaskName
+                                                                    </td>*@
+                                                                        <td>
+                                                                            @if (@item.Contractor != null)
+                                                                            {
+                                                                                @item.Contractor.ContractorName
+                                                                            }
+                                                                        </td>
+                                                                        <td>
+                                                                            @item.ProjectDescription
+                                                                        </td>
+                                                                        <td style="color:@color">
+                                                                            @item.EndDate?.ToString("yyyy/MM/dd")
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="dropdown d-inline">
+                                                                                <button class="btn drp-icon btn-rounded btn-primary dropdown-toggle" type="button"
+                                                                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                                    <i class="feather icon-grid"></i>
+                                                                                </button>
+                                                                                <div class="dropdown-menu" style="position: absolute;will-change: transform;top: -2px;right: 5px;transform: translate3d(10px, 31px, 0px);">
+                                                                                    <h6 class="dropdown-header">الإعدادات</h6>
+                                                                                    <a href="/ProjectTask/ProjectTaskDetails/@item.ProjectId" class="dropdown-item">متابعة</a>
+                                                                                    <a href="/@controller/EditProject/@item.ProjectId" class="dropdown-item">تحديث</a>
+                                                                                    <a href="/@controller/Licence/@item.ProjectId" class="dropdown-item">رخصة</a>
+                                                                                    <a class="dropdown-item" href="/@controller/FlowChart/@item.ProjectId">جانت</a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <a href="/@controller/Form/@item.ProjectId"><i class="feather icon-edit"></i></a>
+                                                                        </td>
+                                                                        <td>
+                                                                            <a href="/@controller/Delete/@item.ProjectId"><i class="feather icon-trash"></i></a>
+                                                                        </td>
+
+                                                                        @*<td>
+                                                                    <div class="switch d-inline m-r-10">
+                                                                    <input type="checkbox" @( item.StatusId == 1 ? "checked" : "")>
+                                                                    <label class="cr"></label>
+                                                                    </div>
+                                                                    </td>*@
+                                                                    </tr>
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="pills-Approval" role="tabpanel" aria-labelledby="pills-Approval-tab">
+                                                <div class="row">
+                                                    <div class="table-responsive">
+                                                        @*<table id="responsive-table-model" class="display table nowrap table-striped table-hover" style="width:100%">*@
+                                                        <table id="responsive-table-model3" class="display table nowrap table-striped table-hover" style="width:100%">
+                                                            <thead>
+                                                                <tr>
+
+                                                                    <th width="10%">اسم المشروع</th>
+                                                                    @*<th width="10%">المسؤول  </th>
+                                                                    <th width="20%">المهمة الحالية</th>*@
+                                                                    <th width="20%">المقاول</th>
+                                                                    <th width="45%">وصف المشروع</th>
+                                                                    <th width="5%">تاريخ النهاية</th>
+                                                                    <th width="5%">الاجراء</th>
+                                                                    <th width="5%">تعديل</th>
+                                                                    <th width="5%">حذف</th>
+
+                                                                    @*<th width="5%">نشط</th>*@
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach (var item in Model.Where(a => a.StatusId == 4).ToList())
+                                                                {
+                                                                    var color = "red";
+                                                                    @if (@item.EndDate > DateTime.Now) { color = "green"; }
+                                                                    <tr>
+                                                                        <td>
+                                                                            @(item.ProjectName)
+                                                                        </td>
+                                                                        <td>
+                                                                            @if (@item.Contractor != null)
+                                                                            {
+                                                                                @item.Contractor.ContractorName
+                                                                            }
+                                                                        </td>
+                                                                        <td>
+                                                                            @item.ProjectDescription
+                                                                        </td>
+                                                                        <td style="color:@color">
+                                                                            @item.EndDate?.ToString("yyyy/MM/dd")
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="dropdown d-inline">
+                                                                                <button class="btn drp-icon btn-rounded btn-primary dropdown-toggle" type="button"
+                                                                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                                    <i class="feather icon-grid"></i>
+                                                                                </button>
+                                                                                <div class="dropdown-menu" style="position: absolute;will-change: transform;top: -2px;right: 5px;transform: translate3d(10px, 31px, 0px);">
+                                                                                    <h6 class="dropdown-header">الإعدادات</h6>
+                                                                                    <a href="/ProjectTask/ProjectTaskDetails/@item.ProjectId" class="dropdown-item">متابعة</a>
+                                                                                    <a href="/@controller/EditProject/@item.ProjectId" class="dropdown-item">تحديث</a>
+                                                                                    <a href="/@controller/Licence/@item.ProjectId" class="dropdown-item">رخصة</a>
+                                                                                    <a class="dropdown-item" href="/@controller/FlowChart/@item.ProjectId">جانت</a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <a href="/@controller/Form/@item.ProjectId"><i class="feather icon-edit"></i></a>
+                                                                        </td>
+                                                                        <td>
+                                                                            <a href="/@controller/Delete/@item.ProjectId"><i class="feather icon-trash"></i></a>
+                                                                        </td>
+
+                                                                        @*<td>
+                                                                    <div class="switch d-inline m-r-10">
+                                                                    <input type="checkbox" @( item.StatusId == 1 ? "checked" : "")>
+                                                                    <label class="cr"></label>
+                                                                    </div>
+                                                                    </td>*@
+                                                                    </tr>
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- [ Main Content ] end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- [ Main Content ] end -->
+@section Styles {
+    <!-- data tables css -->
+    <link rel="stylesheet" href="~/assets/plugins/data-tables/css/datatables.min.css">
+
+}
+
+@section Scripts {
+
+    <!-- datatable Js -->
+    <script src="~/assets/plugins/data-tables/js/datatables.min.js"></script>
+    <script src="~/assets/js/pages/tbl-datatable-custom.js"></script>
+}
+
+

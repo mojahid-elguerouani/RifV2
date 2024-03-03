@@ -18,6 +18,8 @@ using FasDemo.ProjectModel.DTO;
 using Microsoft.AspNetCore.Hosting;
 using FasDemo.ViewModels;
 using Newtonsoft.Json;
+using Fas.ProjectVM;
+using Newtonsoft.Json.Linq;
 
 namespace FasDemo.Controllers
 {
@@ -60,13 +62,142 @@ namespace FasDemo.Controllers
 
         public async Task<IActionResult> Index()
         {
-
-
-            var projectList = await _context.Projects.Where(a => a.StatusId == 1)
-                                    .OrderBy(a => a.StartDate)
-                                    .ToListAsync();
+            var projectList = await _context.Projects.Where(a => a.StatusId == 1).OrderBy(a => a.StartDate).ToListAsync();
 
             return View(projectList);
         }
-}
+
+        [HttpGet]
+        public IActionResult Details(string region)
+        {
+
+            var objs = _context.Projects.Where(x => x.Region == region).Include(a => a.Contractor)
+               .AsNoTracking()
+               //.Include(x => x.ProjectProgram)
+               .Include(x => x.SupervisionConsultant)
+               .Include(x => x.ProjectManagementConsultant)
+               .OrderByDescending(x => x.CreatedAtUtc).ToList();
+
+
+            return View(objs);
+        }
+
+
+        public List<MyArray> getAllArea()
+        {
+            var list = new List<MyArray>();
+            var projectInDb = _context.Projects.GroupBy(x => x.Region).ToList();
+            foreach (var item in projectInDb)
+            {
+                var project = new MyArray();
+                var smalProject = new CountryWithProjects();
+                if (item.Key == "الرياض")
+                {
+                    project.CountrySymbol = "SA01";
+                    smalProject.CountryName = item.Key;
+                    smalProject.ProjectNumber = item.Count();
+                    project.CountryWithProjects = smalProject;
+                    list.Add(project);
+                }
+                else if (item.Key == "مكة المكرمة")
+                {
+                    project.CountrySymbol = "SA02";
+                    smalProject.CountryName = item.Key;
+                    smalProject.ProjectNumber = item.Count();
+                    project.CountryWithProjects = smalProject;
+                    list.Add(project);
+                }
+                else if (item.Key == "المدينة المنورة")
+                {
+                    project.CountrySymbol = "SA03";
+                    smalProject.CountryName = item.Key;
+                    smalProject.ProjectNumber = item.Count();
+                    project.CountryWithProjects = smalProject;
+                    list.Add(project);
+                }
+                else if (item.Key == "المنطقة الشرقية")
+                {
+                    project.CountrySymbol = "SA04";
+                    smalProject.CountryName = item.Key;
+                    smalProject.ProjectNumber = item.Count();
+                    project.CountryWithProjects = smalProject;
+                    list.Add(project);
+                }
+                else if (item.Key == "القصيم")
+                {
+                    project.CountrySymbol = "SA05";
+                    smalProject.CountryName = item.Key;
+                    smalProject.ProjectNumber = item.Count();
+                    project.CountryWithProjects = smalProject;
+                    list.Add(project);
+                }
+                else if (item.Key == "حائل")
+                {
+                    project.CountrySymbol = "SA06";
+                    smalProject.CountryName = item.Key;
+                    smalProject.ProjectNumber = item.Count();
+                    project.CountryWithProjects = smalProject;
+                    list.Add(project);
+                }
+                else if (item.Key == "تبوك")
+                {
+                    project.CountrySymbol = "SA07";
+                    smalProject.CountryName = item.Key;
+                    smalProject.ProjectNumber = item.Count();
+                    project.CountryWithProjects = smalProject;
+                    list.Add(project);
+                }
+                else if (item.Key == "الحدود الشمالية")
+                {
+                    project.CountrySymbol = "SA08";
+                    smalProject.CountryName = item.Key;
+                    smalProject.ProjectNumber = item.Count();
+                    project.CountryWithProjects = smalProject;
+                    list.Add(project);
+                }
+                else if (item.Key == "جازان")
+                {
+                    project.CountrySymbol = "SA09";
+                    smalProject.CountryName = item.Key;
+                    smalProject.ProjectNumber = item.Count();
+                    project.CountryWithProjects = smalProject;
+                    list.Add(project);
+                }
+                else if (item.Key == "نجران")
+                {
+                    project.CountrySymbol = "SA10";
+                    smalProject.CountryName = item.Key;
+                    smalProject.ProjectNumber = item.Count();
+                    project.CountryWithProjects = smalProject;
+                    list.Add(project);
+                }
+                else if (item.Key == "الباحة")
+                {
+                    project.CountrySymbol = "SA11";
+                    smalProject.CountryName = item.Key;
+                    smalProject.ProjectNumber = item.Count();
+                    project.CountryWithProjects = smalProject;
+                    list.Add(project);
+                }
+                else if (item.Key == "الجوف")
+                {
+                    project.CountrySymbol = "SA12";
+                    smalProject.CountryName = item.Key;
+                    smalProject.ProjectNumber = item.Count();
+                    project.CountryWithProjects = smalProject;
+                    list.Add(project);
+                }
+                else if (item.Key == "عسير")
+                {
+                    project.CountrySymbol = "SA14";
+                    smalProject.CountryName = item.Key;
+                    smalProject.ProjectNumber = item.Count();
+                    project.CountryWithProjects = smalProject;
+                    list.Add(project);
+                }
+
+            }
+            return list;
+        }
+    }
 }

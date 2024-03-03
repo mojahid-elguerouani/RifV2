@@ -1,1 +1,85 @@
-﻿
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+    <style>
+        svg {
+            left: 50% !important;
+            transform: translate(-105%,-54%) !important;
+            top: 50% !important;
+            width: 1000px !important;
+        }
+
+        #map_holder {
+            width: 1037px !important;
+        }
+
+        rect {
+            fill: #d9a630 !important;
+            width: 15px !important;
+            height: 15px !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="asd">
+        <div id="map" style="width:1000px !important;height:1000px !important"></div>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script>
+
+        document.getElementById("sm_state_SA01").addEventListener("click", function () {
+            alert("hello");
+        });
+        function func_SA01() {
+            window.location.href = '/DashBoard/Details?region=الرياض';
+        }
+        function func_SA02() {
+            window.location.href = '/DashBoard/Details?region=مكة المكرمة';
+        }
+        function func_SA03() {
+            window.location.href = '/DashBoard/Details?region=المدينة المنورة';
+        }
+        function func_SA04() {
+            window.location.href = '/DashBoard/Details?region=المنطقة الشرقية';
+        }
+        function func_SA05() {
+            window.location.href = '/DashBoard/Details?region=القصيم';
+        }
+        function func_SA06() {
+            window.location.href = '/DashBoard/Details?region=حائل';
+        }
+        function func_SA07() {
+            window.location.href = '/DashBoard/Details?region=تبوك';
+        }
+        function func_SA08() {
+            window.location.href = '/DashBoard/Details?region=الحدود الشمالية';
+        }
+        function func_SA09() {
+            window.location.href = '/DashBoard/Details?region=جازان';
+        }
+        function func_SA10() {
+            window.location.href = '/DashBoard/Details?region=نجران';
+        }
+        function func_SA11() {
+            window.location.href = '/DashBoard/Details?region=الباحة';
+        }
+        function func_SA12() {
+            window.location.href = '/DashBoard/Details?region=الجوف';
+        }
+        function func_SA14() {
+            window.location.href = '/DashBoard/Details?region=عسير';
+        }
+    </script>
+    <script src="~/assets/map/mapdata.js"></script>
+
+    <script src="~/assets//map/countrymap.js"></script>
+
+</body>
+</html>
+
+
+
