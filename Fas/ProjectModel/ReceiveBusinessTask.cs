@@ -41,7 +41,7 @@
         [Display(Name = "المهمة تابعة")]
         public int? TaskParentId { get; set; }
 
-        [Display(Name = "نسبة الانجاز")]
+        [Display(Name = "نسبة الاعتماد")]
         [Range(0, 100, ErrorMessage = "فضلاً ادخل قيمة بين  1  و  100")]
         public int? Compleation { get; set; }
 

@@ -19,8 +19,6 @@
     var animationstatus = true;
     var animations = "";
 
-
-
 }
 
 
@@ -120,6 +118,7 @@
                         <!-- [ Main Content ] start -->
                         <div class="row">
                             <div class="col-sm-12">
+
                                 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
 
                                     <li class="nav-item">
@@ -280,6 +279,313 @@
                                                                     <span>ميكانيكا</span>
                                                                     <span>@item.OtherSpecialization</span>
                                                                 }
+
+                                                                @*الاحتمالات الخماسية*@
+
+                                                                else if (item.IsAgricultural == true && item.IsArchitectural == true && item.IsCivil == true && item.IsElectricity == true && item.IsMechanics == true)
+                                                                {
+                                                                    <span>زراعي</span>
+                                                                    <span>معماري</span>
+                                                                    <span>مدني</span>
+                                                                    <span>كهرباء</span>
+                                                                    <span>ميكانيكا</span>
+                                                                }
+
+                                                                else if (item.IsAgricultural == true && item.IsArchitectural == true && item.IsCivil == true && item.IsElectricity == true && item.IsOthers == true)
+                                                                {
+                                                                    <span>زراعي</span>
+                                                                    <span>معماري</span>
+                                                                    <span>مدني</span>
+                                                                    <span>كهرباء</span>
+                                                                    <span>@item.OtherSpecialization</span>
+                                                                }
+
+                                                                else if (item.IsAgricultural == true && item.IsArchitectural == true && item.IsCivil == true && item.IsMechanics == true && item.IsOthers == true)
+                                                                {
+                                                                    <span>زراعي</span>
+                                                                    <span>معماري</span>
+                                                                    <span>مدني</span>
+                                                                    <span>ميكانيكا</span>
+                                                                    <span>@item.OtherSpecialization</span>
+                                                                }
+
+                                                                else if (item.IsAgricultural == true && item.IsArchitectural == true && item.IsElectricity == true && item.IsMechanics == true && item.IsOthers == true)
+                                                                {
+                                                                    <span>زراعي</span>
+                                                                    <span>معماري</span>
+                                                                    <span>كهرباء</span>
+                                                                    <span>ميكانيكا</span>
+                                                                    <span>@item.OtherSpecialization</span>
+                                                                }
+
+                                                                else if (item.IsCivil == true && item.IsArchitectural == true && item.IsElectricity == true && item.IsMechanics == true && item.IsOthers == true)
+                                                                {
+                                                                    <span>معماري</span>
+                                                                    <span>مدني</span>
+                                                                    <span>كهرباء</span>
+                                                                    <span>ميكانيكا</span>
+                                                                    <span>@item.OtherSpecialization</span>
+                                                                }
+
+                                                                else if (item.IsAgricultural == true && item.IsCivil == true && item.IsElectricity == true && item.IsMechanics == true && item.IsOthers == true)
+                                                                {
+                                                                    <span>زراعي</span>
+                                                                    <span>مدني</span>
+                                                                    <span>كهرباء</span>
+                                                                    <span>ميكانيكا</span>
+                                                                    <span>@item.OtherSpecialization</span>
+                                                                }
+
+                                                                @*الاحتمالات الرباعية*@
+
+                                                                else if ( item.IsArchitectural == true && item.IsAgricultural == true && item.IsCivil == true && item.IsElectricity == true)
+                                                                {
+                                                                    <span>زراعي</span>
+                                                                    <span>معماري</span>
+                                                                    <span>مدني</span>
+                                                                    <span>كهرباء</span>
+                                                                }
+
+
+                                                                else if (item.IsArchitectural == true && item.IsAgricultural == true && item.IsCivil == true && item.IsMechanics == true)
+                                                                {
+                                                                    <span>زراعي</span>
+                                                                    <span>معماري</span>
+                                                                    <span>مدني</span>
+                                                                    <span>ميكانيكا</span>
+                                                                }
+
+                                                                else if (item.IsArchitectural == true && item.IsAgricultural == true && item.IsCivil == true && item.IsOthers == true)
+                                                                {
+                                                                    <span>زراعي</span>
+                                                                    <span>معماري</span>
+                                                                    <span>مدني</span>
+                                                                    <span>@item.OtherSpecialization</span>
+                                                                }
+
+                                                                else if (item.IsArchitectural == true && item.IsAgricultural == true && item.IsElectricity == true && item.IsMechanics == true)
+                                                                {
+                                                                    <span>زراعي</span>
+                                                                    <span>معماري</span>
+                                                                    <span>كهرباء</span>
+                                                                    <span>ميكانيكا</span>
+                                                                }
+
+                                                                else if (item.IsArchitectural == true && item.IsAgricultural == true && item.IsElectricity == true && item.IsOthers == true)
+                                                                {
+                                                                    <span>زراعي</span>
+                                                                    <span>معماري</span>
+                                                                    <span>كهرباء</span>
+                                                                    <span><span>@item.OtherSpecialization</span></span>
+                                                                }
+
+                                                                else if (item.IsArchitectural == true && item.IsAgricultural == true && item.IsElectricity == true && item.IsOthers == true)
+                                                                {
+                                                                    <span>زراعي</span>
+                                                                    <span>معماري</span>
+                                                                    <span>ميكانيكا</span>
+                                                                    <span><span>@item.OtherSpecialization</span></span>
+                                                                }
+
+                                                                else if (item.IsArchitectural == true && item.IsCivil == true && item.IsElectricity == true && item.IsOthers == true)
+                                                                {
+                                                                    <span>معماري</span>
+                                                                    <span>مدني</span>
+                                                                    <span>كهرباء</span>
+                                                                    <span><span>@item.OtherSpecialization</span></span>
+                                                                }
+
+                                                                else if (item.IsArchitectural == true && item.IsCivil == true && item.IsMechanics == true && item.IsOthers == true)
+                                                                {
+                                                                    <span>معماري</span>
+                                                                    <span>مدني</span>
+                                                                    <span>ميكانيكا</span>
+                                                                    <span>@item.OtherSpecialization</span>
+                                                                }
+
+                                                                else if (item.IsArchitectural == true && item.IsElectricity == true && item.IsMechanics == true && item.IsOthers == true)
+                                                                {
+                                                                    <span>معماري</span>
+                                                                    <span>كهرباء</span>
+                                                                    <span>ميكانيكا</span>
+                                                                    <span>@item.OtherSpecialization</span>
+                                                                }
+
+                                                                else if (item.IsCivil == true && item.IsAgricultural == true && item.IsElectricity == true && item.IsMechanics == true)
+                                                                {
+                                                                    <span>زراعي</span>
+                                                                    <span>مدني</span>
+                                                                    <span>كهرباء</span>
+                                                                    <span>ميكانيكا</span>
+                                                                }
+
+                                                                else if (item.IsCivil == true && item.IsAgricultural == true && item.IsElectricity == true && item.IsOthers == true)
+                                                                {
+                                                                    <span>زراعي</span>
+                                                                    <span>مدني</span>
+                                                                    <span>كهرباء</span>
+                                                                    <span>@item.OtherSpecialization</span>
+                                                                }
+
+                                                                else if (item.IsCivil == true && item.IsElectricity == true && item.IsMechanics == true && item.IsOthers == true)
+                                                                {
+                                                                    <span>كهرباء</span>
+                                                                    <span>مدني</span>
+                                                                    <span>ميكانيكا</span>
+                                                                    <span>@item.OtherSpecialization</span>
+                                                                }
+
+
+                                                                @*الاحتمالات الثلاثية*@
+
+
+                                                                else if (item.IsArchitectural == true && item.IsAgricultural == true  && item.IsCivil == true)
+                                                                {
+                                                                    <span>معماري</span>
+                                                                    <span>زراعي</span>
+                                                                    <span>مدني</span>
+                                                                }
+
+                                                                else if (item.IsArchitectural == true && item.IsAgricultural == true && item.IsElectricity == true)
+                                                                {
+                                                                    <span>معماري</span>
+                                                                    <span>زراعي</span>
+                                                                    <span>كهرباء</span>
+                                                                }
+
+                                                                else if (item.IsArchitectural == true && item.IsAgricultural == true && item.IsMechanics == true)
+                                                                {
+                                                                    <span>معماري</span>
+                                                                    <span>زراعي</span>
+                                                                    <span>ميكانيكا</span>
+                                                                }
+
+                                                                else if (item.IsArchitectural == true && item.IsAgricultural == true && item.IsOthers == true)
+                                                                {
+                                                                    <span>معماري</span>
+                                                                    <span>زراعي</span>
+                                                                    <span>@item.OtherSpecialization</span>
+                                                                }
+
+                                                                else if (item.IsArchitectural == true && item.IsCivil == true && item.IsElectricity == true)
+                                                                {
+                                                                    <span>معماري</span>
+                                                                    <span>مدني</span>
+                                                                    <span>كهرباء</span>
+                                                                }
+
+                                                                else if (item.IsArchitectural == true && item.IsCivil == true && item.IsMechanics == true)
+                                                                {
+                                                                    <span>معماري</span>
+                                                                    <span>مدني</span>
+                                                                    <span>ميكانيكا</span>
+                                                                }
+
+                                                                else if (item.IsArchitectural == true && item.IsCivil == true && item.IsOthers == true)
+                                                                {
+                                                                    <span>معماري</span>
+                                                                    <span>مدني</span>
+                                                                    <span>@item.OtherSpecialization</span>
+                                                                }
+
+                                                                else if (item.IsArchitectural == true && item.IsElectricity == true && item.IsMechanics == true)
+                                                                {
+                                                                    <span>معماري</span>
+                                                                    <span>كهرباء</span>
+                                                                    <span>ميكانيكا</span>
+                                                                }
+
+                                                                else if (item.IsArchitectural == true && item.IsElectricity == true && item.IsOthers == true)
+                                                                {
+                                                                    <span>معماري</span>
+                                                                    <span>كهرباء</span>
+                                                                    <span>@item.OtherSpecialization</span>
+                                                                }
+
+                                                                else if (item.IsArchitectural == true && item.IsMechanics == true && item.IsOthers == true)
+                                                                {
+                                                                    <span>معماري</span>
+                                                                    <span>ميكانيكا</span>
+                                                                    <span>@item.OtherSpecialization</span>
+                                                                }
+
+                                                                else if (item.IsAgricultural == true && item.IsCivil == true && item.IsElectricity == true)
+                                                                {
+                                                                    <span>زراعي</span>
+                                                                    <span>مدني</span>
+                                                                    <span>كهرباء</span>
+                                                                }
+
+                                                                
+                                                                else if (item.IsAgricultural == true && item.IsCivil == true && item.IsMechanics == true)
+                                                                {
+                                                                    <span>زراعي</span>
+                                                                    <span>مدني</span>
+                                                                    <span>ميكانيكا</span>
+                                                                }
+
+                                                                else if (item.IsAgricultural == true && item.IsCivil == true && item.IsOthers == true)
+                                                                {
+                                                                    <span>زراعي</span>
+                                                                    <span>مدني</span>
+                                                                    <span>@item.OtherSpecialization</span>
+                                                                }
+
+
+                                                                else if (item.IsAgricultural == true && item.IsElectricity == true && item.IsMechanics == true)
+                                                                {
+                                                                    <span>زراعي</span>
+                                                                    <span>كهرباء</span>
+                                                                    <span>ميكانيكا</span>
+                                                                }
+
+                                                                else if (item.IsAgricultural == true && item.IsElectricity == true && item.IsOthers == true)
+                                                                {
+                                                                    <span>زراعي</span>
+                                                                    <span>كهرباء</span>
+                                                                    <span>@item.OtherSpecialization</span>
+                                                                }
+
+                                                                else if (item.IsAgricultural == true && item.IsMechanics == true && item.IsOthers == true)
+                                                                {
+                                                                    <span>زراعي</span>
+                                                                    <span>ميكانيكا</span>
+                                                                    <span>@item.OtherSpecialization</span>
+                                                                }
+
+
+                                                                else if (item.IsCivil == true && item.IsElectricity == true && item.IsMechanics == true)
+                                                                {
+                                                                    <span>مدني</span>
+                                                                    <span>كهربائي </span>
+                                                                    <span>ميكانيكا</span>
+                                                                }
+
+                                                                else if (item.IsCivil == true && item.IsElectricity == true && item.IsOthers == true)
+                                                                {
+                                                                    <span>مدني</span>
+                                                                    <span>كهربائي </span>
+                                                                    <span>@item.OtherSpecialization</span>
+                                                                }
+
+
+                                                                else if (item.IsCivil == true && item.IsMechanics == true && item.IsOthers == true)
+                                                                {
+                                                                    <span>مدني</span>
+                                                                    <span>ميكانيكا </span>
+                                                                    <span>@item.OtherSpecialization</span>
+                                                                }
+
+
+
+                                                                else if (item.IsElectricity == true && item.IsMechanics == true && item.IsOthers == true)
+                                                                {
+                                                                    <span>كهربائي</span>
+                                                                    <span>ميكانيكا </span>
+                                                                    <span>@item.OtherSpecialization</span>
+                                                                }
+
+
 
                                                                 @*الاحتمالات الثنائية*@
 
