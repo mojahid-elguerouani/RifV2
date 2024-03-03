@@ -307,7 +307,7 @@
                                             <li class="nav-item">
                                                 <a class="nav-link text-uppercase" id="files-tab" data-toggle="tab" href="#files" role="tab" aria-controls="files" aria-selected="false">ملفات الطلب</a>
                                             </li>
-                                            @*                                            <li class="nav-item">
+                                            @*<li class="nav-item">
                                             <a class="nav-link text-uppercase" id="gantt-tab" data-toggle="tab" href="#gantt" role="tab" aria-controls="gantt" aria-selected="false">تسلسل المهام</a>
                                             </li>*@
                                         </ul>
@@ -337,6 +337,17 @@
                                                                     var color = "text-c-green"; var theme = "theme-bg"; var theme_name = "تمت الموافقة على الطلب";
                                                                     @if (@item.Compleation < 100)
                                                                     { color = "text-c-red"; theme = "theme-bg2"; ; theme_name = "الطلب تحت المراجعة"; }
+                                                                    @if (item.Compleation == 100 && item.IsApproved == false)
+                                                                    { color = "text-c-red"; theme = "theme-bg3"; ; theme_name = "تم رفض الطلب"; }
+
+
+
+                                                                    var sign_color = "text-c-red "; var sign_theme = "theme-bg3"; var sign_theme_name = "لم يتم التوقيع";
+                                                                    @if (@item.IsSigned == true)
+                                                                    { sign_color = "text-c-green"; sign_theme = "theme-bg"; ; sign_theme_name = "تم التوقيع بنجاح"; }
+
+
+
                                                                     <tr class="unread">
                                                                         <td><img class="rounded-circle" style="width:40px;" src="@item.ProfilePicture" alt=""></td>
                                                                         <td>
@@ -345,7 +356,10 @@
                                                                         </td>
                                                                         <td>
                                                                             <h6 class="mb-1">
-                                                                                <i class="fas fa-circle @color f-10 m-r-15"></i>
+
+                                                                                <i class="fas fa-circle @sign_color f-10 m-r-15"></i>
+
+                                                                                <a href="#!" class="label @sign_theme text-white f-12">@sign_theme_name</a>
                                                                             </h6>
                                                                         </td>
                                                                         <td>
@@ -647,6 +661,13 @@
 @section Styles{
      <!-- data tables css -->
     <link rel="stylesheet" href="~/assets/plugins/data-tables/css/datatables.min.css">
+
+
+    <style>
+        .theme-bg3 {
+            background: linear-gradient(-135deg, #570c0c 0%, #df3055 100%);
+        }
+    </style>
 
 }
 

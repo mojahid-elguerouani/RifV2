@@ -30,6 +30,8 @@ namespace FasDemo.ProjectModel.DTO
 
         public bool? IsApproved { get; set; }
 
+        public bool? IsSigned { get; set; }
+
         public string AssignToId { get; set; }
         public int? ApprovedBy { get; set; }
 

@@ -25,9 +25,7 @@ using FasDemo.SurveyModel.ViewModel;
 using FasDemo.SurveyModel;
 using Fas.Services.Security;
 using Microsoft.Extensions.Configuration;
-using static FasDemo.Services.App.Pages;
-using ReceiveBusinessTask = ProjectManagment.Models.ReceiveBusinessTask;
-using ReceiveBusiness = ProjectManagment.Models.ReceiveBusiness;
+
 
 namespace FasDemo.Controllers
 {
@@ -77,9 +75,9 @@ namespace FasDemo.Controllers
         public async Task<IActionResult> Index(string message)
         {
             ViewBag.done = null;
-            if(message!=null)
+            if (message != null)
             {
-                ViewBag.done=message;
+                ViewBag.done = message;
             }
             ApplicationUser applicationUser = await _userManager.GetUserAsync(User);
 
@@ -127,10 +125,10 @@ namespace FasDemo.Controllers
             ViewBag.ReceiveBusinessSerialNumber = editObj.ReceiveBusiness.SerialNumber;
             ViewBag.ReceiveBusinessReviewNumber = editObj.ReceiveBusiness.ReviewNumber;
 
-            
+
             ViewBag.ReceiveBusinessTaskName = editObj.TaskName;
 
-            
+
 
             return View(editObj);
 
@@ -140,12 +138,12 @@ namespace FasDemo.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SubmitForm([Bind(
-            "ReceiveBusinessTaskId,ReceiveBusinessId,TaskName,TaskOrder,TaskId,AssignTo,IsActive,StatusId,IsApproved,IsSigned, ApprovedBy,TaskParentId,Compleation,ReceiveBusinessAssignToId, toEmail")] ReceiveBusinessTask receivebusinessTask,
+            "ReceiveBusinessTaskId,ReceiveBusinessId,TaskName,TaskOrder,TaskId,AssignTo,IsActive,StatusId,IsApproved,ApprovedBy,TaskParentId,Compleation,ReceiveBusinessAssignToId")] ReceiveBusinessTask receivebusinessTask,
             string ReceiveBusinessTaskComment, string service_type, IFormFile[] files)
         {
             try
             {
-                ApplicationUser currentuser = await _userManager.GetUserAsync(User);
+                ApplicationUser currentser = await _userManager.GetUserAsync(User);
                 if (!ModelState.IsValid)
                 {
                     TempData[StaticString.StatusMessage] = " خطأ : حالة النموذج غير صالحة.";
@@ -159,10 +157,23 @@ namespace FasDemo.Controllers
 
                 if (_receivebusinessTask != null)
                 {
+                    if (service_type == "white")
+                    {
+
+                        //var resultInReceiveBusinessTask = _context.ReceiveBusinessTasks.Where(x => x.ReceiveBusinessId == _receivebusinessTask.ReceiveBusinessId && x.TaskOrder == 1).FirstOrDefault();
+                        _receivebusinessTask.Compleation = 100;
+                        _receivebusinessTask.IsApproved = true;
+                        _receivebusinessTask.ApproveDate = DateTime.Now;
+
+                        _context.ReceiveBusinessTasks.Update(_receivebusinessTask);
+                        _context.SaveChanges();
+
+                        return RedirectToAction("Index", "ReceiveBusinessTask");
+                    }
 
                     if (service_type == "blue")
                     {
-                        if (receivebusinessTask.Compleation == 100 && _receivebusinessTask.ApprovedById == currentuser.Id)
+                        if (receivebusinessTask.Compleation == 100 && _receivebusinessTask.ApprovedById == currentser.Id)
                         {
                             _receivebusinessTask.IsApproved = true;
                             _receivebusinessTask.ApproveDate = DateTime.Now;
@@ -180,56 +191,80 @@ namespace FasDemo.Controllers
                                     string notificationType = receivebusinessTask.TaskName + "==>" + porjectName + "==>" + "تم اضافة مهمة جديده";
                                     string toUserID = item.ReceiveBusinessAssignToId;
 
-                                    int notificationID = SaveUserNotification(notificationType, currentuser.Id, toUserID);
+                                    int notificationID = SaveUserNotification(notificationType, currentser.Id, toUserID);
 
                                     var connectionId = _context.OnlineUsers.Where(m => m.UserID == toUserID && m.IsActive == true && m.IsOnline == true).Select(m => m.ConnectionID).ToList();
                                     if (connectionId != null && connectionId.Count() > 0)
                                     {
-                                        var userInfo = GetUserModel(currentuser.Id);
+                                        var userInfo = GetUserModel(currentser.Id);
                                         int notificationCounts = GetUserNotificationCounts(toUserID);
                                         await _hubContext.Clients.Clients(connectionId).SendAsync("ReceiveNotification", notificationType, userInfo, 2, notificationCounts);
                                     }
-
-                                    await _context.SaveChangesAsync();
-
                                 }
+                                await _context.SaveChangesAsync();
                             }
 
-                            _receivebusinessTask.Compleation = receivebusinessTask.Compleation;
-
                         }
+                        _receivebusinessTask.Compleation = receivebusinessTask.Compleation;
 
+                        return RedirectToAction("Index", "ReceiveBusinessTask");
                     }
                     if (service_type == "red")
                     {
-                        _receivebusinessTask.ReceiveBusinessAssignToId = _receivebusinessTask.ReceiveBusinessAssignToId;
+                        _receivebusinessTask.ReceiveBusinessAssignToId = receivebusinessTask.ReceiveBusinessAssignToId;
+
+                        _context.SaveChanges();
+                        return RedirectToAction("Index", "ReceiveBusinessTask");
                     }
                     _receivebusinessTask.UpdateDate = DateTime.Now;
                     if (service_type == "green")
                     {
-                        ReceiveBusinessTask __receivebusinessTask = new ReceiveBusinessTask
-                        {
-                            ReceiveBusinessAssignToId = receivebusinessTask.ReceiveBusinessAssignToId,
-                            ApprovedById = currentuser.Id,
-                            //StarDate = ReceiveBusinessTask.StarDate,
-                            //EndDate = ReceiveBusinessTask.StarDate.Value.AddDays(receivebusinessTask.Duration ?? 1),
-                            TaskName = "طلب تعديلات",
-                            Compleation = 0,
-                            ReceiveBusinessId = _receivebusinessTask.ReceiveBusinessId,
-                            TaskId = 999,
-                            IsActive = true,
-                            //Duration = ReceiveBusinessTask.Duration,
-                            StatusId = 2,
-                            TaskOrder = _receivebusinessTask.TaskOrder,
-                            IsApproved = false,
-                            CreatedById = currentuser.Id,
-                            CreatedAtUtc = DateTime.Now,
-                            UpdatedById = currentuser.Id,
-                            UpdatedAtUtc = DateTime.Now,
+                        var result = _context.ReceiveBusiness.Where(x => x.ReceiveBusinessId == _receivebusinessTask.ReceiveBusinessId).FirstOrDefault();
+                        result.StatusId = 5;
 
-                        };
-                        _context.ReceiveBusinessTasks.Add(__receivebusinessTask);
+                        _receivebusinessTask.Compleation = 100; 
+                        _receivebusinessTask.IsApproved = false;
+                        _receivebusinessTask.StatusId = 5;
+
+                        _context.SaveChanges();
+                        return RedirectToAction("Index", "ReceiveBusinessTask");
                     }
+
+                    if (service_type == "gray")
+                    {
+                        var result = _context.ReceiveBusiness.Where(x => x.ReceiveBusinessId == _receivebusinessTask.ReceiveBusinessId).FirstOrDefault();
+                        result.StatusId = 4;
+
+                        var resultInReceiveBusinessTask = _context.ReceiveBusinessTasks.Where(x => x.ReceiveBusinessId == _receivebusinessTask.ReceiveBusinessId).ToList();
+                        foreach (var item in resultInReceiveBusinessTask)
+                        {
+                            //item.IsApproved = false;
+                            //item.StatusId = 5;
+                            //_context.ReceiveBusinessTasks.Update(item);
+
+                            if (item.TaskOrder == 1)
+                            {
+                                item.StatusId = 4;
+                                item.IsApproved = false;
+                                item.Compleation = 0;
+
+                            }
+                            else
+                            {
+                                item.StatusId = null;
+                                item.IsApproved = false;
+                                item.Compleation = 0;
+                            }
+
+                            _context.ReceiveBusinessTasks.Update(item);
+
+
+                        }
+                        _context.SaveChanges();
+                        return RedirectToAction("Index", "ReceiveBusinessTask");
+                    }
+
+
 
                     await _context.SaveChangesAsync();
 
@@ -237,13 +272,11 @@ namespace FasDemo.Controllers
 
                 }
 
-
-
                 ReceiveBusinessTaskLog _ReceiveBusinessTaskLog = new ReceiveBusinessTaskLog
                 {
                     //ReceiveBusinessTaskLogId = Guid.NewGuid().ToString(),
                     ReceiveBusinessTaskId = receivebusinessTask.ReceiveBusinessTaskId,
-                    ReceiveBusinessUserId = currentuser.Id,
+                    ReceiveBusinessUserId = currentser.Id,
                     ReceiveBusinessTaskComment = ReceiveBusinessTaskComment == "" ? "تم تعديل النسبة الى " + receivebusinessTask.Compleation + "%" : ReceiveBusinessTaskComment,
                     CreatedOn = DateTime.Now,
                 };
@@ -338,9 +371,9 @@ namespace FasDemo.Controllers
                 ViewData["ReceiveBusinessid"] = _receivebusiness.ReceiveBusinessId;
 
                 ViewData["ReceiveBusinessSerialNumber"] = $"00" + _receivebusiness.SerialNumber;
-                ViewData["ReceiveBusinessReviewNumber"] = $"0" +  _receivebusiness.ReviewNumber;
+                ViewData["ReceiveBusinessReviewNumber"] = $"0" + _receivebusiness.ReviewNumber;
 
-    
+
 
 
                 ViewData["ReceiveBusinessComment"] = await _context.ReceiveBusinessComment.Include(x => x.ReceiveBusinessCommentImages)
@@ -469,63 +502,63 @@ namespace FasDemo.Controllers
 
                 ViewBag.Taskstatus = JsonConvert.SerializeObject(objs, _jsonSetting);
 
-               // string ResponseId = id.ToString();
+                // string ResponseId = id.ToString();
 
-               // List<Response> responses = _context.Responses.Where(q => q.ResponseId == ResponseId)
-               //.ToList();
+                // List<Response> responses = _context.Responses.Where(q => q.ResponseId == ResponseId)
+                //.ToList();
 
-               // List<QuestionVM> questions = null;
+                // List<QuestionVM> questions = null;
 
-               // if (responses.Count > 0)
-               // {
-               //     var questionVMs = _context.Questions.ToList();
-               //     questions = _context.Questions.Where(q => q.SurveyId == responses.FirstOrDefault().SurveyId)
-               //        .Select(q => new QuestionVM
-               //        {
-               //            QuestionId = q.QuestionId,
-               //            QuestionText = q.QuestionBody,
-               //            QuestionType = q.AnswerType,
-               //            Choices = responses.Where(c => c.QuestionId == q.QuestionId)
-               //                 .Select(c => new ChoiceVM
-               //                 {
-               //                     ChoiceID = c.ChoiceId,
-               //                     ChoiceText = c.ChoiceText
-               //                 }).ToList()
+                // if (responses.Count > 0)
+                // {
+                //     var questionVMs = _context.Questions.ToList();
+                //     questions = _context.Questions.Where(q => q.SurveyId == responses.FirstOrDefault().SurveyId)
+                //        .Select(q => new QuestionVM
+                //        {
+                //            QuestionId = q.QuestionId,
+                //            QuestionText = q.QuestionBody,
+                //            QuestionType = q.AnswerType,
+                //            Choices = responses.Where(c => c.QuestionId == q.QuestionId)
+                //                 .Select(c => new ChoiceVM
+                //                 {
+                //                     ChoiceID = c.ChoiceId,
+                //                     ChoiceText = c.ChoiceText
+                //                 }).ToList()
 
-               //        }).ToList();
+                //        }).ToList();
 
-               //     ViewData["survey"] = questions;
-               // }
-               // else
-               // {
-               //     QuizVM quizSelected = _context.Surveys.Where(q => q.Id == "07636B1A-790C-4C96-A506-B8CEDA98CE97").Select(q => new QuizVM
-               //     {
-               //         QuizID = q.Id,
-               //         QuizName = q.Title,
+                //     ViewData["survey"] = questions;
+                // }
+                // else
+                // {
+                //     QuizVM quizSelected = _context.Surveys.Where(q => q.Id == "07636B1A-790C-4C96-A506-B8CEDA98CE97").Select(q => new QuizVM
+                //     {
+                //         QuizID = q.Id,
+                //         QuizName = q.Title,
 
-               //     }).FirstOrDefault();
+                //     }).FirstOrDefault();
 
-               //     if (quizSelected != null)
-               //     {
-               //         var questionVMs = _context.Questions.ToList();
-               //         questions = _context.Questions.Where(q => q.SurveyId == quizSelected.QuizID)
-               //            .Select(q => new QuestionVM
-               //            {
-               //                QuestionId = q.QuestionId,
-               //                QuestionText = q.QuestionBody,
-               //                QuestionType = q.AnswerType,
-               //                Choices = q.Choices.Select(c => new ChoiceVM
-               //                {
-               //                    ChoiceID = c.ChoiceId,
-               //                    ChoiceText = c.ChoiceText
-               //                }).ToList()
+                //     if (quizSelected != null)
+                //     {
+                //         var questionVMs = _context.Questions.ToList();
+                //         questions = _context.Questions.Where(q => q.SurveyId == quizSelected.QuizID)
+                //            .Select(q => new QuestionVM
+                //            {
+                //                QuestionId = q.QuestionId,
+                //                QuestionText = q.QuestionBody,
+                //                QuestionType = q.AnswerType,
+                //                Choices = q.Choices.Select(c => new ChoiceVM
+                //                {
+                //                    ChoiceID = c.ChoiceId,
+                //                    ChoiceText = c.ChoiceText
+                //                }).ToList()
 
-               //            }).ToList();
+                //            }).ToList();
 
 
-               //     }
-               //     ViewData["Newsurvey"] = questions;
-               // }
+                //     }
+                //     ViewData["Newsurvey"] = questions;
+                // }
 
 
                 return View(editObj);
@@ -795,17 +828,17 @@ namespace FasDemo.Controllers
 
 
         [HttpPost]
-        public IActionResult CheckSigneture(string EmployeeId,string pass,int receiveBusinessId)
+        public IActionResult CheckSigneture(string EmployeeId, string pass, int receiveBusinessId)
         {
             string message = "";
-            string realPassInDb = _context.Employee.Where(x=>x.SystemUserId==EmployeeId).Select(x=>x.Signature).FirstOrDefault();
+            string realPassInDb = _context.Employee.Where(x => x.SystemUserId == EmployeeId).Select(x => x.Signature).FirstOrDefault();
             var key = _config.GetSection("KeyForEncrypt").Value;
             string passAfterEncrypt = AesOperation.EncryptString(key, pass);
 
-            if(realPassInDb == passAfterEncrypt)
+            if (realPassInDb == passAfterEncrypt)
             {
-                var item = _context.ReceiveBusinessTasks.Where(x=>x.ReceiveBusinessId==receiveBusinessId).FirstOrDefault();
-                item.IsSigned=true;
+                var item = _context.ReceiveBusinessTasks.Where(x => x.ReceiveBusinessId == receiveBusinessId).FirstOrDefault();
+                item.IsSigned = true;
                 _context.ReceiveBusinessTasks.Update(item);
                 _context.SaveChanges();
                 message = "تم التوقيع بنجاح";
@@ -816,7 +849,7 @@ namespace FasDemo.Controllers
                 message = "هناك خطأ ما في كلمة المرور";
                 return RedirectToAction("Index", "ReceiveBusinessTask", new { message = message });
             }
-            
+
         }
 
         [HttpPost]
@@ -829,9 +862,6 @@ namespace FasDemo.Controllers
 
 
                 ReceiveBusinessTask _ReceiveBusinessTask = _context.ReceiveBusinessTasks.Find(ReceiveBusinessTaskId);
-
-                
-
                 _ReceiveBusinessTask.IsApproved = true;
                 _ReceiveBusinessTask.ApproveDate = DateTime.Now;
                 //_ReceiveBusinessTask.EndDateActual = DateTime.Now;

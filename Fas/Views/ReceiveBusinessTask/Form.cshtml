@@ -7,6 +7,17 @@
     ViewData["Title"] = modelName + " تعديل";
 }
 
+<style>
+    .btn-outline-success {
+        color: #0e6238;
+        border-color: #0e6238;
+    }
+
+        .btn-outline-success:hover {
+            background-color: #0e6238;
+            color: white
+        }
+</style>
 <!-- [ Main Content ] start -->
 <section class="pcoded-main-container">
     <div class="pcoded-wrapper">
@@ -45,15 +56,25 @@
                                 <form asp-controller="@controller" asp-action="Submit@(action)" method="post" enctype="multipart/form-data">
 
                                     <div class="radio-list" style="text-align: center;">
-                                        <label class="radio-inline" style="font-size: 20px;">
-                                            <span class=""><input type="radio" name="service_type" id="service_type" value="blue"></span> مقبول مع وجود ملاحظات
+                                        @* <label class="radio-inline" style="font-size: 20px;">
+                                        <span class=""><input type="radio" name="service_type" id="service_type" value="blue"></span> مقبول مع وجود ملاحظات
                                         </label>
                                         <label class="radio-inline" style="font-size: 20px;">
-                                            <span class="checked"><input type="radio" name="service_type" id="service_type" value="red"></span> يعاد تقديمه
+                                        <span class="checked"><input type="radio" name="service_type" id="service_type" value="red"></span> يعاد تقديمه
                                         </label>
                                         <label class="radio-inline" style="font-size: 20px;">
-                                            <span class="checked"><input type="radio" name="service_type" id="service_type" value="green"></span> مرفوض
-                                        </label>
+                                        <span class="checked"><input type="radio" name="service_type" id="service_type" value="green"></span> مرفوض
+                                        </label> *@
+
+
+                                        <button type="submit" class="btn btn-outline-primary" id="service_type" value="white">مقبول</button>
+                                        <button type="button" class="btn btn-outline-success" id="service_type" value="blue">مقبول مع وجود ملاحظات</button>
+                                        <button type="button" class="btn btn-outline-secondary" id="service_type" value="red">اسناد مهمة</button>
+                                        <button type="submit" class="btn btn-outline-warning" id="service_type" value="gray">يعاد تقديمه</button>
+                                        <button type="submit" class="btn btn-outline-danger" id="service_type" value="green">مرفوض</button>
+
+
+                                        <input type="hidden" name="service_type" id="serviceType" />
                                     </div>
 
                                     <article class="card mb-4">
@@ -62,7 +83,7 @@
 
                                             @{
                                                 var serialNumber = $"00" + (ViewBag.ReceiveBusinessSerialNumber);
-                                                var reviewNumber = $"0"  + (ViewBag.ReceiveBusinessReviewNumber);
+                                                var reviewNumber = $"0" + (ViewBag.ReceiveBusinessReviewNumber);
                                             }
 
                                             <h5 class="card-title mb-0">  تحديث بيانات مشروع :    @ViewBag.ProjectName /   رقم تسلسل الطلب  :    @serialNumber /  رقم مراجعة الطلب : @reviewNumber / مهمة : @ViewBag.ReceiveBusinessTaskName  </h5>
@@ -88,28 +109,28 @@
                                                 </div>
                                                 <div class="col-4 red green box">
                                                     <div class="form-group">
-                                                        <label asp-for="ReceiveBusinessAssignToId"></label>
+                                                        <label asp-for="ReceiveBusinessAssignToId  "></label>
                                                         <select asp-for="ReceiveBusinessAssignToId" class="select2 form-control" asp-items="ViewBag.EmployeeUser"></select>
                                                         <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
                                                         <span asp-validation-for="ReceiveBusinessAssignToId" class="text-danger"></span>
                                                     </div>
                                                 </div>
-@*                                                <div class="col-4  green box">
-                                                    <div class="form-group">
-                                                        <label asp-for="StarDate"></label>
+                                                @*                                                <div class="col-4  green box">
+                                                <div class="form-group">
+                                                <label asp-for="StarDate"></label>
 
-                                                        <input type="text" id="StarDate" name="StarDate" value="@Model.StarDate" class="datepicker form-control" data-val="true" data-val-required="The DateOfBirth field is required.">
-                                                        <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
-                                                        <span asp-validation-for="StarDate" class="text-danger"></span>
-                                                    </div>
+                                                <input type="text" id="StarDate" name="StarDate" value="@Model.StarDate" class="datepicker form-control" data-val="true" data-val-required="The DateOfBirth field is required.">
+                                                <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
+                                                <span asp-validation-for="StarDate" class="text-danger"></span>
+                                                </div>
                                                 </div>
                                                 <div class="col-4  green box">
-                                                    <div class="form-group">
-                                                        <label asp-for="Duration"></label>
-                                                        <input asp-for="Duration" class="form-control" />
-                                                        <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
-                                                        <span asp-validation-for="Duration" class="text-danger"></span>
-                                                    </div>
+                                                <div class="form-group">
+                                                <label asp-for="Duration"></label>
+                                                <input asp-for="Duration" class="form-control" />
+                                                <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
+                                                <span asp-validation-for="Duration" class="text-danger"></span>
+                                                </div>
                                                 </div>*@
 
                                             </div>
@@ -123,8 +144,8 @@
                                         </div>
                                         <div class="card-body">
                                             <div class="form-group">
-                                                <label for="ReceiveBusinessTaskComment">ملاحظات</label>
-                                                <textarea class="form-control" id="ReceiveBusinessTaskComment" name="ReceiveBusinessTaskComment" rows="3"></textarea>
+                                                <label for="ProjectTaskComment">ملاحظات</label>
+                                                <textarea class="form-control" id="ProjectTaskComment" name="ProjectTaskComment" rows="3"></textarea>
                                             </div>
 
                                             <div class="input-group mb-3">
@@ -228,7 +249,7 @@
     </div>
 </section>
 <!-- [ Main Content ] end -->
-@section Styles{
+@section Styles {
     <!-- ================== BEGIN PAGE LEVEL CSS START ================== -->
     <link rel="stylesheet" href="~/assets/vendor/dropzone/css/dropzone.css" />
     <!-- ================== BEGIN PAGE LEVEL END ================== -->
@@ -314,7 +335,7 @@
 
     <script>
         $(document).ready(function () {
-            $('input[type="radio"]').click(function () {
+            $('button[type="button"]').click(function () {
                 var inputValue = $(this).attr("value");
                 var targetBox = $("." + inputValue);
                 $(".box").not(targetBox).hide();
@@ -322,5 +343,28 @@
                 $('#divAssignTo').show();
             });
         });
+
+
+        $(".btn-outline-success").on("click", function () {
+            $("#serviceType").val("blue");
+        });
+
+        $(".btn-outline-secondary").on("click", function () {
+            $("#serviceType").val("red");
+        });
+
+        $(".btn-outline-warning").on("click", function () {
+            $("#serviceType").val("gray");
+        });
+
+        $(".btn-outline-danger").on("click", function () {
+            $("#serviceType").val("green");
+        });
+
+        $(".btn-outline-primary").on("click", function () {
+            $("#serviceType").val("white");
+        });
+
+
     </script>
 }

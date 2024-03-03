@@ -75,7 +75,7 @@ namespace FasDemo.Controllers
         {
             var objs = _context.ReceiveBusiness.Include(a => a.ReceiveBusinessTasks)
                .AsNoTracking()
-               .Include(x => x.Project).ThenInclude(x=>x.Contractor)
+               .Include(x => x.Project).ThenInclude(x => x.Contractor)
                //.Include(x => x.ProjectUser)
                .OrderByDescending(x => x.CreatedAtUtc).ToList();
             return View(objs);
@@ -105,8 +105,8 @@ namespace FasDemo.Controllers
             }
 
             //edit object
-            ReceiveBusiness editObj = new ReceiveBusiness(); 
-            editObj = _context.ReceiveBusiness.Where(x => x.ReceiveBusinessId == id).FirstOrDefault(); 
+            ReceiveBusiness editObj = new ReceiveBusiness();
+            editObj = _context.ReceiveBusiness.Where(x => x.ReceiveBusinessId == id).FirstOrDefault();
 
             if (editObj == null)
             {
@@ -114,7 +114,7 @@ namespace FasDemo.Controllers
             }
 
             //dropdownlist  
-            FillDropdownListWithData(); 
+            FillDropdownListWithData();
 
             return View(editObj);
 
@@ -196,7 +196,7 @@ namespace FasDemo.Controllers
                     newReceiveBusiness.WorkToBeExaminedStatement = receivebusiness.WorkToBeExaminedStatement;
                     newReceiveBusiness.WorkToBeExaminedComments = receivebusiness.WorkToBeExaminedComments;
                     newReceiveBusiness.FloorStatement = receivebusiness.FloorStatement;
-                    newReceiveBusiness.FloorComments  = receivebusiness.FloorComments;
+                    newReceiveBusiness.FloorComments = receivebusiness.FloorComments;
                     newReceiveBusiness.RequiredExaminationDateStatement = receivebusiness.RequiredExaminationDateStatement;
                     newReceiveBusiness.RequiredExaminationDateComments = receivebusiness.RequiredExaminationDateComments;
                     newReceiveBusiness.ApprovedPlatesStatement = receivebusiness.ApprovedPlatesStatement;
@@ -227,7 +227,7 @@ namespace FasDemo.Controllers
                     var xdata = _context.Database.ExecuteSqlCommand("CreateReceiveBusiness @ReceiveBusinessSchedualTempletId, @ReceiveBusinessId, @CreatedBy ,@CreatedAtUtc", parameters);
 
                     TempData[StaticString.StatusMessage] = "تم انشاء الطلب بنجاح.";
-                  
+
                     return RedirectToAction(nameof(Form), new { id = newReceiveBusiness.ReceiveBusinessId });
                 }
 
@@ -587,7 +587,7 @@ namespace FasDemo.Controllers
                 editObj.ReceiveBusinessSchedualParentId = ReceiveBusinessSchedual.ReceiveBusinessSchedualParentId;
                 editObj.toEmail = ReceiveBusinessSchedual.toEmail;
                 editObj.ReceiveBusinessApprovedById = ReceiveBusinessSchedual.ReceiveBusinessApprovedById;
-                
+
 
                 editObj.UpdatedBy = await _userManager.GetUserAsync(User);
                 editObj.UpdatedAtUtc = DateTime.UtcNow;
