@@ -171,6 +171,77 @@ namespace FasDemo.Controllers
                     newProject.UpdatedAtUtc = newProject.CreatedAtUtc;
 
                     _context.Projects.Add(newProject);
+
+
+                    //create recevieBusinessSchedualTemplates
+                    ReceiveBusinessSchedualTemplet newRecord = new ReceiveBusinessSchedualTemplet();
+                    newRecord.ReceiveBusinessSchedualTempletId = Guid.NewGuid().ToString();
+                    newRecord.ReceiveBusinessSchedualTempletName = "pattern";
+                    newRecord.CreatedBy = await _userManager.GetUserAsync(User);
+                    newRecord.CreatedAtUtc = DateTime.UtcNow;
+                    newRecord.UpdatedBy = newRecord.CreatedBy;
+                    newRecord.UpdatedAtUtc = newRecord.CreatedAtUtc;
+                    _context.ReceiveBusinessSchedualTemplets.Add(newRecord);
+
+                    for(int i=0;i<3;i++)
+                    {
+                        if(i==0)
+                        {
+                            //create recevieBusinessSchedual
+                            ReceiveBusinessSchedual newObj = new ReceiveBusinessSchedual();
+                            //newObj.ProjectSchedualId = Guid.NewGuid().ToString();
+                            newObj.ReceiveBusinessSchedualTempletId = newRecord.ReceiveBusinessSchedualTempletId;
+                            newObj.TaskName = "task1";
+                            newObj.TaskOrder = 1;
+                            newObj.ReceiveBusinessAssignToId = project.ContractorId;
+                            newObj.ReceiveBusinessSchedualParentId = null;
+                            newObj.toEmail = "test@email.com";
+                            newObj.ReceiveBusinessApprovedById = project.ContractorId;
+                            newObj.CreatedBy = await _userManager.GetUserAsync(User);
+                            newObj.CreatedAtUtc = DateTime.UtcNow;
+                            newObj.UpdatedBy = newObj.CreatedBy;
+                            newObj.UpdatedAtUtc = newObj.CreatedAtUtc;
+                            _context.ReceiveBusinessScheduals.Add(newObj);
+                        }
+                        else if(i==1)
+                        {
+                            //create recevieBusinessSchedual
+                            ReceiveBusinessSchedual newObj = new ReceiveBusinessSchedual();
+                            //newObj.ProjectSchedualId = Guid.NewGuid().ToString();
+                            newObj.ReceiveBusinessSchedualTempletId = newRecord.ReceiveBusinessSchedualTempletId;
+                            newObj.TaskName = "task2";
+                            newObj.TaskOrder = 2;
+                            newObj.ReceiveBusinessAssignToId = project.ProjectManagementConsultantId;
+                            newObj.ReceiveBusinessSchedualParentId = null;
+                            newObj.toEmail = "test@email.com";
+                            newObj.ReceiveBusinessApprovedById = project.ProjectManagementConsultantId;
+                            newObj.CreatedBy = await _userManager.GetUserAsync(User);
+                            newObj.CreatedAtUtc = DateTime.UtcNow;
+                            newObj.UpdatedBy = newObj.CreatedBy;
+                            newObj.UpdatedAtUtc = newObj.CreatedAtUtc;
+                            _context.ReceiveBusinessScheduals.Add(newObj);
+                        }
+                        else
+                        {
+                            //create recevieBusinessSchedual
+                            ReceiveBusinessSchedual newObj = new ReceiveBusinessSchedual();
+                            //newObj.ProjectSchedualId = Guid.NewGuid().ToString();
+                            newObj.ReceiveBusinessSchedualTempletId = newRecord.ReceiveBusinessSchedualTempletId;
+                            newObj.TaskName = "task3";
+                            newObj.TaskOrder = 3;
+                            newObj.ReceiveBusinessAssignToId = project.SupervisionConsultantId;
+                            newObj.ReceiveBusinessSchedualParentId = null;
+                            newObj.toEmail = "test@email.com";
+                            newObj.ReceiveBusinessApprovedById = project.SupervisionConsultantId;
+                            newObj.CreatedBy = await _userManager.GetUserAsync(User);
+                            newObj.CreatedAtUtc = DateTime.UtcNow;
+                            newObj.UpdatedBy = newObj.CreatedBy;
+                            newObj.UpdatedAtUtc = newObj.CreatedAtUtc;
+                            _context.ReceiveBusinessScheduals.Add(newObj);
+                        }
+                    }
+
+
                     _context.SaveChanges();
 
                     //dropdownlist 
